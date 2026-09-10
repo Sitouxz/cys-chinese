@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese Website — Design Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..500&family=Archivo:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --navy:#16305C; --azure:#2E6FB7;
+  --cream:#F5F1E8; --paper:#FFFFFF; --sand:#E3DCCB;
+  --jade:#6DA544; --slate:#5A6B85; --mist:#98A6BC;
+  --display:'Newsreader','Noto Serif SC',serif;
+  --body:'Archivo','Noto Sans SC',sans-serif;
+  --cn:'Noto Serif SC',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1280px;height:720px;overflow:hidden;background:var(--ink);
+  font-family:var(--body);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;width:1280px;height:720px;opacity:0;
+  background:var(--cream);color:var(--ink);overflow:hidden}
+.slide.active{opacity:1}
+
+/* ---------- shared ---------- */
+.pad{padding:64px 80px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--azure);margin-bottom:20px}
+.eyebrow.on-dark{color:var(--jade)}
+h1{font-family:var(--display);font-weight:400;font-size:60px;line-height:1.08;
+  letter-spacing:-.015em}
+h2{font-family:var(--display);font-weight:400;font-size:40px;line-height:1.15;
+  letter-spacing:-.01em;margin-bottom:8px}
+h2 .cn{font-family:var(--cn);font-weight:600;letter-spacing:.04em;font-size:34px}
+.sub{font-size:14px;line-height:1.6;color:var(--slate);max-width:640px}
+.rule{height:1px;background:var(--sand);margin:26px 0}
+.rule.on-dark{background:rgba(255,255,255,.14)}
+.pgnum{position:absolute;bottom:34px;right:80px;font-family:var(--mono);
+  font-size:10px;color:var(--mist);letter-spacing:.1em}
+.tag{position:absolute;top:38px;right:80px;font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mist);font-weight:600}
+.dark{background:var(--ink);color:var(--cream)}
+.dark h1,.dark h2{color:#fff}
+.dark .sub{color:rgba(245,241,232,.72)}
+.navy{background:var(--navy);color:#fff}
+.navy .sub{color:rgba(255,255,255,.75)}
+
+/* ---------- cover ---------- */
+.cover{background:
+  radial-gradient(900px 520px at 76% 26%, rgba(46,111,183,.42) 0%, rgba(10,22,40,0) 62%),
+  radial-gradient(420px 300px at 74% 24%, rgba(140,200,255,.30) 0%, rgba(10,22,40,0) 60%),
+  linear-gradient(155deg,#0A1628 0%,#0d1f38 46%,#122b4e 100%)}
+.cover .inner{position:absolute;left:80px;bottom:88px;right:80px}
+.cover h1{font-size:68px;color:#fff;max-width:760px}
+.cover .cnbig{font-family:var(--cn);font-weight:600;font-size:44px;color:#fff;
+  letter-spacing:.06em;margin-bottom:14px}
+.cover .meta{display:flex;gap:48px;margin-top:38px;padding-top:26px;
+  border-top:1px solid rgba(255,255,255,.18)}
+.cover .meta div{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);font-weight:600}
+.cover .meta div b{display:block;margin-top:7px;font-size:13px;letter-spacing:.02em;
+  text-transform:none;color:#fff;font-weight:500}
+.cover .brandline{position:absolute;top:64px;left:80px;display:flex;
+  align-items:center;gap:14px}
+.cover .brandline span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);font-weight:600}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--jade)}
+
+/* ---------- grids ---------- */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:var(--paper);border:1px solid var(--sand);padding:26px 24px}
+.card.on-dark{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13)}
+.card h3{font-family:var(--display);font-size:21px;font-weight:500;margin-bottom:9px;
+  line-height:1.2}
+.card h3 .cn{font-family:var(--cn);font-weight:600;font-size:17px;
+  display:block;color:var(--azure);margin-bottom:5px;letter-spacing:.05em}
+.card.on-dark h3 .cn{color:var(--jade)}
+.card p{font-size:12.5px;line-height:1.62;color:var(--slate)}
+.card.on-dark p{color:rgba(245,241,232,.7)}
+.num{font-family:var(--mono);font-size:11px;color:var(--jade);font-weight:500;
+  margin-bottom:12px;letter-spacing:.08em}
+
+/* ---------- swatches ---------- */
+.sw{display:flex;flex-direction:column}
+.chip{height:96px;border-radius:2px;border:1px solid rgba(10,22,40,.10)}
+.sw .nm{font-size:13px;font-weight:600;margin-top:11px}
+.sw .hex{font-family:var(--mono);font-size:11px;color:var(--slate);margin-top:3px;
+  letter-spacing:.03em}
+.sw .use{font-size:11px;color:var(--mist);margin-top:5px;line-height:1.45}
+.altrow{display:flex;gap:9px;margin-bottom:14px}
+.altrow i{display:block;height:44px;flex:1;border-radius:2px;
+  border:1px solid rgba(10,22,40,.09)}
+
+/* ---------- type spec ---------- */
+.spec{border-left:2px solid var(--jade);padding-left:22px;margin-bottom:26px}
+.spec .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mist);font-weight:600;margin-bottom:9px}
+.spec .demo-cn{font-family:var(--cn);font-weight:600;font-size:29px;
+  letter-spacing:.05em;line-height:1.4}
+.spec .demo-en{font-family:var(--display);font-size:27px;font-weight:400;
+  line-height:1.16;letter-spacing:-.01em;margin-top:7px}
+.spec .note{font-family:var(--mono);font-size:10.5px;color:var(--slate);
+  margin-top:9px;letter-spacing:.02em}
+
+/* ---------- lists ---------- */
+ul.clean{list-style:none}
+ul.clean li{font-size:13px;line-height:1.5;color:var(--slate);padding-left:19px;
+  position:relative;margin-bottom:11px}
+ul.clean li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;
+  border-radius:50%;background:var(--jade)}
+ul.clean li b{color:var(--ink);font-weight:600}
+.dark ul.clean li{color:rgba(245,241,232,.72)}
+.dark ul.clean li b{color:#fff}
+
+/* ---------- do / don't ---------- */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--sand)}
+.dd>div{padding:24px 26px}
+.dd .yes{background:var(--paper)}
+.dd .no{background:#EFE9DC;border-left:1px solid var(--sand)}
+.dd h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  margin-bottom:15px}
+.dd .yes h4{color:var(--jade)}
+.dd .no h4{color:#A8574A}
+.dd li{font-size:12.5px;line-height:1.5;margin-bottom:9px;color:var(--slate);
+  list-style:none;padding-left:15px;position:relative}
+.dd li::before{content:'—';position:absolute;left:0;color:var(--mist)}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--mist);font-weight:700;padding:0 14px 11px 0;
+  border-bottom:1px solid var(--sand)}
+td{padding:12px 14px 12px 0;border-bottom:1px solid rgba(227,220,203,.6);
+  color:var(--slate);line-height:1.45;vertical-align:top}
+td b{color:var(--ink);font-weight:600}
+td .cn{font-family:var(--cn);font-weight:600}
+.dark th{color:rgba(255,255,255,.45);border-color:rgba(255,255,255,.16)}
+.dark td{color:rgba(245,241,232,.7);border-color:rgba(255,255,255,.08)}
+.dark td b{color:#fff}
+
+/* ---------- misc ---------- */
+.stat{font-family:var(--display);font-size:52px;line-height:1;font-weight:400}
+.stat span{font-size:20px;color:var(--jade);margin-left:5px}
+.statlbl{font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--mist);font-weight:600;margin-top:9px}
+.callout{background:var(--navy);color:#fff;padding:26px 30px;margin-top:8px}
+.callout p{font-family:var(--display);font-size:19px;line-height:1.4;font-weight:300}
+.callout .cn{font-family:var(--cn);font-size:16px;font-weight:400;
+  color:rgba(255,255,255,.72);margin-top:10px;letter-spacing:.04em;line-height:1.6}
+.flag{display:inline-block;background:rgba(109,165,68,.14);color:#4A7A2E;
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 10px;margin-bottom:16px}
+.flag.warn{background:rgba(168,87,74,.12);color:#A8574A}
+</style>
+<style id="cys-redesign">
+/* CYS Chinese visual refresh - layered, image-led, and presentation-ready. */
+:root{
+  --ink:#061529; --navy:#0B2C55; --azure:#2B73C6;
+  --sky:#87C8FF; --cream:#F7F0E4; --paper:#FFFFFF;
+  --sand:#DED3C2; --jade:#78B64B; --slate:#526985; --mist:#8EA6C0;
+}
+html{background:#020B17}
+body{background:#020B17}
+.slide{
+  isolation:isolate;
+  background:
+    radial-gradient(780px 440px at 104% -10%,rgba(43,115,198,.22),transparent 68%),
+    radial-gradient(500px 330px at -8% 112%,rgba(120,182,75,.10),transparent 70%),
+    linear-gradient(135deg,#FAF5EC 0%,#F4EBDD 100%);
+}
+.slide>.pad,.slide>.inner,.slide>.brandline,.slide>.pgnum{z-index:3}
+.slide:not(.dark):not(.cover)::before{
+  content:"";position:absolute;z-index:0;right:-90px;top:-32px;width:610px;height:780px;
+  background:url('assets/cys-corridor-hero.jpg') 74% center/cover no-repeat;
+  opacity:.105;filter:saturate(.78) contrast(1.08);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.3) 18%,#000 62%);
+  mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.3) 18%,#000 62%);
+}
+.slide:not(.dark):not(.cover)::after{
+  content:"";position:absolute;z-index:1;right:-210px;bottom:-185px;width:780px;height:390px;
+  border:1px solid rgba(43,115,198,.26);border-radius:50%;transform:rotate(-12deg);
+  box-shadow:0 -18px 90px rgba(43,115,198,.12),inset 0 22px 80px rgba(255,255,255,.3);
+}
+.slide.dark,.slide.navy{
+  background:
+    linear-gradient(90deg,rgba(4,15,31,.98) 0%,rgba(4,17,35,.94) 44%,rgba(5,24,49,.72) 100%),
+    url('assets/cys-corridor-hero.jpg') center/cover no-repeat;
+}
+.slide.dark::before,.slide.navy::before{
+  content:"";position:absolute;z-index:0;inset:0;
+  background:
+    radial-gradient(700px 360px at 78% 22%,rgba(53,137,224,.27),transparent 67%),
+    linear-gradient(118deg,transparent 48%,rgba(112,196,255,.09) 49%,transparent 51%);
+}
+.slide.dark::after,.slide.navy::after{
+  content:"";position:absolute;z-index:1;right:-190px;bottom:-230px;width:860px;height:480px;
+  border:1px solid rgba(126,198,255,.22);border-radius:50%;transform:rotate(-10deg);
+  box-shadow:0 -24px 100px rgba(42,117,199,.18);
+}
+.cover{
+  background:
+    linear-gradient(90deg,rgba(3,13,27,.96) 0%,rgba(4,17,34,.86) 46%,rgba(6,24,47,.20) 100%),
+    linear-gradient(0deg,rgba(2,10,22,.72),rgba(2,10,22,.04) 65%),
+    url('assets/cys-corridor-hero.jpg') center/cover no-repeat;
+}
+.cover::before{
+  content:"";position:absolute;z-index:0;inset:0;
+  background:radial-gradient(520px 330px at 68% 54%,rgba(97,184,255,.24),transparent 66%);
+}
+.cover::after{
+  content:"";position:absolute;z-index:1;left:-220px;bottom:-310px;width:1080px;height:560px;
+  border:1px solid rgba(126,198,255,.28);border-radius:50%;transform:rotate(9deg);
+  box-shadow:0 -30px 120px rgba(39,122,209,.25);
+}
+.cover .brandline{
+  top:42px;left:56px;padding:12px 18px;border-radius:999px;
+  background:rgba(4,18,37,.52);border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 14px 36px rgba(0,0,0,.22);backdrop-filter:blur(12px);
+}
+.cover .brandline span{color:rgba(255,255,255,.78)}
+.cover .inner{
+  left:56px;bottom:54px;right:auto;width:760px;padding:34px 38px 28px;
+  border-radius:26px;background:linear-gradient(135deg,rgba(5,19,39,.78),rgba(11,44,85,.40));
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 28px 80px rgba(0,0,0,.34);
+  backdrop-filter:blur(16px);
+}
+.cover h1{font-size:66px;line-height:1.02;text-shadow:0 12px 34px rgba(0,0,0,.35)}
+.cover .cnbig{font-family:'STKaiti','KaiTi','Noto Serif SC',serif;font-size:39px;letter-spacing:.12em}
+.cover .meta{gap:32px;margin-top:28px;padding-top:20px}
+.cover .meta div{color:rgba(255,255,255,.55)}
+.cover .meta div b{font-size:12px}
+.pad{padding:54px 62px}
+.tag{
+  top:30px;right:62px;padding:7px 12px;border-radius:999px;
+  background:rgba(255,255,255,.58);border:1px solid rgba(43,115,198,.15);
+  color:#7892AD;box-shadow:0 8px 24px rgba(21,62,105,.08);backdrop-filter:blur(10px);
+}
+.dark .tag,.navy .tag{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.13);color:rgba(255,255,255,.56)}
+.eyebrow{
+  display:inline-flex;align-items:center;min-height:30px;padding:0 13px;border-radius:999px;
+  margin-bottom:16px;background:rgba(43,115,198,.09);border:1px solid rgba(43,115,198,.14);
+  color:#236BB8;
+}
+.eyebrow::before{content:"";width:6px;height:6px;margin-right:9px;border-radius:50%;background:var(--jade);box-shadow:0 0 0 5px rgba(120,182,75,.12)}
+.eyebrow.on-dark,.dark .eyebrow{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.13);color:#8BC9FF}
+h1,h2{font-family:'Newsreader','Noto Serif SC',Georgia,serif}
+h2{font-size:42px;text-shadow:0 8px 26px rgba(15,53,94,.08)}
+h2 .cn,.card h3 .cn,.spec .demo-cn,.callout .cn{font-family:'STKaiti','KaiTi','Noto Serif SC',serif}
+.rule{height:2px;margin:21px 0 24px;background:linear-gradient(90deg,var(--azure),rgba(43,115,198,.12) 44%,transparent 100%)}
+.rule.on-dark{background:linear-gradient(90deg,var(--sky),rgba(255,255,255,.12) 45%,transparent)}
+.card{
+  position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.82);border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(249,252,255,.75));
+  box-shadow:0 18px 42px rgba(25,61,100,.13),inset 0 1px 0 rgba(255,255,255,.95);
+  backdrop-filter:blur(14px);
+}
+.card::after{
+  content:"";position:absolute;right:-46px;top:-54px;width:132px;height:132px;border-radius:50%;
+  background:radial-gradient(circle,rgba(92,175,247,.18),transparent 68%);
+}
+.card.on-dark{
+  background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.035));
+  border-color:rgba(255,255,255,.16);box-shadow:0 20px 50px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.card h3{font-size:22px}.card h3 .cn{color:#246FBF}.card.on-dark h3 .cn{color:#8BC9FF}
+.num{display:inline-block;padding:5px 9px;border-radius:999px;background:rgba(120,182,75,.13);color:#57902F}
+.card.on-dark .num{color:#A6DB7B;background:rgba(120,182,75,.12)}
+.callout{
+  position:relative;overflow:hidden;border-radius:19px;border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(135deg,#0A2C56 0%,#174F8D 60%,#226FB7 100%);
+  box-shadow:0 20px 46px rgba(10,44,86,.22);
+}
+.callout::after{content:"";position:absolute;right:-60px;top:-100px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(139,209,255,.32),transparent 68%)}
+.dd{border:0;border-radius:18px;overflow:hidden;box-shadow:0 20px 46px rgba(28,65,106,.15)}
+.dd .yes{background:rgba(255,255,255,.92)}
+.dd .no{background:linear-gradient(145deg,rgba(241,233,217,.95),rgba(229,239,248,.72));border-left:1px solid rgba(43,115,198,.12)}
+.dark .dd{border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.sw .chip{border-radius:14px;border:1px solid rgba(255,255,255,.75);box-shadow:0 16px 32px rgba(22,58,96,.17),inset 0 1px 0 rgba(255,255,255,.38)}
+.altrow{padding:10px;border-radius:16px;background:rgba(255,255,255,.72);box-shadow:0 14px 34px rgba(25,61,100,.12)}
+.altrow i{border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.spec{padding:18px 20px;border:1px solid rgba(43,115,198,.12);border-left:3px solid var(--jade);border-radius:0 16px 16px 0;background:rgba(255,255,255,.66);box-shadow:0 12px 30px rgba(25,61,100,.09)}
+table{
+  border-collapse:separate;border-spacing:0;border:1px solid rgba(255,255,255,.72);border-radius:16px;overflow:hidden;
+  background:rgba(255,255,255,.60);box-shadow:0 16px 38px rgba(25,61,100,.11);backdrop-filter:blur(12px);
+}
+th{padding:11px 14px;background:rgba(17,55,98,.055)}
+td{padding:10px 14px;border-bottom:1px solid rgba(43,115,198,.09)}
+tr:last-child td{border-bottom:0}
+.dark table{background:rgba(3,14,29,.34);border-color:rgba(255,255,255,.13);box-shadow:0 20px 48px rgba(0,0,0,.24)}
+.dark th{background:rgba(255,255,255,.065)}
+.dark td{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.08)}
+.flag{border-radius:999px;box-shadow:0 8px 22px rgba(68,113,37,.10)}
+.pgnum{right:62px;bottom:27px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.54);border:1px solid rgba(43,115,198,.10)}
+.dark .pgnum,.cover .pgnum{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.10)}
+@media print{
+  @page{size:1280px 720px;margin:0}
+  html,body{width:1280px!important;height:auto!important;overflow:visible!important;background:#fff!important}
+  .slide{position:relative!important;inset:auto!important;display:block!important;opacity:1!important;page-break-after:always!important;break-after:page!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .slide:last-of-type{page-break-after:auto!important;break-after:auto!important}
+}
+</style>
+<style id="cys-redesign-v2">
+/* Signal Corridor v2: cool mineral surfaces, asymmetric layouts, no warm page tint. */
+:root{
+  --ink:#041522; --navy:#07345F; --azure:#096DBE; --sky:#86CCFF;
+  --cream:#F4F7FA; --paper:#FFFFFF; --sand:#D5E0E8;
+  --jade:#5A9C35; --slate:#344F66; --mist:#718A9F;
+  --display:'Archivo','Noto Sans SC','Microsoft YaHei',sans-serif;
+  --body:'Archivo','Noto Sans SC','Microsoft YaHei',sans-serif;
+  --cn:'Noto Sans SC','Microsoft YaHei',sans-serif;
+}
+body{background:#03111F;font-family:var(--body)}
+.slide{
+  color:var(--ink);
+  background:#F4F7FA;
+}
+.slide:not(.dark):not(.cover)::before,
+.slide:not(.dark):not(.cover)::after,
+.slide.dark::before,.slide.dark::after,
+.slide.navy::before,.slide.navy::after,
+.cover::before,.cover::after{content:none}
+.slide.dark,.slide.navy{background:#041522;color:#F5FAFD}
+.pad{position:relative;height:720px;padding:50px 62px 42px 86px}
+h1,h2,.card h3,.callout p{font-family:var(--display)}
+h1,h2,h3{text-wrap:balance}
+h2{font-size:39px;line-height:1.06;letter-spacing:-.025em;font-weight:600;text-shadow:none;margin-bottom:10px}
+h2 .cn{font-family:var(--cn);font-size:.82em;font-weight:600;letter-spacing:.02em}
+.sub{color:var(--slate)}
+.dark .sub,.navy .sub{color:rgba(245,250,253,.78)}
+.eyebrow{
+  position:absolute;left:0;top:0;width:22px;height:720px;margin:0;padding:34px 0 0;
+  display:flex;justify-content:flex-start;align-items:center;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  border:0;border-radius:0;background:#096DBE;color:#fff;
+  font-size:9px;line-height:1;letter-spacing:.14em;font-weight:600;
+}
+.eyebrow::before{content:none}
+.eyebrow.on-dark,.dark .eyebrow{background:#0877CC;color:#fff;border:0}
+.tag{
+  top:18px;right:48px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;
+  font-size:46px;line-height:1;letter-spacing:-.045em;font-weight:700;
+  color:transparent;-webkit-text-stroke:1px rgba(9,109,190,.20);text-transform:uppercase;
+}
+.dark .tag,.navy .tag{background:none;border:0;color:transparent;-webkit-text-stroke:1px rgba(134,204,255,.22)}
+.rule,.rule.on-dark{
+  height:2px;margin:20px 0 24px;
+  background:linear-gradient(90deg,#5A9C35 0 24px,#096DBE 24px 38%,#D2DEE7 38% 100%);
+}
+.dark .rule,.rule.on-dark{background:linear-gradient(90deg,#86C957 0 24px,#86CCFF 24px 38%,rgba(255,255,255,.15) 38% 100%)}
+.pgnum{
+  right:54px;bottom:20px;padding:0;border:0;border-radius:0;background:none;
+  font-size:27px;line-height:1;letter-spacing:-.08em;font-weight:600;color:rgba(9,109,190,.22);
+}
+.dark .pgnum,.cover .pgnum{background:none;border:0;color:rgba(134,204,255,.23)}
+.card{
+  border:0;border-radius:0;background:#fff;padding:22px 24px;
+  box-shadow:0 6px 0 #CBD8E2;overflow:visible;
+}
+.card::after,.callout::after{content:none}
+.card h3{font-size:20px;line-height:1.17;font-weight:600}
+.card h3 .cn{font-family:var(--cn);color:#096DBE;font-weight:600}
+.card p{color:var(--slate);line-height:1.55}
+.card.on-dark{
+  background:rgba(0,0,0,.17);border:0;border-top:2px solid rgba(134,204,255,.55);
+  box-shadow:none;
+}
+.card.on-dark h3 .cn{color:#93D0FF}.card.on-dark p{color:rgba(245,250,253,.76)}
+.num{
+  padding:0;border-radius:0;background:none;color:#096DBE;
+  font-size:25px;line-height:1;font-weight:600;letter-spacing:-.04em;
+}
+.card.on-dark .num{background:none;color:#87CCFF}
+.callout{
+  border:0;border-radius:0;background:#0967B3;box-shadow:none;
+  clip-path:polygon(0 0,94% 0,100% 24%,100% 100%,0 100%);
+}
+.dd{border:0;border-radius:0;box-shadow:none;overflow:visible}
+.dd .yes{background:#FFFFFF}.dd .no{background:#DDE7EE;border-left:0}
+.dark .dd{border:0;box-shadow:none}
+.dark .dd .yes{background:#07345F}.dark .dd .no{background:#09243E;border-left:0}
+.flag{border-radius:0;box-shadow:none;background:#DDEBD5;color:#477F29}
+.flag.warn{background:#F0A640;color:#051522}
+.spec{
+  border:0;border-top:7px solid #096DBE;border-radius:0;background:#fff;
+  box-shadow:0 6px 0 #CBD8E2;padding:16px 18px;margin-bottom:22px;
+}
+.spec .demo-en{font-family:var(--display);font-weight:600}
+.altrow{padding:0;border-radius:0;background:none;box-shadow:none}
+.altrow i{border-radius:0;box-shadow:none;border:0}
+.sw .chip{border:0;border-radius:0;box-shadow:6px 6px 0 #C8D5DF}
+table{
+  border:0;border-radius:0;border-collapse:collapse;background:transparent;
+  box-shadow:none;backdrop-filter:none;
+}
+th{padding:10px 12px;background:#DCE6ED;border-bottom:2px solid #096DBE;color:#49677F}
+td{padding:10px 12px;border-bottom:1px solid #D4E0E8;color:#344F66}
+.dark table{background:transparent;border:0;box-shadow:none}
+.dark th{background:#0B3152;border-color:#65B9F2;color:#A8D9FA}
+.dark td{background:rgba(2,13,24,.34);border-color:rgba(134,204,255,.16);color:rgba(245,250,253,.78)}
+
+/* Covers: title sits directly in the negative space; the artwork is the structure. */
+.cover{
+  background:
+    linear-gradient(90deg,rgba(2,12,22,.96) 0%,rgba(2,13,24,.82) 42%,rgba(2,13,24,.10) 70%),
+    url('assets/cys-signal-corridor-dark-v2.jpg') center/cover no-repeat;
+}
+.cover .brandline{
+  top:42px;left:58px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;
+}
+.cover .brandline::after{content:"";display:block;width:210px;height:1px;margin-left:16px;background:rgba(134,204,255,.45)}
+.cover .brandline span{color:rgba(255,255,255,.76)}
+.cover .inner{
+  left:58px;bottom:56px;right:auto;width:650px;padding:0;border:0;border-radius:0;
+  background:none;box-shadow:none;backdrop-filter:none;
+}
+.cover .inner::before{content:"";display:block;width:70px;height:8px;margin-bottom:24px;background:#5A9C35}
+.cover h1{font-size:62px;line-height:.98;letter-spacing:-.035em;font-weight:600;text-shadow:none}
+.cover .cnbig{font-family:var(--cn);font-size:34px;letter-spacing:.04em;font-weight:500}
+.cover .meta{gap:30px;margin-top:28px;padding-top:18px;border-top:1px solid rgba(134,204,255,.38)}
+.cover .meta div{letter-spacing:.08em}.cover .meta div b{font-size:12px}
+
+/* Page 2: one decisive light architectural image, not a faded global background. */
+.slide:nth-of-type(2){
+  background:
+    linear-gradient(90deg,#F4F7FA 0%,#F4F7FA 50%,rgba(244,247,250,.90) 62%,rgba(244,247,250,.18) 100%),
+    url('assets/cys-signal-corridor-light-v2.jpg') right center/cover no-repeat;
+}
+.slide:nth-of-type(2) .g2{grid-template-columns:50% 50%;gap:36px}
+.slide:nth-of-type(2) .callout{width:92%}
+.slide:nth-of-type(2) .dd{box-shadow:8px 8px 0 rgba(7,52,95,.13)}
+
+/* Page 3: audiences read as connected stations rather than a card wall. */
+.slide:nth-of-type(3){
+  background:
+    linear-gradient(90deg,rgba(2,13,24,.98) 0%,rgba(2,16,30,.91) 54%,rgba(2,16,30,.30) 100%),
+    url('assets/cys-signal-corridor-dark-v2.jpg') right center/cover no-repeat;
+}
+.slide:nth-of-type(3) .g3,.slide:nth-of-type(3) .g2{gap:18px}
+.slide:nth-of-type(3) .g3{grid-template-columns:1.18fr .9fr 1fr}
+.slide:nth-of-type(3) .g2{grid-template-columns:.94fr 1.2fr}
+.slide:nth-of-type(3) .card{min-height:154px;padding:18px 20px;background:rgba(3,20,36,.72);border-top:2px solid #188EEA}
+.slide:nth-of-type(3) .g3 .card:nth-child(2){transform:translateY(15px);background:#0A4F89}
+.slide:nth-of-type(3) .g2 .card:nth-child(1){transform:translateX(42px)}
+
+/* Page 4: asymmetric principle blocks establish hierarchy. */
+.slide:nth-of-type(4){background:#EAF0F4}
+.slide:nth-of-type(4) .g2{grid-template-columns:repeat(12,1fr);gap:20px}
+.slide:nth-of-type(4) .card:nth-child(1){grid-column:span 7;background:#075999;color:#fff;box-shadow:0 6px 0 #023B67}
+.slide:nth-of-type(4) .card:nth-child(1) p{color:rgba(255,255,255,.82)}
+.slide:nth-of-type(4) .card:nth-child(2){grid-column:span 5}
+.slide:nth-of-type(4) .card:nth-child(3){grid-column:span 5;background:#D3E1EB}
+.slide:nth-of-type(4) .card:nth-child(4){grid-column:span 7}
+
+/* Pages 5-6: palette pages stay clinical and color-forward. */
+.slide:nth-of-type(5){background:linear-gradient(90deg,#F4F7FA 0 72%,#DDE7EE 72% 100%)}
+.slide:nth-of-type(5) .chip{height:82px}
+.slide:nth-of-type(6){background:linear-gradient(90deg,#F4F7FA 0 50%,#E2EAF0 50% 100%)}
+.slide:nth-of-type(6) .g2{gap:76px}
+.slide:nth-of-type(6) .altrow{height:58px}
+
+/* Page 7: type specimen page behaves like a foundry sheet, without editorial-serif styling. */
+.slide:nth-of-type(7){background:#F4F7FA}
+.slide:nth-of-type(7):not(.dark):not(.cover)::after{content:none}
+.slide:nth-of-type(7) .pad{z-index:2}
+.slide:nth-of-type(7) .g2{grid-template-columns:1.06fr .94fr}
+.slide:nth-of-type(7) .card:first-child{background:#07345F;color:#fff;box-shadow:0 6px 0 #041E36}
+.slide:nth-of-type(7) .card:first-child p{color:rgba(255,255,255,.78)}
+
+/* Page 8: the physical corridor is used once at full strength. */
+.slide:nth-of-type(8){
+  background:
+    linear-gradient(90deg,rgba(2,13,24,.98) 0%,rgba(2,13,24,.86) 52%,rgba(2,13,24,.22) 100%),
+    url('assets/cys-signal-corridor-dark-v2.jpg') right center/cover no-repeat;
+}
+.slide:nth-of-type(8) .dd{margin-top:8px}
+
+/* Page 9: a crisp information plane floats over a single cool model crop. */
+.slide:nth-of-type(9){
+  background:
+    linear-gradient(90deg,#F4F7FA 0%,rgba(244,247,250,.97) 67%,rgba(244,247,250,.55) 100%),
+    url('assets/cys-signal-corridor-light-v2.jpg') right center/cover no-repeat;
+}
+.slide:nth-of-type(9) table{background:rgba(255,255,255,.94);box-shadow:8px 8px 0 #C5D4DE}
+
+/* Page 10: a deliberately uneven component matrix. */
+.slide:nth-of-type(10){background:#EAF0F4}
+.slide:nth-of-type(10) .g3{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.slide:nth-of-type(10) .card:nth-child(1){grid-column:span 4;background:#075999;color:#fff;box-shadow:0 6px 0 #023B67}
+.slide:nth-of-type(10) .card:nth-child(1) p{color:rgba(255,255,255,.80)}
+.slide:nth-of-type(10) .card:nth-child(2){grid-column:span 3}
+.slide:nth-of-type(10) .card:nth-child(3){grid-column:span 5;background:#D4E2EC}
+.slide:nth-of-type(10) .card:nth-child(4){grid-column:span 5}
+.slide:nth-of-type(10) .card:nth-child(5){grid-column:span 4;background:#0B3C69;color:#fff;box-shadow:0 6px 0 #041E36}
+.slide:nth-of-type(10) .card:nth-child(5) p{color:rgba(255,255,255,.80)}
+.slide:nth-of-type(10) .card:nth-child(6){grid-column:span 3}
+
+/* Page 11: a cobalt field with open technical lanes, not six glass cards. */
+.slide:nth-of-type(11){background:#075999}
+.slide:nth-of-type(11) .card.on-dark{background:transparent;border-top:2px solid rgba(255,255,255,.72);padding:16px 4px 10px;min-height:140px}
+.slide:nth-of-type(11) .g3{gap:34px}
+.slide:nth-of-type(11) .tag{-webkit-text-stroke-color:rgba(255,255,255,.22)}
+.slide:nth-of-type(11) .rule{background:linear-gradient(90deg,#89CC5D 0 24px,#B9E4FF 24px 38%,rgba(255,255,255,.22) 38%)}
+
+/* Page 12: scope columns sit on different material fields. */
+.slide:nth-of-type(12){background:#F4F7FA}
+.slide:nth-of-type(12):not(.dark):not(.cover)::before{
+  content:"";position:absolute;left:22px;right:auto;top:174px;bottom:0;width:48%;height:auto;
+  background:#07345F;opacity:1;filter:none;border:0;box-shadow:none;transform:none;
+  -webkit-mask-image:none;mask-image:none;
+}
+.slide:nth-of-type(12) .g2{position:relative;grid-template-columns:1fr 1fr;gap:54px}
+.slide:nth-of-type(12) .g2>div:first-child{padding:20px 20px 0;color:#fff}
+.slide:nth-of-type(12) .g2>div:first-child table{background:#fff}
+
+/* Page 13: schedule is a disciplined route ledger. */
+.slide:nth-of-type(13){background:#F4F7FA}
+.slide:nth-of-type(13) table{background:#fff;box-shadow:8px 8px 0 #C8D6E0}
+.slide:nth-of-type(13) td:first-child{background:#E2EAF0;color:#07345F;font-weight:600}
+
+/* Page 14: open items sit over the corridor handoff points. */
+.slide:nth-of-type(14){
+  background:
+    linear-gradient(90deg,rgba(2,13,24,.98) 0%,rgba(2,13,24,.88) 59%,rgba(2,13,24,.34) 100%),
+    url('assets/cys-signal-corridor-dark-v2.jpg') right center/cover no-repeat;
+}
+.slide:nth-of-type(14) table{background:rgba(2,13,24,.70)}
+
+/* Back cover uses a tighter crop so the final note feels like a new frame, not a duplicate. */
+.slide:nth-of-type(15){
+  background:
+    linear-gradient(90deg,rgba(2,12,22,.96) 0%,rgba(2,13,24,.80) 44%,rgba(2,13,24,.05) 74%),
+    url('assets/cys-signal-corridor-dark-v2.jpg') 72% center/cover no-repeat;
+}
+
+@media print{
+  .slide{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+}
+</style>
+</head>
+<body>
+
+<!-- 01 COVER -->
+<section class="slide active cover">
+  <div class="brandline"><i class="dot"></i><span>Neu Entity &nbsp;·&nbsp; CYS Global Remit</span></div>
+  <div class="inner">
+    <div class="cnbig">星威环球 · 中文网站</div>
+    <h1>Design Brief</h1>
+    <div class="meta">
+      <div>Project<b>CYS Chinese Website</b></div>
+      <div>Phase<b>Sitemap → Lofi → Hifi</b></div>
+      <div>Date<b>2 August 2026</b></div>
+      <div>Status<b>For client approval</b></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.4)">01</div>
+</section>
+
+<!-- 02 THE BRIEF -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">The brief</div>
+    <div class="eyebrow">01 — What we are making</div>
+    <h2>A positioning site, <span class="cn">不是销售漏斗</span></h2>
+    <div class="rule"></div>
+    <div class="g2" style="gap:56px">
+      <div>
+        <p class="sub" style="margin-bottom:20px">The Chinese site is the first step of the <b>CYS China Strategic Partnership Programme</b> and the starting point of a broader digital ecosystem platform.</p>
+        <p class="sub">It exists to do two things: open the Chinese market, and build a Chinese business community around a forum where members share resources and find each other.</p>
+        <div class="callout" style="margin-top:26px">
+          <p>"A trusted payment bridge connecting China and Southeast Asia."</p>
+          <div class="cn">连接中国与东南亚的可信支付桥梁，启迪跨境商业新可能。</div>
+        </div>
+      </div>
+      <div>
+        <div class="dd">
+          <div class="yes">
+            <h4>It is</h4>
+            <ul>
+              <li>An institutional credibility statement</li>
+              <li>A community front door</li>
+              <li>Bilingual, CN-first</li>
+              <li>Visibly international</li>
+            </ul>
+          </div>
+          <div class="no">
+            <h4>It is not</h4>
+            <ul>
+              <li>A product sales page</li>
+              <li>A lead-generation funnel</li>
+              <li>A rate-comparison tool</li>
+              <li>A consumer remittance app</li>
+            </ul>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:20px;font-size:13px">Financial marketing is regulated in China. Restraint here is a compliance requirement, not a stylistic preference.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pgnum">02</div>
+</section>
+
+<!-- 03 AUDIENCE -->
+<section class="slide dark">
+  <div class="pad">
+    <div class="tag">The brief</div>
+    <div class="eyebrow on-dark">02 — Who it speaks to</div>
+    <h2>Five audiences, <span class="cn">一个共同语言</span></h2>
+    <div class="rule on-dark"></div>
+    <div class="g3" style="margin-top:8px">
+      <div class="card on-dark"><div class="num">01</div><h3><span class="cn">华商企业主</span>Global Chinese business owners</h3><p>Merchants seeking cross-border payment, settlement, or market-connection resources.</p></div>
+      <div class="card on-dark"><div class="num">02</div><h3><span class="cn">东南亚企业</span>SG &amp; SEA companies</h3><p>Businesses already trading with China who need a reliable settlement partner.</p></div>
+      <div class="card on-dark"><div class="num">03</div><h3><span class="cn">个人与家庭</span>Individuals &amp; families</h3><p>Tuition and living expenses abroad, currency exchange, overseas investment.</p></div>
+    </div>
+    <div class="g2" style="margin-top:24px;grid-template-columns:1fr 1fr">
+      <div class="card on-dark"><div class="num">04</div><h3><span class="cn">现有客户</span>Existing CYS clients</h3><p>The most valuable group — they act as introducers and ecosystem connectors, bringing CYS new business through the community.</p></div>
+      <div class="card on-dark"><div class="num">05</div><h3><span class="cn">金融机构</span>Licensed FIs &amp; PSPs</h3><p>Institutional partners evaluating CYS as an FX liquidity and payment counterparty.</p></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.35)">03</div>
+</section>
+
+<!-- 04 PRINCIPLES -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Direction</div>
+    <div class="eyebrow">03 — Design principles</div>
+    <h2>Four rules that settle arguments</h2>
+    <div class="rule"></div>
+    <div class="g2" style="gap:26px">
+      <div class="card"><div class="num">PRINCIPLE 01</div><h3>Credibility over persuasion</h3><p>Forty-five years, an MAS licence, USD 2.2bn a year. The facts do the selling. No urgency devices, no countdown, no "get started now". Whitespace and precision read as institutional; density and hard CTAs read as retail.</p></div>
+      <div class="card"><div class="num">PRINCIPLE 02</div><h3>Chinese first, not translated</h3><p>The CN layout is the design; EN is the mirror. Line length, leading, and letter-spacing are set for Chinese and adapted for English — never the reverse. If a layout only works in one language, it is not finished.</p></div>
+      <div class="card"><div class="num">PRINCIPLE 03</div><h3>Connection is the visual idea</h3><p>The client asked for a better expression of <i>global</i> and <i>connection</i> than stock earth imagery. Bridges, corridors, trade routes, threads between points — the corridor is the story, not the planet.</p></div>
+      <div class="card"><div class="num">PRINCIPLE 04</div><h3>The community is visible</h3><p>The boss's priority is the community. Forum posts appear on the homepage and link through. A visitor should see people using this within the first screen and a half — not discover a forum buried in the nav.</p></div>
+    </div>
+  </div>
+  <div class="pgnum">04</div>
+</section>
+
+<!-- 05 COLOUR — RECOMMENDED -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Direction</div>
+    <span class="flag">Decision needed — this unblocks everything</span>
+    <div class="eyebrow">04 — Colour, recommended direction</div>
+    <h2>Corridor <span class="cn">走廊</span></h2>
+    <p class="sub" style="margin-bottom:26px">Built from the client's own mockups: a deep navy night sky, institutional blue structure, warm paper ground, and the CYS green used sparingly as the signal colour. Warm paper is what keeps it from reading as another cold fintech site.</p>
+    <div class="g4">
+      <div class="sw"><div class="chip" style="background:#0A1628"></div><div class="nm">Ink</div><div class="hex">#0A1628</div><div class="use">Hero base, primary text on paper</div></div>
+      <div class="sw"><div class="chip" style="background:#16305C"></div><div class="nm">Navy</div><div class="hex">#16305C</div><div class="use">Section blocks, footer, mega menu</div></div>
+      <div class="sw"><div class="chip" style="background:#2E6FB7"></div><div class="nm">Azure</div><div class="hex">#2E6FB7</div><div class="use">Links, interactive, eyebrow labels</div></div>
+      <div class="sw"><div class="chip" style="background:#6DA544"></div><div class="nm">Jade</div><div class="hex">#6DA544</div><div class="use">CYS mark green. Accent only — never a background</div></div>
+      <div class="sw"><div class="chip" style="background:#F5F1E8"></div><div class="nm">Cream</div><div class="hex">#F5F1E8</div><div class="use">Page ground</div></div>
+      <div class="sw"><div class="chip" style="background:#E3DCCB"></div><div class="nm">Sand</div><div class="hex">#E3DCCB</div><div class="use">Dividers, card borders, subtle fills</div></div>
+      <div class="sw"><div class="chip" style="background:#5A6B85"></div><div class="nm">Slate</div><div class="hex">#5A6B85</div><div class="use">Body copy, secondary text</div></div>
+      <div class="sw"><div class="chip" style="background:#FFFFFF"></div><div class="nm">Paper</div><div class="hex">#FFFFFF</div><div class="use">Cards lifted off the cream ground</div></div>
+    </div>
+  </div>
+  <div class="pgnum">05</div>
+</section>
+
+<!-- 06 COLOUR — ALTERNATES -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Direction</div>
+    <div class="eyebrow">04 — Colour, two alternates</div>
+    <h2>If Corridor isn't right</h2>
+    <div class="rule"></div>
+    <div class="g2" style="gap:44px">
+      <div>
+        <div class="altrow">
+          <i style="background:#0D1B2A"></i><i style="background:#1B3A5F"></i>
+          <i style="background:#4A7FA8"></i><i style="background:#F2F4F7"></i>
+          <i style="background:#D9E0E8"></i><i style="background:#6DA544"></i>
+        </div>
+        <h3 style="font-family:var(--display);font-size:24px;font-weight:500;margin-bottom:8px">Institutional <span class="cn" style="font-family:var(--cn);font-size:19px;color:var(--azure)">稳健</span></h3>
+        <p class="sub" style="font-size:13px">Cool greys replace the cream. Reads more like a bank and less like an editorial brand — safest with conservative FI partners, but gives up the warmth that makes the site feel like a community rather than a counterparty.</p>
+      </div>
+      <div>
+        <div class="altrow">
+          <i style="background:#0A1628"></i><i style="background:#16305C"></i>
+          <i style="background:#B4593C"></i><i style="background:#F5F1E8"></i>
+          <i style="background:#E8D5C4"></i><i style="background:#6DA544"></i>
+        </div>
+        <h3 style="font-family:var(--display);font-size:24px;font-weight:500;margin-bottom:8px">Bridge <span class="cn" style="font-family:var(--cn);font-size:19px;color:var(--azure)">桥梁</span></h3>
+        <p class="sub" style="font-size:13px">Adds a terracotta drawn from Chinese architectural red, used for the corridor and milestone sections. Warmest and most distinctive of the three — but red carries weight in this market and needs a deliberate hand.</p>
+      </div>
+    </div>
+    <div class="rule" style="margin-top:34px"></div>
+    <p class="sub" style="font-size:13px"><b style="color:var(--ink)">Our recommendation is Corridor.</b> It is closest to what CYS already mocked up, so it needs the least internal selling, and the warm ground differentiates without taking a risk on red.</p>
+  </div>
+  <div class="pgnum">06</div>
+</section>
+
+<!-- 07 TYPOGRAPHY -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Direction</div>
+    <div class="eyebrow">05 — Typography</div>
+    <h2>One system, two writing systems</h2>
+    <div class="rule"></div>
+    <div class="g2" style="gap:52px">
+      <div>
+        <div class="spec">
+          <div class="lbl">Display — headlines</div>
+          <div class="demo-cn">连接中国与东南亚的可信支付桥梁</div>
+          <div class="demo-en">A Trusted Payment Bridge</div>
+          <div class="note">Noto Serif SC + Latin serif companion · 600 · CN tracking +0.06em</div>
+        </div>
+        <div class="spec">
+          <div class="lbl">Body — running text</div>
+          <div class="demo-cn" style="font-size:17px;font-weight:400;font-family:var(--body)">星威环球成立于1981年，总部设于新加坡。</div>
+          <div class="demo-en" style="font-size:16px;font-family:var(--body)">Founded in 1981, headquartered in Singapore.</div>
+          <div class="note">CN system stack · EN self-hosted sans · 400</div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:20px">
+          <h3>The constraint that shapes everything</h3>
+          <p>A full CJK webfont is 3–10&nbsp;MB — unusable, especially for visitors on slow connections into China. So: <b>CN body runs on the system stack</b> (PingFang SC → Microsoft YaHei → Noto Sans SC), and any display face is <b>subset to the ~500 characters</b> actually used in headings.</p>
+        </div>
+        <div class="card">
+          <h3>Same component, different metrics</h3>
+          <p>Chinese needs looser leading and wider tracking than English at the same size; English needs tighter tracking and a shorter measure. These are set as tokens scoped by language, not forked components.</p>
+          <p style="font-family:var(--mono);font-size:11px;margin-top:12px;color:var(--ink)">:lang(zh) → leading 1.4 / tracking .08em<br>:lang(en) → leading 1.15 / tracking .02em</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pgnum">07</div>
+</section>
+
+<!-- 08 IMAGERY -->
+<section class="slide dark">
+  <div class="pad">
+    <div class="tag">Direction</div>
+    <div class="eyebrow on-dark">06 — Imagery</div>
+    <h2>Express connection, <span class="cn">而非地球</span></h2>
+    <p class="sub" style="margin-bottom:28px">The client's note on the homepage mockup, verbatim: <i>"背景我想要表达是 global and connection。希望可以有更好的方式可以表达 connection"</i> — they want a better way to express connection than the stock earth-from-space image. This is an open creative brief, not a locked direction.</p>
+    <div class="dd" style="border-color:rgba(255,255,255,.14)">
+      <div class="yes" style="background:rgba(255,255,255,.05)">
+        <h4>Reach for</h4>
+        <ul>
+          <li style="color:rgba(245,241,232,.72)">Corridors, bridges, routes — the CN–SG corridor made literal</li>
+          <li style="color:rgba(245,241,232,.72)">Ports, containers, night freight — real trade, not abstract finance</li>
+          <li style="color:rgba(245,241,232,.72)">Singapore and Chinese cityscapes at dusk, held in one frame</li>
+          <li style="color:rgba(245,241,232,.72)">Real CYS people, office, and events wherever they exist</li>
+        </ul>
+      </div>
+      <div class="no" style="background:rgba(0,0,0,.22);border-left-color:rgba(255,255,255,.14)">
+        <h4 style="color:#E09080">Avoid</h4>
+        <ul>
+          <li style="color:rgba(245,241,232,.6)">Earth-from-space and glowing network globes</li>
+          <li style="color:rgba(245,241,232,.6)">Handshake stock photography and generic boardrooms</li>
+          <li style="color:rgba(245,241,232,.6)">Floating currency symbols, rising arrows, candlestick charts</li>
+          <li style="color:rgba(245,241,232,.6)">Purple-to-blue gradients and default AI-generated aesthetics</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:22px;font-size:12.5px">Four partner cards on the corridor page and both partnership stories are currently placeholders. Real logos and named stories are outstanding from the client.</p>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.35)">08</div>
+</section>
+
+<!-- 09 LAYOUT -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">System</div>
+    <div class="eyebrow">07 — Homepage architecture</div>
+    <h2>Nine sections, in this order</h2>
+    <div class="rule"></div>
+    <table>
+      <tr><th style="width:52px">#</th><th style="width:220px">Section</th><th>Contains</th><th style="width:150px">Note</th></tr>
+      <tr><td><b>1</b></td><td><b>Hero</b> <span class="cn">首屏</span></td><td>Full-bleed imagery, positioning headline, <span class="cn">1981年启航于新加坡</span>, forum CTA, search field</td><td>Needs new imagery direction</td></tr>
+      <tr><td><b>2</b></td><td><b>Values strip</b></td><td><span class="cn">包容 创新 启迪</span> — inclusion, innovation, inspiration</td><td>Sits over the hero</td></tr>
+      <tr><td><b>3</b></td><td><b>Currency ticker</b></td><td>SGD · CNY/CNH · USD · HKD · AUD · MYR · IDR · THB</td><td>Static / indicative</td></tr>
+      <tr><td><b>4</b></td><td><b>About</b> <span class="cn">启航于1981</span></td><td>Company intro, link through to history</td><td></td></tr>
+      <tr><td><b>5</b></td><td><b>Product &amp; service</b></td><td>Three cards — cross-border payment · consulting · forum</td><td></td></tr>
+      <tr><td><b>6</b></td><td><b>Corridor</b> <span class="cn">中新合作走廊</span></td><td>40+ years stat, four partner cards, CTA</td><td>Placeholder logos</td></tr>
+      <tr><td><b>7</b></td><td><b>Customisation</b></td><td>Corporate and individual solution blocks</td><td></td></tr>
+      <tr><td style="color:var(--jade)"><b>8</b></td><td><b style="color:var(--jade)">Forum feed</b> <span class="cn">华商论坛</span></td><td>Live posts, linked through to the forum</td><td><b style="color:var(--jade)">Client ask — not yet in the mockup</b></td></tr>
+      <tr><td><b>9</b></td><td><b>Footer</b></td><td>Four columns + FAQ, legal, feedback</td><td></td></tr>
+    </table>
+  </div>
+  <div class="pgnum">09</div>
+</section>
+
+<!-- 10 COMPONENTS -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">System</div>
+    <div class="eyebrow">08 — Components to design</div>
+    <h2>Both languages, every state</h2>
+    <div class="rule"></div>
+    <div class="g3" style="gap:22px">
+      <div class="card"><h3><span class="cn">导航与语言</span>Header &amp; mega menu</h3><p>Translucent over hero, solid on interior pages. Four dropdown groups, CN/EN switcher, register &amp; log in. Keyboard and screen-reader accessible.</p></div>
+      <div class="card"><h3><span class="cn">卡片</span>Cards</h3><p>Service, partner, use-case, and forum-post variants. One structure, four treatments.</p></div>
+      <div class="card"><h3><span class="cn">表单</span>Forms</h3><p>Enquiry with corporate/individual toggle, feedback quick-pick, and the forum post composer.</p></div>
+      <div class="card"><h3><span class="cn">时间轴</span>Milestone timeline</h3><p>1981 → 2011 → 2020 → 2025 → 2030. Needs to work on mobile without becoming a list.</p></div>
+      <div class="card"><h3><span class="cn">论坛帖子</span>Forum post</h3><p>Author, company, intent tag, markets, body. Plus the <b>pending review</b> state authors see.</p></div>
+      <div class="card"><h3><span class="cn">页脚</span>Footer</h3><p>Four columns. Note the footer and mega menu currently group pages differently — needs reconciling.</p></div>
+    </div>
+    <div class="callout" style="margin-top:24px;padding:20px 26px">
+      <p style="font-size:16px">Every component ships in Chinese and English. A design that only resolves in one is not done.</p>
+    </div>
+  </div>
+  <div class="pgnum">10</div>
+</section>
+
+<!-- 11 CONSTRAINTS -->
+<section class="slide navy">
+  <div class="pad">
+    <div class="tag" style="color:rgba(255,255,255,.5)">System</div>
+    <div class="eyebrow" style="color:var(--jade)">09 — Non-negotiable constraints</div>
+    <h2>Design inside these</h2>
+    <div class="rule" style="background:rgba(255,255,255,.18)"></div>
+    <div class="g3" style="gap:22px;margin-bottom:22px">
+      <div class="card on-dark"><div class="num">TECHNICAL</div><h3>Reachable from China</h3><p>No Google Fonts, Maps, Analytics, reCAPTCHA, or YouTube. Every asset self-hosted and served from our own domain.</p></div>
+      <div class="card on-dark"><div class="num">TECHNICAL</div><h3>Weight budget</h3><p>Connections into the mainland are slow even when they work. The hero is the single biggest risk — art-direct for a small file, don't retouch for one.</p></div>
+      <div class="card on-dark"><div class="num">TECHNICAL</div><h3>No CAPTCHA</h3><p>Forms are protected by honeypot and rate limiting, so the design carries no puzzle widget anywhere.</p></div>
+    </div>
+    <div class="g3" style="gap:22px">
+      <div class="card on-dark"><div class="num">EXPERIENCE</div><h3>Accessible</h3><p>AA contrast minimum. Jade on cream fails for body text — accent only. Every interactive element reachable by keyboard.</p></div>
+      <div class="card on-dark"><div class="num">REGULATORY</div><h3>No regulated claims</h3><p>No rates, no returns, no "best price". Figures are historical facts, stated plainly and attributed.</p></div>
+      <div class="card on-dark"><div class="num">STRUCTURAL</div><h3>CMS-shaped</h3><p>Copy is client-editable in both languages, so no layout may depend on a fixed character count.</p></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.4)">11</div>
+</section>
+
+<!-- 12 SCOPE -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Delivery</div>
+    <div class="eyebrow">10 — Scope</div>
+    <h2>Phase one is everything except the forum</h2>
+    <div class="rule"></div>
+    <div class="g2" style="gap:44px">
+      <div>
+        <div class="lbl" style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--jade);font-weight:700;margin-bottom:14px">Design now — Phase 1</div>
+        <table>
+          <tr><td><b>Home</b></td><td>9 sections</td></tr>
+          <tr><td><b>About</b> <span class="cn">关于我们</span></td><td>Intro · history · culture</td></tr>
+          <tr><td><b>Corridor</b> <span class="cn">中新合作走廊</span></td><td>Partners · stories</td></tr>
+          <tr><td><b>Business</b> <span class="cn">企业合作</span></td><td>FI · cross-border</td></tr>
+          <tr><td><b>Individual</b> <span class="cn">个人用户</span></td><td>Three use cases</td></tr>
+          <tr><td><b>Contact</b> <span class="cn">联系我们</span></td><td>Details · enquiry · feedback</td></tr>
+          <tr><td><b>Legal</b></td><td>FAQ · terms · privacy</td></tr>
+          <tr><td><b>Auth</b></td><td>Register · log in</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="lbl" style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);font-weight:700;margin-bottom:14px">Design later — Phase 2</div>
+        <div class="card" style="margin-bottom:16px">
+          <h3><span class="cn">星威华商论坛</span>The forum</h3>
+          <p>Post list and detail, composer, profile, search and filters, moderation queue, and the author-facing pending / approved / rejected states.</p>
+        </div>
+        <div class="card">
+          <h3>But design the feed now</h3>
+          <p>The homepage forum module ships in the Phase 1 demo, seeded with the four sample posts from the client's deck. Their stated priority is the community — a demo without any trace of it demonstrates the half they care less about.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pgnum">12</div>
+</section>
+
+<!-- 13 SCHEDULE -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Delivery</div>
+    <div class="eyebrow">11 — Schedule</div>
+    <h2>Demo early October</h2>
+    <div class="rule"></div>
+    <table>
+      <tr><th style="width:130px">Week</th><th style="width:190px">Stage</th><th>Output</th><th style="width:130px">Owner</th></tr>
+      <tr><td><b>3–9 Aug</b></td><td><b>Decision gate</b></td><td>Colour scheme approved · sitemap signed off · copy corrections to client</td><td>Client + NE</td></tr>
+      <tr><td><b>10–23 Aug</b></td><td><b>Lofi</b></td><td>Wireframes, every Phase 1 screen, CN and EN</td><td>Design</td></tr>
+      <tr><td><b>24 Aug – 6 Sep</b></td><td><b>Hifi</b></td><td>Full mockups, design tokens, type scale, component states</td><td>Design</td></tr>
+      <tr><td><b>7–27 Sep</b></td><td><b>Build</b></td><td>All pages, CMS wiring, forms, responsive</td><td>Development</td></tr>
+      <tr><td><b>28 Sep – 4 Oct</b></td><td><b>UAT</b></td><td>QA, performance, accessibility, client review</td><td>NE + client</td></tr>
+      <tr style="background:rgba(109,165,68,.07)"><td><b style="color:var(--jade)">Early Oct</b></td><td><b style="color:var(--jade)">Demo live</b></td><td>Full marketing site, both languages, forum feed seeded</td><td></td></tr>
+      <tr><td><b>Oct – Dec</b></td><td><b>Forum</b></td><td>Accounts, posting, search, pre-publication moderation</td><td>Development</td></tr>
+    </table>
+    <p class="sub" style="margin-top:22px;font-size:12.5px"><b style="color:var(--ink)">Nothing starts until the colour scheme is approved.</b> That is the client's own condition and it is the single dependency holding the whole schedule.</p>
+  </div>
+  <div class="pgnum">13</div>
+</section>
+
+<!-- 14 OPEN ITEMS -->
+<section class="slide dark">
+  <div class="pad">
+    <div class="tag">Delivery</div>
+    <span class="flag warn">Outstanding — blocks design</span>
+    <div class="eyebrow on-dark">12 — What we still need</div>
+    <h2>Seven things from the client</h2>
+    <div class="rule on-dark"></div>
+    <table>
+      <tr><th style="width:52px">#</th><th style="width:270px">Item</th><th>Currently</th><th style="width:190px">Blocks</th></tr>
+      <tr><td><b>1</b></td><td><b style="color:var(--jade)">Colour scheme sign-off</b></td><td>Three directions proposed — Corridor, Institutional, Bridge</td><td><b style="color:var(--jade)">Everything</b></td></tr>
+      <tr><td><b>2</b></td><td><b>English copy corrections</b></td><td>"Cross Board Payment", "Connect us", corridor nav mislabelled "CN-SG corporate"</td><td>Lofi</td></tr>
+      <tr><td><b>3</b></td><td><b>Real partnership stories</b></td><td><span class="cn">我们与xx公司的交际始于2000年</span> — placeholder</td><td>Hifi</td></tr>
+      <tr><td><b>4</b></td><td><b>Partner logos</b></td><td>Four corridor cards carry placeholder CYS marks</td><td>Hifi</td></tr>
+      <tr><td><b>5</b></td><td><b>Photography</b></td><td>All stock. Any real CYS office, team, or event imagery?</td><td>Hifi</td></tr>
+      <tr><td><b>6</b></td><td><b>WhatsApp &amp; WeChat</b></td><td>Deck shows <span style="font-family:var(--mono)">123456</span> for both</td><td>Build</td></tr>
+      <tr><td><b>7</b></td><td><b>FAQ, terms, privacy</b></td><td>No content. Privacy needs real drafting — the forum collects user content</td><td>Build</td></tr>
+    </table>
+    <p class="sub" style="margin-top:20px;font-size:12.5px">Design proceeds on placeholders where it must, but every placeholder that survives into Hifi becomes a revision round later.</p>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.35)">14</div>
+</section>
+
+<!-- 15 BACK -->
+<section class="slide cover">
+  <div class="brandline"><i class="dot"></i><span>Neu Entity &nbsp;·&nbsp; CYS Global Remit</span></div>
+  <div class="inner">
+    <div class="cnbig" style="font-size:34px">包容 · 创新 · 启迪</div>
+    <h1 style="font-size:46px;max-width:700px">Inclusion, innovation<br>and inspiration.</h1>
+    <p class="sub" style="color:rgba(255,255,255,.6);margin-top:22px;max-width:560px;font-size:13px">The three principles are CYS's own, and they are the brief in miniature: open to everyone, technically ahead, and generous with what it knows.</p>
+    <div class="meta">
+      <div>Next step<b>Colour scheme approval</b></div>
+      <div>By<b>Friday 7 August 2026</b></div>
+      <div>Contact<b>Neu Entity — Projects</b></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.4)">15</div>
+</section>
+
+<style id="cys-zero-pink-v3">
+/* Strict cool-only presentation layer. Original palette names and hex labels
+   remain in the document text, while every rendered surface stays white,
+   ink, cobalt, cool gray, or CYS green. */
+:root{
+  --cream:#FFFFFF;
+  --paper:#FFFFFF;
+  --sand:#D7E2EA;
+}
+.slide{background:#FFFFFF}
+.slide.cover{
+  background:
+    linear-gradient(90deg,rgba(2,12,22,.96) 0%,rgba(2,13,24,.82) 42%,rgba(2,13,24,.10) 70%),
+    url("assets/cys-signal-corridor-dark-v2.jpg") center/cover no-repeat;
+}
+.slide:nth-of-type(4),
+.slide:nth-of-type(10){background:#EAF2F8}
+.slide:nth-of-type(5){background:linear-gradient(90deg,#FFFFFF 0 72%,#DDE8F0 72% 100%)}
+.slide:nth-of-type(6){background:linear-gradient(90deg,#FFFFFF 0 50%,#E4EDF3 50% 100%)}
+.slide:nth-of-type(7),
+.slide:nth-of-type(12),
+.slide:nth-of-type(13){background:#FFFFFF}
+.slide:nth-of-type(8){
+  background:
+    linear-gradient(90deg,rgba(2,13,24,.98) 0%,rgba(2,13,24,.86) 52%,rgba(2,13,24,.22) 100%),
+    url("assets/cys-signal-corridor-dark-v2.jpg") right center/cover no-repeat;
+}
+.dd .no{background:#E3EDF4}
+.dd .no h4,
+.slide:nth-of-type(8) h4[style]{color:#096DBE!important}
+.flag.warn{background:#7EBB50;color:#041522}
+
+/* Cool display substitutes for warm legacy swatches. Text labels are intact. */
+[style*="background:#F5F1E8"]{background:#FFFFFF!important}
+[style*="background:#E3DCCB"]{background:#D7E2EA!important}
+[style*="background:#B4593C"]{background:#096DBE!important}
+[style*="background:#E8D5C4"]{background:#C6DAE8!important}
+</style>
+
+</body>
+</html>

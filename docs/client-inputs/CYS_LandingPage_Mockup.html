@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CYS Global Remit — 连接中国与东南亚的可信支付桥梁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0c1626;
+    --navy-900:#12213a;
+    --navy-800:#1a3358;
+    --navy-700:#24446f;
+    --brass-500:#b98d42;
+    --brass-300:#d9b877;
+    --brass-100:#f1e3c6;
+    --ivory-50:#faf8f3;
+    --ivory-100:#f3efe4;
+    --ink-900:#151c26;
+    --ink-600:#4c5666;
+    --ink-400:#8992a1;
+    --line:#e3ddcd;
+    --teal-600:#3e6259;
+
+    --serif: "Noto Serif SC", "Songti SC", serif;
+    --sans: "Noto Sans SC", "Inter", -apple-system, sans-serif;
+    --mono: "Inter", "Noto Sans SC", sans-serif;
+
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink-900);
+    background:var(--ivory-50);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img,svg{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  ul{list-style:none;}
+  section{position:relative;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--brass-500); font-weight:600; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--brass-500); display:inline-block;}
+  h1,h2,h3{font-family:var(--serif); font-weight:600; letter-spacing:.01em;}
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s var(--ease), transform .8s var(--ease);}
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+  .reveal-delay-1.in-view{transition-delay:.1s;}
+  .reveal-delay-2.in-view{transition-delay:.2s;}
+  .reveal-delay-3.in-view{transition-delay:.3s;}
+
+  /* ===== NAV ===== */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:26px 0;
+    transition:padding .35s var(--ease), background .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between;}
+  header.scrolled{
+    padding:14px 0;
+    background:rgba(12,22,38,.92);
+    backdrop-filter:blur(10px);
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand-logo{height:46px; width:auto; display:block; transition:height .35s var(--ease);}
+  header.scrolled .brand-logo{height:38px;}
+  .footer-brand .brand-logo{height:62px;}
+
+  nav.primary-nav{display:flex; align-items:center; gap:36px;}
+  nav.primary-nav a{
+    position:relative; font-size:14.5px; color:#e7e2d4; padding:6px 0; font-weight:400;
+  }
+  nav.primary-nav a::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1.5px;
+    background:var(--brass-300); transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease);
+  }
+  nav.primary-nav a:hover::after{transform:scaleX(1);}
+
+  .nav-right{display:flex; align-items:center; gap:22px;}
+  .lang-toggle{
+    display:flex; align-items:center; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+    border-radius:100px; padding:3px; font-family:var(--mono); font-size:11.5px; font-weight:600;
+  }
+  .lang-toggle button{
+    border:none; background:transparent; color:#cfc9b8; padding:6px 12px; border-radius:100px; transition:all .25s var(--ease);
+  }
+  .lang-toggle button.active{background:var(--brass-300); color:var(--navy-950);}
+  .btn-ghost{
+    border:1px solid rgba(255,255,255,.35); color:#f6f2e7; padding:9px 20px; border-radius:100px; font-size:13.5px;
+    transition:border-color .25s var(--ease), background .25s var(--ease);
+  }
+  .btn-ghost:hover{border-color:var(--brass-300); background:rgba(217,184,119,.1);}
+  .nav-toggle-mobile{display:none;}
+
+  /* ===== HERO ===== */
+  .hero{
+    background:radial-gradient(120% 90% at 78% 15%, #1c3a63 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding:150px 0 90px;
+    overflow:hidden;
+    position:relative;
+  }
+  .hero-grid{
+    position:absolute; inset:0; opacity:.35; pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:2; display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+  }
+  .hero-copy .eyebrow{color:var(--brass-300);}
+  .hero-copy h1{
+    font-size:clamp(30px, 4vw, 46px); color:#f8f5ec; line-height:1.32; margin:22px 0 18px; max-width:640px;
+  }
+  .hero-copy .sub{
+    color:#c6cbd6; font-size:15.5px; max-width:520px; margin-bottom:8px;
+  }
+  .hero-copy .founded{
+    font-family:var(--mono); font-size:12.5px; color:var(--brass-300); letter-spacing:.06em; margin:18px 0 34px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .founded::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--brass-300); box-shadow:0 0 0 4px rgba(217,184,119,.18);}
+  .hero-ctas{display:flex; align-items:center; gap:26px; flex-wrap:wrap;}
+  .btn-solid{
+    background:var(--brass-300); color:var(--navy-950); padding:14px 28px; border-radius:100px;
+    font-size:14.5px; font-weight:600; display:inline-flex; align-items:center; gap:10px;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    box-shadow:0 10px 30px -8px rgba(217,184,119,.5);
+  }
+  .btn-solid:hover{transform:translateY(-2px); background:#e9cd93;}
+  .btn-solid svg{width:15px; height:15px; transition:transform .3s var(--ease);}
+  .btn-solid:hover svg{transform:translateX(4px);}
+  .link-text{
+    font-size:14px; color:#e7e2d4; position:relative; padding-bottom:2px; border-bottom:1px solid rgba(255,255,255,.3);
+    transition:border-color .3s var(--ease), color .3s var(--ease);
+  }
+  .link-text:hover{color:var(--brass-300); border-color:var(--brass-300);}
+
+  /* corridor map */
+  .corridor{
+    position:relative; aspect-ratio:1/1; max-width:480px; margin-left:auto;
+  }
+  .corridor svg{width:100%; height:100%;}
+  .corridor .route-path{
+    fill:none; stroke:var(--brass-300); stroke-width:1.6; stroke-linecap:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 2.6s var(--ease) .5s forwards;
+  }
+  .corridor .route-path-dim{fill:none; stroke:rgba(255,255,255,.14); stroke-width:1; stroke-dasharray:4 6;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .corridor .node{fill:var(--brass-300);}
+  .corridor .node-pulse{
+    fill:none; stroke:var(--brass-300); stroke-width:1.2; opacity:0;
+    transform-origin:center;
+    animation:pulse 2.6s ease-out infinite;
+  }
+  .corridor .node-pulse.delay{animation-delay:1.3s;}
+  @keyframes pulse{
+    0%{opacity:.7; transform:scale(.3);}
+    80%{opacity:0; transform:scale(2.6);}
+    100%{opacity:0; transform:scale(2.6);}
+  }
+  .corridor .city-label{font-family:var(--mono); font-size:10.5px; fill:#d7dbe4; letter-spacing:.05em;}
+  .corridor .city-label.brass{fill:var(--brass-300);}
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:3;
+    display:flex; flex-direction:column; align-items:center; gap:8px; color:#9aa2b1; font-family:var(--mono); font-size:10px; letter-spacing:.18em;
+  }
+  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(#b98d42, transparent); animation:cueMove 1.8s ease-in-out infinite;}
+  @keyframes cueMove{0%,100%{transform:scaleY(.6); opacity:.4;} 50%{transform:scaleY(1); opacity:1;}}
+
+  /* ===== GLOBE BG (Three.js 3D) ===== */
+  .globe-bg{
+    position:absolute; right:-180px; top:50%; transform:translateY(-50%);
+    width:900px; height:900px; pointer-events:none; z-index:1;
+  }
+  .globe-bg canvas{width:100% !important; height:100% !important; display:block;}
+  .globe-hint{
+    position:absolute; left:32px; bottom:24px; z-index:3; display:flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:10px; color:rgba(199,201,209,.55); letter-spacing:.14em; text-transform:uppercase;
+    opacity:0; animation:fadeIn .8s var(--ease) 1.2s forwards;
+  }
+  .globe-hint::before{
+    content:""; width:14px; height:14px; border:1px solid rgba(217,184,119,.4); border-radius:50%;
+    background:radial-gradient(circle, rgba(217,184,119,.3) 0%, transparent 70%);
+  }
+  @keyframes fadeIn{to{opacity:1;}}
+
+  /* ===== HERO TRENDING ===== */
+  .hero-trending{
+    position:absolute; left:0; right:0; bottom:80px; z-index:3;
+    padding:0 32px; max-width:1180px; margin:0 auto;
+    opacity:0; transform:translateY(16px);
+    animation:slideIn .8s var(--ease) 1.1s forwards;
+  }
+  @keyframes slideIn{to{opacity:1; transform:translateY(0);}}
+  .ht-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding:0 4px;}
+  .ht-title{
+    font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:#e7e2d4; text-transform:uppercase;
+    display:flex; align-items:center; gap:8px; font-weight:600;
+  }
+  .ht-title .ht-dot{width:6px; height:6px; border-radius:50%; background:#d9b877; box-shadow:0 0 0 3px rgba(217,184,119,.2); animation:blink 1.6s ease-in-out infinite;}
+  .ht-more{font-family:var(--mono); font-size:11px; color:var(--brass-300); letter-spacing:.06em; display:flex; align-items:center; gap:4px; transition:gap .25s;}
+  .ht-more:hover{gap:8px;}
+  .ht-chips{list-style:none; display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  .ht-chips li{
+    display:flex; align-items:center; gap:10px; padding:13px 16px;
+    background:rgba(255,255,255,.05); backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.12); border-radius:6px;
+    font-size:13px; color:#dfe3ea; transition:all .3s var(--ease);
+    opacity:0; transform:translateY(8px); cursor:pointer; min-width:0;
+  }
+  .ht-chips li:hover{background:rgba(217,184,119,.12); border-color:rgba(217,184,119,.35); transform:translateY(-2px);}
+  .ht-chips li.show{animation:chipIn .5s var(--ease) forwards;}
+  @keyframes chipIn{to{opacity:1; transform:translateY(0);}}
+  .ht-chips li .cat{
+    font-family:var(--mono); font-size:9.5px; color:var(--brass-300);
+    padding:3px 7px; border:1px solid rgba(217,184,119,.35); border-radius:3px; flex-shrink:0; font-weight:600;
+  }
+  .ht-chips li .text{flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+  .ht-chips li .arrow{color:var(--brass-300); opacity:0; transition:opacity .25s, transform .25s; flex-shrink:0;}
+  .ht-chips li:hover .arrow{opacity:1; transform:translateX(3px);}
+  .ticker-strip{
+    background:var(--navy-950); border-top:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.08);
+    overflow:hidden; position:relative;
+  }
+  .ticker-strip::before, .ticker-strip::after{
+    content:""; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;
+  }
+  .ticker-strip::before{left:0; background:linear-gradient(90deg, var(--navy-950), transparent);}
+  .ticker-strip::after{right:0; background:linear-gradient(-90deg, var(--navy-950), transparent);}
+  .ticker-track{
+    display:flex; gap:56px; padding:16px 0; width:max-content;
+    animation:tickerScroll 32s linear infinite;
+  }
+  .ticker-strip:hover .ticker-track{animation-play-state:paused;}
+  .ticker-item{
+    display:flex; align-items:baseline; gap:8px; font-family:var(--mono); font-size:13px; color:#c6cbd6; white-space:nowrap;
+  }
+  .ticker-item .code{color:var(--brass-300); font-weight:600; letter-spacing:.03em;}
+  @keyframes tickerScroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+
+  /* ===== VALUES ===== */
+  .values{padding:64px 0; background:var(--ivory-50); text-align:center;}
+  .values-row{
+    display:flex; justify-content:center; align-items:center; gap:28px; flex-wrap:wrap; margin-top:6px;
+  }
+  .values-row .word{font-family:var(--serif); font-size:22px; color:var(--navy-900);}
+  .values-row .word small{display:block; font-family:var(--mono); font-size:10px; color:var(--ink-400); letter-spacing:.14em; margin-top:4px; font-weight:600;}
+  .values-row .dot{width:5px; height:5px; border-radius:50%; background:var(--brass-500);}
+
+  /* ===== PRODUCTS ===== */
+  .products{padding:110px 0; background:var(--ivory-100);}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(24px,3vw,32px); color:var(--navy-900); margin-top:16px;}
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .card{
+    background:var(--ivory-50); border:1px solid var(--line); border-radius:4px; padding:38px 30px;
+    transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+    position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--brass-500);
+    transform:scaleX(0); transform-origin:left; transition:transform .45s var(--ease);
+  }
+  .card:hover{transform:translateY(-8px); box-shadow:0 24px 46px -20px rgba(18,33,58,.28); border-color:transparent;}
+  .card:hover::before{transform:scaleX(1);}
+  .card .icon{
+    width:52px; height:52px; border-radius:50%; background:var(--navy-900); display:flex; align-items:center; justify-content:center;
+    margin-bottom:26px;
+  }
+  .card .icon svg{width:24px; height:24px; stroke:var(--brass-300); fill:none; stroke-width:1.5;
+    stroke-dasharray:120; stroke-dashoffset:120; transition:stroke-dashoffset 1s var(--ease);
+  }
+  .card:hover .icon svg{stroke-dashoffset:0;}
+  .card h3{font-size:19px; color:var(--navy-900); margin-bottom:10px;}
+  .card p{font-size:14px; color:var(--ink-600); margin-bottom:20px;}
+  .card .more{
+    font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--navy-800); display:inline-flex; align-items:center; gap:6px;
+  }
+  .card .more svg{width:12px; height:12px; transition:transform .3s var(--ease);}
+  .card:hover .more svg{transform:translateX(5px);}
+
+  /* ===== TIMELINE ===== */
+  .timeline-section{padding:110px 0 90px; background:var(--navy-950); color:#eee9db; overflow:hidden;}
+  .timeline-section .eyebrow{color:var(--brass-300);}
+  .timeline-section .section-head h2{color:#f6f2e7;}
+  .timeline-section .section-head p{color:#9ea6b5; margin-top:14px; font-size:14.5px; max-width:580px;}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin:50px 0 66px; border-top:1px solid rgba(255,255,255,.1); border-bottom:1px solid rgba(255,255,255,.1); padding:36px 0;}
+  .stat{text-align:left;}
+  .stat .num{font-family:var(--serif); font-size:34px; color:var(--brass-300); display:block;}
+  .stat .label{font-family:var(--mono); font-size:11.5px; color:#9ea6b5; letter-spacing:.06em; margin-top:6px; display:block;}
+
+  .timeline-track{
+    display:flex; gap:26px; overflow-x:auto; padding:14px 4px 24px; scroll-snap-type:x proximity;
+    scrollbar-width:thin; scrollbar-color:var(--brass-500) transparent;
+  }
+  .timeline-track::-webkit-scrollbar{height:5px;}
+  .timeline-track::-webkit-scrollbar-thumb{background:var(--brass-500); border-radius:10px;}
+  .stamp{
+    flex:0 0 220px; scroll-snap-align:start;
+    background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.12); border-radius:6px; padding:26px 22px;
+    opacity:0; transform:scale(.85) rotate(-6deg); transition:opacity .6s var(--ease), transform .6s var(--ease);
+  }
+  .stamp.in-view{opacity:1; transform:scale(1) rotate(0deg);}
+  .stamp .seal{
+    width:46px; height:46px; border-radius:50%; border:1.4px dashed var(--brass-300); display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:12px; color:var(--brass-300); font-weight:700; margin-bottom:18px;
+  }
+  .stamp h4{font-family:var(--serif); font-size:16px; color:#f6f2e7; margin-bottom:8px; line-height:1.4;}
+  .stamp p{font-size:12.5px; color:#9ea6b5; line-height:1.6;}
+
+  /* ===== SPLIT ===== */
+  .split-section{padding:110px 0; background:var(--ivory-50);}
+  .split{display:flex; gap:2px; border-radius:6px; overflow:hidden; min-height:420px;}
+  .split-panel{
+    flex:1; padding:52px 40px; position:relative; display:flex; flex-direction:column; justify-content:flex-end;
+    transition:flex .55s var(--ease);
+    color:#f6f2e7; overflow:hidden;
+  }
+  .split-panel.corp{background:linear-gradient(155deg, var(--navy-800), var(--navy-950));}
+  .split-panel.indiv{background:linear-gradient(155deg, var(--teal-600), #223f39);}
+  .split:hover .split-panel{flex:1;}
+  .split-panel:hover{flex:1.35;}
+  .split-panel .tag{font-family:var(--mono); font-size:11px; letter-spacing:.14em; color:var(--brass-300); text-transform:uppercase; margin-bottom:16px;}
+  .split-panel h3{font-size:24px; margin-bottom:14px;}
+  .split-panel ul{margin-bottom:24px;}
+  .split-panel li{
+    font-size:13.5px; color:#d7dbe4; padding-left:16px; position:relative; margin-bottom:8px;
+    opacity:.0; transform:translateY(6px); transition:opacity .4s var(--ease), transform .4s var(--ease);
+  }
+  .split-panel:hover li{opacity:1; transform:translateY(0);}
+  .split-panel li:nth-child(2){transition-delay:.05s;}
+  .split-panel li:nth-child(3){transition-delay:.1s;}
+  .split-panel li::before{content:""; position:absolute; left:0; top:8px; width:6px; height:1px; background:var(--brass-300);}
+  .split-panel .go{
+    font-family:var(--mono); font-size:12.5px; font-weight:600; color:#fff; display:inline-flex; gap:8px; align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.4); padding-bottom:3px; width:fit-content;
+  }
+
+  /* ===== FORUM ===== */
+  .forum-section{padding:100px 0 120px; background:var(--ivory-100);}
+  .forum-card{
+    background:var(--navy-900); border-radius:6px; padding:56px; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .forum-card::after{
+    content:""; position:absolute; width:340px; height:340px; border-radius:50%; border:1px solid rgba(217,184,119,.15);
+    top:-120px; right:-100px;
+  }
+  .forum-left .eyebrow{color:var(--brass-300); margin-bottom:18px;}
+  .forum-left h3{font-size:26px; color:#f6f2e7; margin-bottom:14px;}
+  .forum-left p{font-size:14px; color:#aab0bd; margin-bottom:28px; max-width:400px;}
+  .forum-topics{border:1px solid rgba(255,255,255,.12); border-radius:6px; padding:8px; background:rgba(255,255,255,.03);}
+  .forum-topics-head{display:flex; justify-content:space-between; align-items:center; padding:10px 14px 6px; font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; color:#7c8494; text-transform:uppercase;}
+  .forum-topics-head .live{display:flex; align-items:center; gap:6px; color:var(--brass-300);}
+  .forum-topics-head .live::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--brass-300); animation:blink 1.6s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:.25;}}
+  .topic-list{list-style:none; min-height:190px;}
+  .topic-list li{
+    padding:14px; border-radius:5px; font-size:13.5px; color:#dfe3ea; display:flex; justify-content:space-between; gap:12px;
+    opacity:0; transform:translateY(8px);
+  }
+  .topic-list li.show{animation:topicIn .5s var(--ease) forwards;}
+  @keyframes topicIn{to{opacity:1; transform:translateY(0);}}
+  .topic-list li span.cat{font-family:var(--mono); font-size:10.5px; color:var(--brass-300); flex-shrink:0;}
+  .topic-list li:hover{background:rgba(255,255,255,.05);}
+
+  /* ===== CTA BAND ===== */
+  .cta-band{background:var(--brass-100); padding:64px 0; text-align:center;}
+  .cta-band h3{font-size:22px; color:var(--navy-900); margin-bottom:10px;}
+  .cta-band p{color:var(--ink-600); font-size:14px; margin-bottom:26px;}
+  .cta-band .btn-solid{background:var(--navy-900); color:#f6f2e7; box-shadow:none;}
+  .cta-band .btn-solid:hover{background:var(--navy-800);}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--navy-950); color:#9ea6b5; padding:64px 0 30px;}
+  .footer-top{display:flex; justify-content:space-between; gap:40px; padding-bottom:44px; border-bottom:1px solid rgba(255,255,255,.08); flex-wrap:wrap;}
+  .footer-nav{display:flex; gap:30px; flex-wrap:wrap;}
+  .footer-nav a{font-size:13.5px; transition:color .25s;}
+  .footer-nav a:hover{color:var(--brass-300);}
+  .footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; flex-wrap:wrap; gap:14px;}
+  .footer-bottom p{font-size:12px; color:#6d7484; max-width:640px; line-height:1.7;}
+  .back-top{
+    width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:translateY(10px); pointer-events:none; transition:all .3s var(--ease);
+    position:fixed; right:28px; bottom:28px; background:var(--navy-900); z-index:90;
+  }
+  .back-top.show{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .back-top svg{width:15px; height:15px; stroke:var(--brass-300); fill:none; stroke-width:2;}
+
+  [data-lang="en"] [data-zh],
+  [data-lang="zh"] [data-en]{display:none;}
+
+  @media (max-width: 980px){
+    nav.primary-nav{display:none;}
+    .hero-inner{grid-template-columns:1fr; text-align:left;}
+    .corridor{margin:40px auto 0;}
+    .cards{grid-template-columns:1fr;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .split{flex-direction:column;}
+    .split-panel:hover{flex:1;}
+    .forum-card{grid-template-columns:1fr;}
+    .footer-top{flex-direction:column;}
+    .globe-bg{width:520px; height:520px; right:-160px;}
+    .hero-trending{position:static; margin-top:40px;}
+    .ht-chips{grid-template-columns:1fr 1fr;}
+    .brand-logo{height:36px;}
+    .footer-brand .brand-logo{height:44px;}
+  }
+  @media (max-width: 560px){
+    .ht-chips{grid-template-columns:1fr;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001s !important; transition-duration:.001s !important;}
+  }
+</style>
+</head>
+<body data-lang="zh">
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="CYS Global Remit 星威环球汇款">
+      <img src="cys-logo-white.png" alt="CYS Global Remit 星威环球汇款" class="brand-logo">
+    </a>
+    <nav class="primary-nav">
+      <a href="#about"><span data-zh>关于我们</span><span data-en>About Us</span></a>
+      <a href="#corridor"><span data-zh>中新合作走廊</span><span data-en>CN-SG Corridor</span></a>
+      <a href="#products"><span data-zh>企业合作</span><span data-en>Corporate</span></a>
+      <a href="#split"><span data-zh>个人用户</span><span data-en>Individual</span></a>
+      <a href="#forum"><span data-zh>联系我们</span><span data-en>Contact Us</span></a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle" id="langToggle">
+        <button data-set-lang="zh" class="active">中文</button>
+        <button data-set-lang="en">ENG</button>
+      </div>
+      <a href="#" class="btn-ghost"><span data-zh>注册 · 登录</span><span data-en>Register · Login</span></a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="globe-bg" id="globeBg">
+    <canvas id="globeCanvas"></canvas>
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow"><span data-zh>1981年启航于新加坡</span><span data-en>Founded in Singapore, 1981</span></div>
+      <h1>
+        <span data-zh>连接中国与东南亚的可信支付桥梁，启迪跨境商业新可能。</span>
+        <span data-en>A trusted payment bridge connecting China and Southeast Asia — inspiring new possibilities in cross-border business.</span>
+      </h1>
+      <p class="sub" data-zh>星威环球（CYS Global Remit）是新加坡金融管理局持牌大型支付机构，40余年来专注中新走廊的跨境支付与结算服务。</p>
+      <p class="sub" data-en>CYS Global Remit is a MAS-licensed Major Payment Institution, serving the China–Singapore corridor for over four decades.</p>
+      <div class="founded">
+        <span data-zh>年经手资金流动超过 22 亿美元 · 服务亚太数以千计企业与家庭</span>
+        <span data-en>USD 2.2B+ processed annually · Trusted by thousands across Asia-Pacific</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#forum" class="btn-solid">
+          <span data-zh>进入华商论坛</span><span data-en>Enter Business Forum</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#products" class="link-text"><span data-zh>了解合作方案</span><span data-en>Explore Partnership</span></a>
+      </div>
+    </div>
+
+    <div class="corridor" id="corridorMap">
+      <svg viewBox="0 0 400 400">
+        <path class="route-path-dim" d="M90 300 C 150 190, 240 150, 320 90"/>
+        <path class="route-path" d="M90 300 C 150 190, 240 150, 320 90"/>
+        <circle class="node" cx="90" cy="300" r="5"/>
+        <circle class="node-pulse" cx="90" cy="300" r="6"/>
+        <circle class="node" cx="320" cy="90" r="5"/>
+        <circle class="node-pulse delay" cx="320" cy="90" r="6"/>
+        <text class="city-label brass" x="60" y="325">SINGAPORE</text>
+        <text class="city-label" x="290" y="75">CHINA</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-trending">
+    <div class="ht-head">
+      <span class="ht-title">
+        <span class="ht-dot"></span>
+        <span data-zh>热门话题 · 实时预览</span>
+        <span data-en>TRENDING NOW · LIVE</span>
+      </span>
+      <a href="#forum" class="ht-more">
+        <span data-zh>查看全部</span>
+        <span data-en>SEE ALL</span>
+        <span>→</span>
+      </a>
+    </div>
+    <ul class="ht-chips" id="htChips"></ul>
+  </div>
+
+  <div class="globe-hint"><span data-zh>移动鼠标与地球互动</span><span data-en>MOVE CURSOR TO ROTATE THE GLOBE</span></div>
+
+  <div class="scroll-cue"><span data-zh>向下滚动</span><span data-en>SCROLL</span><div class="line"></div></div>
+</section>
+
+<div class="ticker-strip">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<section class="values reveal">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;"><span data-zh>品牌理念</span><span data-en>Our Values</span></div>
+    <div class="values-row">
+      <div class="word">包容<small data-zh>INCLUSION</small><small data-en>包容</small></div>
+      <span class="dot"></span>
+      <div class="word">创新<small data-zh>INNOVATION</small><small data-en>创新</small></div>
+      <span class="dot"></span>
+      <div class="word">启迪<small data-zh>INSPIRATION</small><small data-en>启迪</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span data-zh>产品与服务</span><span data-en>Products &amp; Services</span></div>
+      <h2><span data-zh>三项核心能力，支撑跨境商业往来</span><span data-en>Three core capabilities behind every cross-border relationship</span></h2>
+    </div>
+    <div class="cards">
+      <div class="card reveal reveal-delay-1">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 8h11a3 3 0 010 6H9a3 3 0 000 6h11M4 8l3-3M4 8l3 3"/></svg></div>
+        <h3><span data-zh>跨境支付</span><span data-en>Cross-Border Payments</span></h3>
+        <p data-zh>帮助企业和个人解决跨境支付的问题。</p>
+        <p data-en>Helping businesses and individuals navigate cross-border payments.</p>
+        <span class="more"><span data-zh>了解更多</span><span data-en>Learn more</span><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M6 21c0-4 3-6 6-6s6 2 6 6M4 8h2M18 8h2"/></svg></div>
+        <h3><span data-zh>方案咨询</span><span data-en>Solutions Consulting</span></h3>
+        <p data-zh>为企业和个人提供最合适的方案。</p>
+        <p data-en>Tailored consulting for businesses and individuals.</p>
+        <span class="more"><span data-zh>了解更多</span><span data-en>Learn more</span><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"/></svg></div>
+        <h3><span data-zh>华商论坛</span><span data-en>Business Forum</span></h3>
+        <p data-zh>搭建企业之间的桥梁，促进跨境商业发展。</p>
+        <p data-en>Building bridges between businesses to drive cross-border growth.</p>
+        <span class="more"><span data-zh>了解更多</span><span data-en>Learn more</span><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="timeline-section" id="corridor">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span data-zh>星威环球 · 中新合作走廊</span><span data-en>CYS Global Remit · CN-SG Corridor</span></div>
+      <h2><span data-zh>四十余载，一路同行</span><span data-en>Forty-plus years, moving forward together</span></h2>
+      <p data-zh>从1981年一纸新加坡支付牌照，到如今连接中新两地数以千计的企业与家庭。</p>
+      <p data-en>From a single Singapore licence in 1981 to a regional bridge trusted by thousands of businesses and families.</p>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat"><span class="num">22亿+</span><span class="label" data-zh>年交易流水（美元）</span><span class="label" data-en>USD Processed Annually</span></div>
+      <div class="stat"><span class="num">40+</span><span class="label" data-zh>年跨境支付经验</span><span class="label" data-en>Years of Experience</span></div>
+      <div class="stat"><span class="num">8+</span><span class="label" data-zh>覆盖亚太货币</span><span class="label" data-en>Currencies Supported</span></div>
+      <div class="stat"><span class="num">1000+</span><span class="label" data-zh>服务企业与家庭</span><span class="label" data-en>Businesses &amp; Families Served</span></div>
+    </div>
+
+    <div class="timeline-track" id="timelineTrack">
+      <div class="stamp"><div class="seal">1981</div><h4 data-zh>正式成为新加坡持牌金融机构</h4><h4 data-en>Officially licensed in Singapore</h4><p data-zh>踏上服务中小企业跨境汇款的征程。</p><p data-en>Begins serving SME cross-border remittances.</p></div>
+      <div class="stamp"><div class="seal">2011</div><h4 data-zh>更名为 CYS Global Remit</h4><h4 data-en>Rebrands to CYS Global Remit</h4><p data-zh>从早期兑换服务迈向国际化汇款平台。</p><p data-en>Evolves into an international remittance platform.</p></div>
+      <div class="stamp"><div class="seal">2020</div><h4 data-zh>开启无现金交易时代</h4><h4 data-en>Champions the cashless era</h4><p data-zh>助力客户安全便捷完成跨境资金往来。</p><p data-en>Enables secure, convenient cross-border transfers.</p></div>
+      <div class="stamp"><div class="seal">2025</div><h4 data-zh>迁至 GB Building 新办公室</h4><h4 data-en>Relocates to GB Building</h4><p data-zh>迈入更完善的服务与发展新阶段。</p><p data-en>Enters a new phase of growth and service.</p></div>
+      <div class="stamp"><div class="seal">2030</div><h4 data-zh>寻找更多合作机会</h4><h4 data-en>Seeking new partnerships</h4><p data-zh>携手更多伙伴，服务更广泛的中小企业。</p><p data-en>Partnering wider to serve more SMEs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="split-section" id="split">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow"><span data-zh>为您服务</span><span data-en>Who We Serve</span></div>
+      <h2><span data-zh>无论企业还是个人，都能找到对应的入口</span><span data-en>Whether corporate or individual, there's a path built for you</span></h2>
+    </div>
+    <div class="split reveal">
+      <div class="split-panel corp">
+        <div class="tag" data-zh>企业与机构</div>
+        <div class="tag" data-en>Corporate &amp; Institutional</div>
+        <h3><span data-zh>企业合作方案</span><span data-en>Corporate Partnership</span></h3>
+        <ul>
+          <li data-zh>跨境收付款与结算通道对接</li>
+          <li data-zh>面向金融机构、支付服务商的合作洽谈</li>
+          <li data-zh>行业协会与商会资源对接</li>
+          <li data-en>Cross-border collection &amp; settlement access</li>
+          <li data-en>Partnerships with licensed institutions &amp; PSPs</li>
+          <li data-en>Trade association &amp; chamber connections</li>
+        </ul>
+        <a href="#" class="go"><span data-zh>查看企业合作方案</span><span data-en>View Corporate Solutions</span> →</a>
+      </div>
+      <div class="split-panel indiv">
+        <div class="tag" data-zh>个人与家庭</div>
+        <div class="tag" data-en>Individual &amp; Family</div>
+        <h3><span data-zh>个人汇款服务</span><span data-en>Individual Remittance</span></h3>
+        <ul>
+          <li data-zh>留学学费与生活费汇款</li>
+          <li data-zh>家庭跨境汇款与货币兑换</li>
+          <li data-zh>一对一专业咨询规划</li>
+          <li data-en>Tuition &amp; living-expense transfers</li>
+          <li data-en>Family remittances &amp; currency exchange</li>
+          <li data-en>One-on-one consultation</li>
+        </ul>
+        <a href="#" class="go"><span data-zh>个人汇款咨询</span><span data-en>Individual Consultation</span> →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="forum-section" id="forum">
+  <div class="wrap">
+    <div class="forum-card reveal">
+      <div class="forum-left">
+        <div class="eyebrow"><span data-zh>领导层重点板块</span><span data-en>Flagship Community</span></div>
+        <h3><span data-zh>华商论坛</span><span data-en>Business Forum</span></h3>
+        <p data-zh>搭建企业之间的桥梁，促进跨境商业发展 —— 一个双向的商业对接社区，而非单纯的资讯站。</p>
+        <p data-en>A two-way business-matching community — not just another news feed.</p>
+        <a href="#" class="btn-solid"><span data-zh>进入论坛</span><span data-en>Enter Forum</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="forum-right">
+        <div class="forum-topics">
+          <div class="forum-topics-head">
+            <span data-zh>热门话题</span><span data-en>TRENDING</span>
+            <span class="live" data-zh>实时更新</span><span class="live" data-en>LIVE</span>
+          </div>
+          <ul class="topic-list" id="topicList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band reveal">
+  <div class="wrap">
+    <h3><span data-zh>与我们聊聊您的跨境需求</span><span data-en>Let's talk about your cross-border needs</span></h3>
+    <p data-zh>无论是企业结算、机构合作，还是个人汇款，我们都乐于为您提供1对1咨询。</p>
+    <p data-en>Corporate settlement, institutional partnership, or personal remittance — we're happy to talk it through.</p>
+    <a href="#" class="btn-solid"><span data-zh>联系我们</span><span data-en>Contact Us</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <a class="brand footer-brand" href="#" aria-label="CYS Global Remit 星威环球汇款">
+        <img src="cys-logo-white.png" alt="CYS Global Remit 星威环球汇款" class="brand-logo">
+      </a>
+      <nav class="footer-nav">
+        <a href="#about"><span data-zh>关于我们</span><span data-en>About Us</span></a>
+        <a href="#corridor"><span data-zh>中新合作走廊</span><span data-en>CN-SG Corridor</span></a>
+        <a href="#products"><span data-zh>企业合作</span><span data-en>Corporate</span></a>
+        <a href="#split"><span data-zh>个人用户</span><span data-en>Individual</span></a>
+        <a href="#forum"><span data-zh>华商论坛</span><span data-en>Business Forum</span></a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p data-zh>CYS Global Remit 为新加坡金融管理局（MAS）持牌大型支付机构（Major Payment Institution）。本页面为设计Mock-up，内容与数据仅供演示参考。</p>
+      <p data-en>CYS Global Remit is a MAS-licensed Major Payment Institution. This page is a design mock-up; content and figures are for demonstration only.</p>
+      <p data-zh>© 2026 CYS Global Remit. 保留所有权利。</p>
+      <p data-en>© 2026 CYS Global Remit. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  // ---- language toggle ----
+  var body = document.body;
+  var langButtons = document.querySelectorAll('[data-set-lang]');
+  langButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var lang = btn.getAttribute('data-set-lang');
+      body.setAttribute('data-lang', lang);
+      langButtons.forEach(function(b){ b.classList.toggle('active', b === btn); });
+    });
+  });
+
+  // ---- sticky header ----
+  var header = document.getElementById('siteHeader');
+  var backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    header.classList.toggle('scrolled', y > 40);
+    backTop.classList.toggle('show', y > 700);
+  }, { passive: true });
+  backTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ---- scroll reveal ----
+  var revealEls = document.querySelectorAll('.reveal, .stamp');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  // ---- currency ticker ----
+  var currencies = [
+    ["SGD","1.00"], ["CNY/CNH","5.36"], ["USD","0.74"], ["HKD","5.78"],
+    ["AUD","1.12"], ["MYR","3.28"], ["IDR","11,650"], ["THB","26.40"]
+  ];
+  var track = document.getElementById('tickerTrack');
+  var html = '';
+  for (var r = 0; r < 2; r++) {
+    currencies.forEach(function(c){
+      html += '<div class="ticker-item"><span class="code">' + c[0] + '</span><span>' + c[1] + '</span></div>';
+    });
+  }
+  track.innerHTML = html;
+
+  // ---- forum topics cycle ----
+  var topics = [
+    { cat: "对接", zh: "谁在做印尼榴莲跨境结算？", en: "Looking for durian export settlement partners" },
+    { cat: "交流", zh: "新兴市场收款方案交流", en: "Payment collection in emerging markets" },
+    { cat: "招募", zh: "东南亚仓储物流合作对接", en: "Warehousing partners across Southeast Asia" },
+    { cat: "咨询", zh: "人民币跨境结算最新政策解读", en: "Latest RMB cross-border settlement policy" },
+    { cat: "对接", zh: "越南制造业供应链融资需求", en: "Supply chain financing in Vietnam manufacturing" }
+  ];
+  var topicList = document.getElementById('topicList');
+  var lang = 'zh';
+  document.getElementById('langToggle').addEventListener('click', function(e){
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { lang = b.getAttribute('data-set-lang'); renderTopics(); if (typeof renderHeroTopics === 'function') renderHeroTopics(); }
+  });
+
+  function renderTopics(){
+    var visible = topics.slice(0, 4);
+    topicList.innerHTML = visible.map(function(t){
+      return '<li><span>' + (lang === 'zh' ? t.zh : t.en) + '</span><span class="cat">' + t.cat + '</span></li>';
+    }).join('');
+    Array.prototype.forEach.call(topicList.children, function(li, i){
+      setTimeout(function(){ li.classList.add('show'); }, i * 90);
+    });
+  }
+  renderTopics();
+  setInterval(function(){
+    topics.push(topics.shift());
+    renderTopics();
+  }, 4200);
+
+  // ---- 3D Globe (Three.js) ----
+  var heroEl = document.querySelector('.hero');
+  var corridorMap = document.getElementById('corridorMap');
+  (function initGlobe(){
+    var canvas = document.getElementById('globeCanvas');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    var container = canvas.parentElement;
+    var W = container.offsetWidth || 900;
+    var H = container.offsetHeight || 900;
+
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(W, H);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
+    camera.position.z = 5;
+
+    var globe = new THREE.Group();
+    scene.add(globe);
+    globe.rotation.x = 0.25;
+    globe.rotation.y = -1.2;
+
+    var R = 1.6;
+
+    // -- helper: lat/lon → 3D vector --
+    function latLonToVec3(lat, lon, radius) {
+      var phi = (90 - lat) * Math.PI / 180;
+      var theta = (lon + 180) * Math.PI / 180;
+      return new THREE.Vector3(
+        -radius * Math.sin(phi) * Math.cos(theta),
+         radius * Math.cos(phi),
+         radius * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    // -- sphere body (very subtle fill) --
+    var sphereGeo = new THREE.SphereGeometry(R, 64, 48);
+    var sphereMat = new THREE.MeshBasicMaterial({
+      color: 0x1a3358, transparent: true, opacity: 0.12
+    });
+    globe.add(new THREE.Mesh(sphereGeo, sphereMat));
+
+    // -- outer ring --
+    var ringGeo = new THREE.SphereGeometry(R * 1.001, 64, 48);
+    var ringMat = new THREE.MeshBasicMaterial({
+      color: 0xd9b877, wireframe: true, transparent: true, opacity: 0.08
+    });
+    globe.add(new THREE.Mesh(ringGeo, ringMat));
+
+    // -- latitude lines --
+    var latMat = new THREE.LineBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.14 });
+    var latMatEq = new THREE.LineBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.3 });
+    for (var lat = -75; lat <= 75; lat += 15) {
+      var pts = [];
+      var phi = (90 - lat) * Math.PI / 180;
+      for (var j = 0; j <= 96; j++) {
+        var th = (j / 96) * Math.PI * 2;
+        pts.push(new THREE.Vector3(
+          -R * Math.sin(phi) * Math.cos(th),
+           R * Math.cos(phi),
+           R * Math.sin(phi) * Math.sin(th)
+        ));
+      }
+      var g = new THREE.BufferGeometry().setFromPoints(pts);
+      globe.add(new THREE.Line(g, lat === 0 ? latMatEq : latMat));
+    }
+
+    // -- longitude lines --
+    var lonMat = new THREE.LineBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.14 });
+    var lonMat0 = new THREE.LineBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.3 });
+    for (var lon = 0; lon < 360; lon += 15) {
+      var pts2 = [];
+      var th2 = lon * Math.PI / 180;
+      for (var k = 0; k <= 96; k++) {
+        var ph2 = (k / 96) * Math.PI;
+        pts2.push(new THREE.Vector3(
+          -R * Math.sin(ph2) * Math.cos(th2),
+           R * Math.cos(ph2),
+           R * Math.sin(ph2) * Math.sin(th2)
+        ));
+      }
+      var g2 = new THREE.BufferGeometry().setFromPoints(pts2);
+      globe.add(new THREE.Line(g2, (lon === 0 || lon === 180) ? lonMat0 : lonMat));
+    }
+
+    // -- continent dots --
+    var continents = [
+      { lat: 35,  lon: 105, range: 22 },  // East Asia
+      { lat: 5,   lon: 115, range: 16 },  // SE Asia
+      { lat: 22,  lon: 80,  range: 16 },  // India
+      { lat: 50,  lon: 15,  range: 18 },  // Europe
+      { lat: 5,   lon: 22,  range: 28 },  // Africa
+      { lat: -25, lon: 135, range: 14 },  // Australia
+      { lat: 45,  lon: -100,range: 26 },  // North America
+      { lat: -15, lon: -60, range: 18 },  // South America
+    ];
+    var dotPositions = [];
+    continents.forEach(function(c) {
+      for (var d = 0; d < 40; d++) {
+        var la = c.lat + (Math.random() - 0.5) * c.range;
+        var lo = c.lon + (Math.random() - 0.5) * c.range * 1.4;
+        var v = latLonToVec3(la, lo, R * 1.005);
+        dotPositions.push(v.x, v.y, v.z);
+      }
+    });
+    var dotGeo = new THREE.BufferGeometry();
+    dotGeo.setAttribute('position', new THREE.Float32BufferAttribute(dotPositions, 3));
+    var dotMat = new THREE.PointsMaterial({
+      color: 0xd9b877, size: 0.028, transparent: true, opacity: 0.65, sizeAttenuation: true
+    });
+    globe.add(new THREE.Points(dotGeo, dotMat));
+
+    // -- city nodes --
+    var cities = [
+      { name: 'SINGAPORE',  lat: 1.3,  lon: 103.8, major: true },
+      { name: 'SHANGHAI',   lat: 31.2, lon: 121.5, major: true },
+      { name: 'HONG KONG',  lat: 22.3, lon: 114.2, major: true },
+      { name: 'TOKYO',      lat: 35.7, lon: 139.7 },
+      { name: 'SYDNEY',     lat: -33.9,lon: 151.2 },
+      { name: 'LONDON',     lat: 51.5, lon: -0.1 },
+    ];
+    cities.forEach(function(city) {
+      var pos = latLonToVec3(city.lat, city.lon, R * 1.01);
+      var nGeo = new THREE.SphereGeometry(city.major ? 0.035 : 0.022, 12, 12);
+      var nMat = new THREE.MeshBasicMaterial({ color: 0xd9b877 });
+      var node = new THREE.Mesh(nGeo, nMat);
+      node.position.copy(pos);
+      globe.add(node);
+
+      // glow halo
+      var haloGeo = new THREE.SphereGeometry(city.major ? 0.07 : 0.045, 12, 12);
+      var haloMat = new THREE.MeshBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.18 });
+      var halo = new THREE.Mesh(haloGeo, haloMat);
+      halo.position.copy(pos);
+      globe.add(halo);
+    });
+
+    // -- arcs from Singapore to other cities --
+    var sgPos = latLonToVec3(1.3, 103.8, R);
+    cities.slice(1).forEach(function(city) {
+      var endPos = latLonToVec3(city.lat, city.lon, R);
+      var mid = sgPos.clone().lerp(endPos, 0.5).normalize().multiplyScalar(R * 1.35);
+      var curve = new THREE.QuadraticBezierCurve3(sgPos, mid, endPos);
+      var pts = curve.getPoints(64);
+      var g = new THREE.BufferGeometry().setFromPoints(pts);
+      var m = new THREE.LineBasicMaterial({ color: 0xd9b877, transparent: true, opacity: 0.28 });
+      globe.add(new THREE.Line(g, m));
+    });
+
+    // -- ambient light (not strictly needed for BasicMaterial but helps depth) --
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+
+    // -- mouse interaction --
+    var target = { x: 0.25, y: -1.2 };
+    var current = { x: 0.25, y: -1.2 };
+    var isInteracting = false;
+    var autoRotateSpeed = 0.0015;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (window.matchMedia('(hover: hover)').matches && !reduceMotion) {
+      heroEl.addEventListener('mousemove', function(e) {
+        var rect = heroEl.getBoundingClientRect();
+        var mx = (e.clientX - rect.left) / rect.width - 0.5;
+        var my = (e.clientY - rect.top) / rect.height - 0.5;
+        // large rotation range: up to ~130° yaw, ~70° pitch
+        target.y = -1.2 + mx * 2.3;
+        target.x = 0.25 + my * 1.2;
+        isInteracting = true;
+        // also nudge corridor map
+        if (corridorMap) {
+          corridorMap.style.transform = 'translate(' + (mx * 10) + 'px,' + (my * 10) + 'px)';
+        }
+      });
+      heroEl.addEventListener('mouseleave', function() {
+        isInteracting = false;
+      });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!reduceMotion && !isInteracting) {
+        target.y += autoRotateSpeed;
+      }
+      current.x += (target.x - current.x) * 0.06;
+      current.y += (target.y - current.y) * 0.06;
+      globe.rotation.x = current.x;
+      globe.rotation.y = current.y;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // -- resize --
+    window.addEventListener('resize', function() {
+      var w = container.offsetWidth || 900;
+      var h = container.offsetHeight || 900;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    });
+  })();
+
+  // ---- hero trending topics ----
+  var heroTopics = [
+    { cat: "对接", zh: "谁在做印尼榴莲跨境结算？", en: "Durian export settlement partners" },
+    { cat: "交流", zh: "新兴市场收款方案交流", en: "Payment collection in emerging markets" },
+    { cat: "招募", zh: "东南亚仓储物流合作对接", en: "Warehousing partners across SEA" },
+    { cat: "咨询", zh: "人民币跨境结算最新政策", en: "Latest RMB cross-border policy" }
+  ];
+  var htChips = document.getElementById('htChips');
+  if (htChips) {
+    function renderHeroTopics(){
+      htChips.innerHTML = heroTopics.slice(0, 4).map(function(t){
+        return '<li><span class="cat">' + t.cat + '</span><span class="text">' + (lang === 'zh' ? t.zh : t.en) + '</span><span class="arrow">→</span></li>';
+      }).join('');
+      Array.prototype.forEach.call(htChips.children, function(li, i){
+        setTimeout(function(){ li.classList.add('show'); }, i * 90);
+      });
+    }
+    renderHeroTopics();
+    setInterval(function(){
+      heroTopics.push(heroTopics.shift());
+      renderHeroTopics();
+    }, 5000);
+  }
+})();
+</script>
+</body>
+</html>

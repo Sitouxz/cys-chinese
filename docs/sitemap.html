@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese Website — Sitemap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..500&family=Archivo:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --navy:#16305C; --azure:#2E6FB7;
+  --cream:#F5F1E8; --paper:#FFFFFF; --sand:#E3DCCB;
+  --jade:#6DA544; --slate:#5A6B85; --mist:#98A6BC; --rust:#A8574A;
+  --display:'Newsreader','Noto Serif SC',serif;
+  --body:'Archivo','Noto Sans SC',sans-serif;
+  --cn:'Noto Serif SC',serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1280px;height:720px;overflow:hidden;background:var(--ink);
+  font-family:var(--body);-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;width:1280px;height:720px;opacity:0;
+  background:var(--cream);color:var(--ink);overflow:hidden}
+.slide.active{opacity:1}
+.pad{padding:52px 64px}
+.pad-t{padding:44px 64px}
+.eyebrow{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:600;color:var(--azure);margin-bottom:12px}
+.eyebrow.on-dark{color:var(--jade)}
+h1{font-family:var(--display);font-weight:400;font-size:60px;line-height:1.08;letter-spacing:-.015em}
+h2{font-family:var(--display);font-weight:400;font-size:34px;line-height:1.15;letter-spacing:-.01em}
+h2 .cn{font-family:var(--cn);font-weight:600;font-size:28px;letter-spacing:.04em}
+.sub{font-size:12.5px;line-height:1.55;color:var(--slate);max-width:760px;margin-top:7px}
+.rule{height:1px;background:var(--sand);margin:18px 0}
+.rule.on-dark{background:rgba(255,255,255,.14)}
+.pgnum{position:absolute;bottom:28px;right:64px;font-family:var(--mono);
+  font-size:10px;color:var(--mist);letter-spacing:.1em}
+.tag{position:absolute;top:30px;right:64px;font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mist);font-weight:600}
+.dark{background:var(--ink);color:var(--cream)}
+.dark h2{color:#fff} .dark .sub{color:rgba(245,241,232,.7)}
+.navy{background:var(--navy);color:#fff} .navy h2{color:#fff}
+.navy .sub{color:rgba(255,255,255,.72)}
+
+/* ============ COVER ============ */
+.cover{background:
+  radial-gradient(880px 500px at 74% 28%, rgba(46,111,183,.40) 0%, rgba(10,22,40,0) 62%),
+  linear-gradient(155deg,#0A1628 0%,#0d1f38 46%,#122b4e 100%)}
+.cover .inner{position:absolute;left:64px;bottom:76px;right:64px}
+.cover h1{font-size:64px;color:#fff}
+.cover .cnbig{font-family:var(--cn);font-weight:600;font-size:40px;color:#fff;
+  letter-spacing:.06em;margin-bottom:12px}
+.cover .meta{display:flex;gap:44px;margin-top:32px;padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.18)}
+.cover .meta div{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);font-weight:600}
+.cover .meta div b{display:block;margin-top:6px;font-size:12.5px;letter-spacing:.02em;
+  text-transform:none;color:#fff;font-weight:500}
+.brandline{position:absolute;top:52px;left:64px;display:flex;align-items:center;gap:12px}
+.brandline span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);font-weight:600}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--jade)}
+
+/* ============ TREE ============ */
+.tree{display:flex;flex-direction:column;align-items:center;margin-top:4px}
+.node{background:var(--paper);border:1px solid var(--sand);border-radius:2px;
+  padding:7px 11px;text-align:left;position:relative;z-index:2;width:210px}
+.node .cn{font-family:var(--cn);font-weight:600;font-size:12.5px;letter-spacing:.03em;
+  color:var(--ink);display:block;line-height:1.25}
+.node .en{display:block;font-size:10px;color:var(--slate);line-height:1.25;margin-top:1px}
+.node .rt{display:block;font-family:var(--mono);font-size:8.5px;color:var(--azure);
+  margin-top:3px;letter-spacing:0}
+.node.root{background:var(--ink);border-color:var(--ink);padding:10px 22px;
+  text-align:center;width:auto}
+.node.root .cn{color:#fff;font-size:15px}
+.node.root .en{color:rgba(255,255,255,.6);font-size:11px}
+.node.root .rt{color:var(--jade);font-size:9.5px}
+.node.l1{background:var(--navy);border-color:var(--navy)}
+.node.l1 .cn{color:#fff;font-size:13px}
+.node.l1 .en{color:rgba(255,255,255,.66)}
+.node.l1 .rt{color:#8FC0F0}
+.node.util{width:auto;min-width:126px;padding:6px 12px;text-align:center}
+.node.util .cn{font-size:11.5px}
+.node.util .rt{font-size:8px}
+.node.p2{background:rgba(109,165,68,.11);border-color:rgba(109,165,68,.45)}
+.node.p2 .rt{color:#4A7A2E}
+.node.auth{border-style:dashed;border-color:var(--mist)}
+.node .badge{position:absolute;top:-7px;right:-7px;background:var(--jade);color:#fff;
+  font-family:var(--mono);font-size:7.5px;font-weight:600;padding:2px 5px;border-radius:2px;
+  letter-spacing:.05em}
+.node .badge.lock{background:var(--slate)}
+
+.stem{width:1px;background:var(--sand);flex:none}
+.bus{height:1px;background:var(--sand);position:relative}
+.branches{display:flex;justify-content:center;gap:22px;align-items:flex-start}
+.branch{display:flex;flex-direction:column;align-items:center;position:relative}
+.branch::before{content:'';width:1px;height:16px;background:var(--sand);flex:none}
+.kids{display:flex;flex-direction:column;gap:7px;margin-top:14px;position:relative}
+.kids::before{content:'';position:absolute;top:-14px;left:50%;width:1px;height:14px;
+  background:var(--sand)}
+.legend{display:flex;gap:22px;justify-content:center;margin-top:18px;
+  padding-top:14px;border-top:1px solid var(--sand)}
+.legend div{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--slate)}
+.legend i{width:14px;height:14px;border-radius:2px;border:1px solid var(--sand);flex:none}
+
+/* ============ TABLE ============ */
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mist);font-weight:700;padding:0 10px 8px 0;border-bottom:1px solid var(--sand)}
+td{padding:7px 10px 7px 0;border-bottom:1px solid rgba(227,220,203,.55);
+  color:var(--slate);line-height:1.35;vertical-align:top}
+td b{color:var(--ink);font-weight:600}
+td .cn{font-family:var(--cn);font-weight:600;color:var(--ink)}
+td .rt{font-family:var(--mono);font-size:9.5px;color:var(--azure)}
+.dark th{color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.16)}
+.dark td{color:rgba(245,241,232,.68);border-color:rgba(255,255,255,.08)}
+.dark td b{color:#fff} .dark td .cn{color:#fff} .dark td .rt{color:#8FC0F0}
+.pill{display:inline-block;font-family:var(--mono);font-size:8.5px;font-weight:600;
+  padding:2px 6px;border-radius:2px;letter-spacing:.04em;white-space:nowrap}
+.p-1{background:rgba(46,111,183,.13);color:#1E5490}
+.p-2{background:rgba(109,165,68,.16);color:#4A7A2E}
+.p-cms{background:rgba(168,87,74,.12);color:var(--rust)}
+.p-db{background:rgba(90,107,133,.15);color:var(--slate)}
+.p-code{background:rgba(10,22,40,.08);color:var(--ink)}
+
+/* ============ CARDS / MISC ============ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--paper);border:1px solid var(--sand);padding:18px 20px}
+.card.on-dark{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13)}
+.card h3{font-family:var(--display);font-size:18px;font-weight:500;margin-bottom:7px;line-height:1.2}
+.card h3 .cn{font-family:var(--cn);font-weight:600;font-size:14px;display:block;
+  color:var(--azure);margin-bottom:3px;letter-spacing:.05em}
+.card.on-dark h3{color:#fff} .card.on-dark h3 .cn{color:var(--jade)}
+.card p{font-size:11.5px;line-height:1.55;color:var(--slate)}
+.card.on-dark p{color:rgba(245,241,232,.7)}
+.num{font-family:var(--mono);font-size:9.5px;color:var(--jade);font-weight:600;
+  margin-bottom:9px;letter-spacing:.07em}
+
+/* module stack */
+.stack{display:flex;flex-direction:column;gap:5px}
+.mod{display:grid;grid-template-columns:34px 1fr 250px 128px;gap:14px;align-items:center;
+  background:var(--paper);border:1px solid var(--sand);padding:8px 14px}
+.mod.hl{background:rgba(109,165,68,.09);border-color:rgba(109,165,68,.42)}
+.mod .n{font-family:var(--mono);font-size:11px;color:var(--mist);font-weight:600}
+.mod .t{font-size:12px;font-weight:600;color:var(--ink)}
+.mod .t .cn{font-family:var(--cn);color:var(--azure);margin-left:6px;font-weight:600;font-size:11px}
+.mod .d{font-size:10.5px;color:var(--slate);line-height:1.35}
+.mod .s{font-size:9.5px;text-align:right}
+
+.flag{display:inline-block;background:rgba(168,87,74,.12);color:var(--rust);
+  font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 9px;margin-bottom:12px}
+.flag.ok{background:rgba(109,165,68,.14);color:#4A7A2E}
+ul.clean{list-style:none}
+ul.clean li{font-size:11.5px;line-height:1.5;color:var(--slate);padding-left:16px;
+  position:relative;margin-bottom:8px}
+ul.clean li::before{content:'';position:absolute;left:0;top:6px;width:5px;height:5px;
+  border-radius:50%;background:var(--jade)}
+ul.clean li b{color:var(--ink);font-weight:600}
+.dark ul.clean li{color:rgba(245,241,232,.7)}
+.dark ul.clean li b{color:#fff}
+code{font-family:var(--mono);font-size:10.5px;background:rgba(10,22,40,.06);
+  padding:1px 5px;border-radius:2px;color:var(--ink)}
+.dark code{background:rgba(255,255,255,.09);color:#CFE3F7}
+</style>
+</head>
+<body>
+
+<!-- 01 COVER -->
+<section class="slide active cover">
+  <div class="brandline"><i class="dot"></i><span>Neu Entity &nbsp;·&nbsp; CYS Global Remit</span></div>
+  <div class="inner">
+    <div class="cnbig">星威环球 · 中文网站</div>
+    <h1>Sitemap</h1>
+    <div class="meta">
+      <div>Deliverable<b>Sitemap — subtask 86eyf6grv</b></div>
+      <div>Scope<b>28 routes × 2 locales</b></div>
+      <div>Date<b>2 August 2026</b></div>
+      <div>Status<b>For sign-off</b></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.4)">01</div>
+</section>
+
+<!-- 02 SITE TREE -->
+<section class="slide">
+  <div class="pad-t">
+    <div class="tag">Structure</div>
+    <div class="eyebrow">01 — Full site tree</div>
+    <h2>Five branches, <span class="cn">两种语言</span></h2>
+    <div class="tree">
+      <div class="node root">
+        <span class="cn">首页 Home</span>
+        <span class="rt">cn.cys.com.sg/[zh|en]</span>
+      </div>
+      <div class="stem" style="height:14px"></div>
+      <div class="bus" style="width:1130px"></div>
+      <div class="branches" style="width:1130px;gap:20px">
+
+        <div class="branch">
+          <div class="node l1"><span class="cn">关于我们</span><span class="en">About us</span><span class="rt">/about</span></div>
+          <div class="kids">
+            <div class="node l2"><span class="cn">公司简介</span><span class="en">Introduction</span><span class="rt">/about/intro</span></div>
+            <div class="node l2"><span class="cn">企业发展历史</span><span class="en">Milestones</span><span class="rt">/about/history</span></div>
+            <div class="node l2"><span class="cn">企业文化</span><span class="en">Culture</span><span class="rt">/about/culture</span></div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="node l1"><span class="cn">中新合作走廊</span><span class="en">CN–SG Corridor</span><span class="rt">/corridor</span></div>
+          <div class="kids">
+            <div class="node l2"><span class="cn">中新合作伙伴</span><span class="en">Partners</span><span class="rt">/corridor/partners</span></div>
+            <div class="node l2"><span class="cn">伙伴故事</span><span class="en">Partner stories</span><span class="rt">/corridor/stories</span></div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="node l1"><span class="cn">企业合作</span><span class="en">Business users</span><span class="rt">/business</span></div>
+          <div class="kids">
+            <div class="node l2"><span class="cn">金融机构</span><span class="en">Financial institutions</span><span class="rt">/business/institutions</span></div>
+            <div class="node l2"><span class="cn">跨境企业</span><span class="en">Cross-border corporates</span><span class="rt">/business/cross-border</span></div>
+            <div class="node l2 p2"><span class="badge">P2</span><span class="cn">华商论坛</span><span class="en">Business forum</span><span class="rt">/forum →</span></div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="node l1"><span class="cn">个人用户</span><span class="en">Individual user</span><span class="rt">/individual</span></div>
+          <div class="kids">
+            <div class="node l2" style="border-style:dotted;background:transparent">
+              <span class="en" style="color:var(--mist);font-weight:600;margin-bottom:4px">No child routes — one page,<br>three use-case blocks:</span>
+              <span class="cn" style="font-size:11px;font-weight:400;line-height:1.5;color:var(--slate)">给海外家人汇学费生活费<br>兑换外币购物<br>境外投资</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="node l1"><span class="cn">联系我们</span><span class="en">Contact us</span><span class="rt">/contact</span></div>
+          <div class="kids">
+            <div class="node l2"><span class="cn">联系方式</span><span class="en">Details</span><span class="rt">/contact</span></div>
+            <div class="node l2"><span class="cn">用户信息填写</span><span class="en">Enquiry form</span><span class="rt">/contact/enquiry</span></div>
+            <div class="node l2"><span class="cn">用户反馈</span><span class="en">Feedback</span><span class="rt">/contact/feedback</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="width:1130px;margin-top:20px;padding-top:16px;border-top:1px dashed var(--sand);
+                  display:flex;align-items:center;gap:16px">
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+                    text-transform:uppercase;color:var(--mist);font-weight:600;
+                    width:96px;line-height:1.4;flex:none">Off-tree<br>routes</div>
+        <div style="display:flex;gap:9px;flex:1">
+          <div class="node util"><span class="cn">常见问题</span><span class="en">FAQ</span><span class="rt">/faq</span></div>
+          <div class="node util"><span class="cn">条款和条件</span><span class="en">Terms</span><span class="rt">/terms</span></div>
+          <div class="node util"><span class="cn">隐私声明</span><span class="en">Privacy</span><span class="rt">/privacy</span></div>
+          <div class="node util auth"><span class="badge lock">AUTH</span><span class="cn">注册</span><span class="en">Register</span><span class="rt">/register</span></div>
+          <div class="node util auth"><span class="badge lock">AUTH</span><span class="cn">登录</span><span class="en">Log in</span><span class="rt">/login</span></div>
+          <div class="node util auth p2"><span class="badge">P2</span><span class="cn">我的帖子</span><span class="en">My posts</span><span class="rt">/account/*</span></div>
+          <div class="node util p2" style="border-color:rgba(168,87,74,.45);background:rgba(168,87,74,.08)"><span class="badge" style="background:var(--rust)">P2</span><span class="cn">审核队列</span><span class="en">Moderation</span><span class="rt" style="color:var(--rust)">/admin/*</span></div>
+        </div>
+      </div>
+
+      <div class="legend" style="width:1130px">
+        <div><i style="background:var(--ink);border-color:var(--ink)"></i>Root / home</div>
+        <div><i style="background:var(--navy);border-color:var(--navy)"></i>Nav level 1</div>
+        <div><i style="background:var(--paper)"></i>Nav level 2</div>
+        <div><i style="background:rgba(109,165,68,.11);border-color:rgba(109,165,68,.45)"></i>Phase 2 — forum</div>
+        <div><i style="border-style:dashed;border-color:var(--mist)"></i>Auth required</div>
+        <div><i style="background:rgba(168,87,74,.08);border-color:rgba(168,87,74,.45)"></i>Moderator only</div>
+      </div>
+    </div>
+  </div>
+  <div class="pgnum">02</div>
+</section>
+
+<!-- 03 UTILITY + AUTH -->
+<section class="slide navy">
+  <div class="pad">
+    <div class="tag" style="color:rgba(255,255,255,.5)">Structure</div>
+    <div class="eyebrow" style="color:var(--jade)">02 — Off-tree routes</div>
+    <h2>Utility, legal and auth</h2>
+    <p class="sub">These sit outside the five nav branches. Legal and FAQ are footer-only; auth is header-only. All exist in Phase 1 even though only the forum consumes them.</p>
+    <div class="rule" style="background:rgba(255,255,255,.18)"></div>
+    <div class="g3" style="gap:18px;margin-bottom:18px">
+      <div class="card on-dark"><div class="num">FOOTER ONLY</div><h3><span class="cn">常见问题</span>FAQ</h3><p><code>/faq</code><br><br>Listed as a standalone footer item, outside all four columns. Content outstanding.</p></div>
+      <div class="card on-dark"><div class="num">FOOTER ONLY</div><h3><span class="cn">条款和条件</span>Terms &amp; Conditions</h3><p><code>/terms</code><br><br>Content outstanding.</p></div>
+      <div class="card on-dark"><div class="num">FOOTER ONLY</div><h3><span class="cn">隐私声明</span>Privacy Statement</h3><p><code>/privacy</code><br><br>Needs real drafting — the forum collects user-generated content and account data.</p></div>
+    </div>
+    <div class="g3" style="gap:18px">
+      <div class="card on-dark"><div class="num">HEADER — RIGHT</div><h3><span class="cn">注册</span>Register</h3><p><code>/register</code><br><br>Built in Phase 1 so the header link isn't dead. Gated features arrive in Phase 2.</p></div>
+      <div class="card on-dark"><div class="num">HEADER — RIGHT</div><h3><span class="cn">登录</span>Log in</h3><p><code>/login</code><br><br>Email + password, server-side session. Also <code>/logout</code>, <code>/verify</code>, <code>/reset</code>.</p></div>
+      <div class="card on-dark" style="border-color:rgba(168,87,74,.5);background:rgba(168,87,74,.10)">
+        <div class="num" style="color:#E09080">UNRESOLVED</div><h3><span class="cn" style="color:#E09080">华商社群</span>Chinese community</h3><p>Appears as a <b style="color:#fff">footer column heading</b> in the deck but no screen was ever designed for it. Landing page, or just a grouping label?</p></div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.4)">03</div>
+</section>
+
+<!-- 04 FORUM ARCHITECTURE -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Structure</div>
+    <div class="eyebrow">03 — Forum sub-architecture · Phase 2</div>
+    <h2><span class="cn">星威华商论坛</span> — nine routes</h2>
+    <div class="rule"></div>
+    <table>
+      <tr><th style="width:196px">Route</th><th style="width:172px">Screen</th><th>Contains</th><th style="width:112px">Access</th></tr>
+      <tr><td><span class="rt">/forum</span></td><td><b><span class="cn">论坛首页</span></b> List</td><td>Approved posts, newest first. Filter by intent · industry · market. Search bar.</td><td><span class="pill p-code">Public read</span></td></tr>
+      <tr><td><span class="rt">/forum/[slug]</span></td><td><b><span class="cn">帖子详情</span></b> Post detail</td><td>Full post, author profile card, structured metadata, comment thread.</td><td><span class="pill p-code">Public read</span></td></tr>
+      <tr><td><span class="rt">/forum/new</span></td><td><b><span class="cn">创建帖子</span></b> Composer</td><td>Title, body, intent, industry, product category, markets. Submits as <code>pending</code>.</td><td><span class="pill p-db">Auth</span></td></tr>
+      <tr><td><span class="rt">/forum/[slug]/edit</span></td><td><b>Edit post</b></td><td>Author-only. Editing an approved post returns it to <code>pending</code>.</td><td><span class="pill p-db">Author</span></td></tr>
+      <tr><td><span class="rt">/forum/search</span></td><td><b><span class="cn">检索</span></b> Search results</td><td>PGroonga full-text across CN and EN, plus structured filters.</td><td><span class="pill p-code">Public read</span></td></tr>
+      <tr><td><span class="rt">/forum/u/[handle]</span></td><td><b><span class="cn">用户主页</span></b> Public profile</td><td>Company, industry, markets, approved posts.</td><td><span class="pill p-code">Public read</span></td></tr>
+      <tr><td><span class="rt">/account/posts</span></td><td><b><span class="cn">我的帖子</span></b> My posts</td><td>Author's own posts at every status — pending, approved, rejected with reason.</td><td><span class="pill p-db">Auth</span></td></tr>
+      <tr><td><span class="rt">/account/profile</span></td><td><b><span class="cn">我的资料</span></b> Profile settings</td><td>Display name, company, industry, markets, locale preference.</td><td><span class="pill p-db">Auth</span></td></tr>
+      <tr style="background:rgba(168,87,74,.06)"><td><span class="rt">/admin/moderation</span></td><td><b>Moderation queue</b></td><td>Pending posts with classifier verdict, approve / reject with reason, audit log.</td><td><span class="pill p-cms">Moderator</span></td></tr>
+    </table>
+    <p class="sub" style="margin-top:14px">The composer's structured fields are what make <span class="cn">检索用户/产品/服务</span> work — the deck's four sample posts are all <i>"I am X, I want to meet Y"</i>, so intent and market are data, not prose.</p>
+  </div>
+  <div class="pgnum">04</div>
+</section>
+
+<!-- 05 NAV MAP -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Navigation</div>
+    <span class="flag">Conflict to resolve before Lofi</span>
+    <div class="eyebrow">04 — Where each page appears</div>
+    <h2>Header and footer disagree</h2>
+    <div class="g2" style="gap:34px;margin-top:14px">
+      <div>
+        <div class="num" style="margin-bottom:10px">HEADER — MEGA MENU</div>
+        <table style="font-size:10.5px">
+          <tr><td style="width:132px"><b><span class="cn">关于我们</span></b></td><td>公司简介 · 企业发展历史 · 企业文化</td></tr>
+          <tr><td><b><span class="cn">中新合作走廊</span></b></td><td>中新合作伙伴 · 伙伴故事</td></tr>
+          <tr><td><b><span class="cn">企业合作</span></b></td><td>金融机构 · 跨境企业 · <b style="color:#4A7A2E">华商论坛</b></td></tr>
+          <tr><td><b><span class="cn">个人用户</span></b></td><td>— no children —</td></tr>
+          <tr><td><b><span class="cn">联系我们</span></b></td><td>联系方式 · 用户反馈</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="num" style="margin-bottom:10px">FOOTER — FOUR COLUMNS</div>
+        <table style="font-size:10.5px">
+          <tr><td style="width:132px"><b><span class="cn">关于星威</span></b></td><td>公司简介 · 企业发展历史 · 企业文化</td></tr>
+          <tr><td><b style="color:var(--rust)"><span class="cn">华商社群</span></b></td><td><b style="color:var(--rust)">伙伴故事 · 星威论坛</b></td></tr>
+          <tr><td><b><span class="cn">我们的产品与服务</span></b></td><td>企业客户 · 个人及家庭服务业务</td></tr>
+          <tr><td><b><span class="cn">联系我们</span></b></td><td>条款和条件 · 隐私声明 · 用户反馈</td></tr>
+          <tr><td><b><span class="cn">常见问题</span></b></td><td>standalone, outside all four columns</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;border-color:rgba(168,87,74,.4);background:rgba(168,87,74,.06);padding:14px 18px">
+      <h3 style="font-size:15px;margin-bottom:5px">Two taxonomies for the same pages</h3>
+      <p>The footer files <b><span class="cn" style="color:var(--ink)">伙伴故事</span></b> and <b><span class="cn" style="color:var(--ink)">星威论坛</span></b> under <b><span class="cn" style="color:var(--ink)">华商社群</span></b> (Chinese community). The header files them under <b><span class="cn" style="color:var(--ink)">中新合作走廊</span></b> and <b><span class="cn" style="color:var(--ink)">企业合作</span></b>. <b style="color:var(--ink)">Recommendation:</b> adopt the header taxonomy as canonical — it matches the URL structure — and keep <span class="cn" style="color:var(--ink)">华商社群</span> in the footer as a heading only, not a link.</p>
+    </div>
+
+    <div class="num" style="margin-top:18px;margin-bottom:9px">RESOLVED — CANONICAL FOOTER, IF THE RECOMMENDATION IS ACCEPTED</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+      <div class="card" style="padding:12px 14px">
+        <div style="font-family:var(--cn);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px">关于星威</div>
+        <div style="font-size:10px;color:var(--slate);line-height:1.7"><span class="cn">公司简介</span><br><span class="cn">企业发展历史</span><br><span class="cn">企业文化</span></div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-family:var(--cn);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px">中新合作走廊</div>
+        <div style="font-size:10px;color:var(--slate);line-height:1.7"><span class="cn">中新合作伙伴</span><br><span class="cn">伙伴故事</span></div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-family:var(--cn);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px">企业合作</div>
+        <div style="font-size:10px;color:var(--slate);line-height:1.7"><span class="cn">金融机构</span><br><span class="cn">跨境企业</span><br><span class="cn" style="color:#4A7A2E">华商论坛</span></div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-family:var(--cn);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px">个人用户</div>
+        <div style="font-size:10px;color:var(--slate);line-height:1.7"><span class="cn">个人及家庭服务</span></div>
+      </div>
+      <div class="card" style="padding:12px 14px">
+        <div style="font-family:var(--cn);font-weight:600;font-size:11.5px;color:var(--ink);margin-bottom:6px">联系我们</div>
+        <div style="font-size:10px;color:var(--slate);line-height:1.7"><span class="cn">联系方式</span> · <span class="cn">用户反馈</span><br><span class="cn">常见问题</span><br><span class="cn">条款和条件</span> · <span class="cn">隐私声明</span></div>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:10px;font-size:11px">Header and footer now mirror each other, and both mirror the URL tree. <span class="cn">常见问题</span> moves inside a column instead of floating outside all four.</p>
+  </div>
+  <div class="pgnum">05</div>
+</section>
+
+<!-- 06 HOMEPAGE MODULE STACK -->
+<section class="slide">
+  <div class="pad-t">
+    <div class="tag">Templates</div>
+    <div class="eyebrow">05 — Homepage module stack</div>
+    <h2>Nine modules, top to bottom</h2>
+    <div class="stack" style="margin-top:16px">
+      <div class="mod"><div class="n">01</div><div class="t">Hero <span class="cn">首屏</span></div><div class="d">Headline, 1981年启航于新加坡, forum CTA, search field</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod"><div class="n">02</div><div class="t">Values strip</div><div class="d">包容 创新 启迪 — inclusion, innovation, inspiration</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod"><div class="n">03</div><div class="t">Currency ticker</div><div class="d">SGD · CNY/CNH · USD · HKD · AUD · MYR · IDR · THB</div><div class="s"><span class="pill p-code">Code</span></div></div>
+      <div class="mod"><div class="n">04</div><div class="t">About block <span class="cn">启航于1981</span></div><div class="d">Company intro → links to /about/history</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod"><div class="n">05</div><div class="t">Product &amp; service</div><div class="d">Three cards → 跨境支付 · 方案咨询 · 华商论坛</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod"><div class="n">06</div><div class="t">Corridor <span class="cn">中新合作走廊</span></div><div class="d">40+ years stat, four partner cards, CTA → /corridor</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod"><div class="n">07</div><div class="t">Customisation</div><div class="d">Corporate + individual blocks → /business, /individual</div><div class="s"><span class="pill p-cms">Sanity</span></div></div>
+      <div class="mod hl"><div class="n">08</div><div class="t" style="color:#4A7A2E">Forum feed <span class="cn">华商论坛</span></div><div class="d"><b>Client ask, absent from the deck.</b> Live posts → /forum. Seeded in the Phase 1 demo.</div><div class="s"><span class="pill p-db">Supabase</span></div></div>
+      <div class="mod"><div class="n">09</div><div class="t">Footer</div><div class="d">Four columns + FAQ, legal, feedback, language switcher</div><div class="s"><span class="pill p-code">Code</span></div></div>
+    </div>
+  </div>
+  <div class="pgnum">06</div>
+</section>
+
+<!-- 07 PAGE INVENTORY -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">Templates</div>
+    <div class="eyebrow">06 — Page inventory · Phase 1</div>
+    <h2>Fourteen routes, two locales each</h2>
+    <div class="rule"></div>
+    <table>
+      <tr><th style="width:172px">Route</th><th style="width:150px">Page</th><th style="width:118px">Template</th><th>Source of content</th><th style="width:78px">Phase</th></tr>
+      <tr><td><span class="rt">/</span></td><td><b><span class="cn">首页</span></b></td><td>Home</td><td>Sanity singleton + live forum posts</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/about</span></td><td><b><span class="cn">关于我们</span></b></td><td>Section index</td><td>Sanity singleton</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/about/intro</span></td><td><b><span class="cn">公司简介</span></b></td><td>Rich text</td><td>Sanity — MPI licence &amp; vision copy</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/about/history</span></td><td><b><span class="cn">企业发展历史</span></b></td><td>Timeline + article</td><td>Sanity — 5 milestones + long-form</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/about/culture</span></td><td><b><span class="cn">企业文化</span></b></td><td>Three-up</td><td>Sanity — deck marks this optional</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/corridor</span></td><td><b><span class="cn">中新合作走廊</span></b></td><td>Section index</td><td>Sanity + partner list</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/corridor/partners</span></td><td><b><span class="cn">中新合作伙伴</span></b></td><td>Logo grid + copy</td><td>Sanity — logos outstanding</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/corridor/stories</span></td><td><b><span class="cn">伙伴故事</span></b></td><td>Card list</td><td>Sanity — real stories outstanding</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/business/institutions</span></td><td><b><span class="cn">金融机构</span></b></td><td>Long-form + CTA</td><td>Sanity — 45 MSOs, M-DAQ, DBS/OCBC</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/business/cross-border</span></td><td><b><span class="cn">跨境企业</span></b></td><td>Long-form + benefits</td><td>Sanity — six numbered privileges</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/individual</span></td><td><b><span class="cn">个人用户</span></b></td><td>Three-up + CTA</td><td>Sanity — tuition · shopping · investment</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/contact</span></td><td><b><span class="cn">联系方式</span></b></td><td>Contact</td><td>Sanity — WhatsApp/WeChat outstanding</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/contact/enquiry</span></td><td><b><span class="cn">用户信息填写</span></b></td><td>Form</td><td>Code + Supabase submissions</td><td><span class="pill p-1">P1</span></td></tr>
+      <tr><td><span class="rt">/contact/feedback</span></td><td><b><span class="cn">用户反馈</span></b></td><td>Form</td><td>Code + Supabase submissions</td><td><span class="pill p-1">P1</span></td></tr>
+    </table>
+  </div>
+  <div class="pgnum">07</div>
+</section>
+
+<!-- 08 URL / i18n -->
+<section class="slide dark">
+  <div class="pad">
+    <div class="tag">System</div>
+    <div class="eyebrow on-dark">07 — URL and locale scheme</div>
+    <h2>Chinese is the default, <span class="cn">英文是镜像</span></h2>
+    <div class="rule on-dark"></div>
+    <div class="g2" style="gap:38px">
+      <div>
+        <div class="card on-dark" style="margin-bottom:14px">
+          <h3>Route shape</h3>
+          <p style="margin-bottom:8px"><code>cn.cys.com.sg/zh/about/history</code><br><code>cn.cys.com.sg/en/about/history</code></p>
+          <p>Locale is the first path segment. <code>/</code> redirects to <code>/zh</code>. Route segments stay English in both locales — stable, greppable, and avoids percent-encoded Chinese URLs.</p>
+        </div>
+        <div class="card on-dark">
+          <h3>Switcher behaviour</h3>
+          <p>The <span class="cn">中文 | ENG</span> control swaps only the locale segment and preserves the rest of the path plus query. A visitor deep in <code>/zh/business/institutions</code> lands on the English equivalent, never the homepage.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card on-dark" style="margin-bottom:14px">
+          <h3>SEO</h3>
+          <p>Reciprocal <code>hreflang</code> on every page pair plus <code>x-default</code> → <code>/zh</code>. One sitemap per locale, both referenced from <code>robots.txt</code>. Self-canonical per locale — never canonicalise EN to CN.</p>
+        </div>
+        <div class="card on-dark">
+          <h3>Parity rule</h3>
+          <p>Every deck screen exists in both languages, so full parity is the assumption: <b>28 routes total</b>. If the client wants English reduced, that halves the content workload — but it needs deciding before Lofi, not after.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.35)">08</div>
+</section>
+
+<!-- 09 CONTENT OWNERSHIP -->
+<section class="slide">
+  <div class="pad">
+    <div class="tag">System</div>
+    <div class="eyebrow">08 — Who owns what</div>
+    <h2>Three content sources</h2>
+    <div class="rule"></div>
+    <div class="g3">
+      <div class="card">
+        <div class="num" style="color:var(--rust)">SANITY — CLIENT EDITS</div>
+        <h3>Marketing copy</h3>
+        <p>Every page body, headline, card, milestone, partner story and contact detail. Bilingual fields on one document, so CN and EN never drift apart.</p>
+        <p style="margin-top:9px"><b style="color:var(--ink)">11 document types.</b> Client edits without a deploy.</p>
+      </div>
+      <div class="card">
+        <div class="num" style="color:var(--slate)">SUPABASE — USERS WRITE</div>
+        <h3>Forum &amp; submissions</h3>
+        <p>Posts, comments, profiles, moderation events, enquiry and feedback submissions. All under row-level security; all reads server-side.</p>
+        <p style="margin-top:9px"><b style="color:var(--ink)">Phase 2</b>, except the two Phase 1 forms.</p>
+      </div>
+      <div class="card">
+        <div class="num" style="color:var(--ink)">CODE — WE OWN</div>
+        <h3>Chrome &amp; structure</h3>
+        <p>Header, mega menu, footer, language switcher, currency ticker, routing, legal page shells.</p>
+        <p style="margin-top:9px">Changing these is a deploy, so nav labels should settle at sign-off.</p>
+      </div>
+    </div>
+    <div class="rule" style="margin-top:18px"></div>
+    <div class="g2" style="gap:30px">
+      <div>
+        <div class="num">SANITY DOCUMENT TYPES — 11 + 1 SINGLETON</div>
+        <p class="sub" style="font-size:10.5px;margin-top:6px"><code>homePage</code> · <code>aboutPage</code> · <code>milestone</code> · <code>culturePage</code> · <code>corridorPage</code> · <code>partner</code> · <code>partnerStory</code> · <code>businessPage</code> · <code>individualPage</code> · <code>contactPage</code> · <code>legalPage</code> · <code>siteSettings</code></p>
+        <p class="sub" style="font-size:10.5px;margin-top:8px"><code>siteSettings</code> carries nav labels, footer groups, contact details, the currency list and social links — one document, edited once, read on every page.</p>
+      </div>
+      <div>
+        <div class="num">BILINGUAL FIELD PATTERN</div>
+        <p class="sub" style="font-size:10.5px;margin-top:6px">Every translatable field is an object with <code>zh</code> and <code>en</code> keys on a <b style="color:var(--ink)">single document</b> — not two parallel document trees. One editor screen shows both languages side by side, so a copy change can't land in Chinese and silently miss English.</p>
+        <p class="sub" style="font-size:10.5px;margin-top:8px"><b style="color:var(--ink)">Missing translation falls back to <span class="cn">zh</span></b> and is flagged in Studio, never rendered blank.</p>
+      </div>
+    </div>
+    <div class="rule" style="margin-top:16px"></div>
+    <div style="display:flex;gap:26px;align-items:flex-start">
+      <div style="flex:none;width:190px">
+        <div class="num" style="color:var(--rust)">REQUIRES A DEPLOY</div>
+      </div>
+      <p class="sub" style="font-size:11px;margin-top:0;max-width:none">Adding a route · changing a URL · adding a nav item · new page template · new component · anything in the header, footer, or language switcher chrome. <b style="color:var(--ink)">This is why nav labels and the URL tree should settle at sitemap sign-off</b> — after Lofi they cost a rebuild, not an edit.</p>
+    </div>
+  </div>
+  <div class="pgnum">09</div>
+</section>
+
+<!-- 10 SIGN-OFF -->
+<section class="slide dark">
+  <div class="pad">
+    <div class="tag">Delivery</div>
+    <span class="flag ok">Sign-off unblocks Lofi</span>
+    <div class="eyebrow on-dark">09 — What sign-off means</div>
+    <h2>Four decisions in this document</h2>
+    <div class="rule on-dark"></div>
+    <div class="g2" style="gap:38px">
+      <div>
+        <ul class="clean">
+          <li><b>Header taxonomy is canonical.</b> <span class="cn">伙伴故事</span> sits under <span class="cn">中新合作走廊</span>, <span class="cn">星威论坛</span> under <span class="cn">企业合作</span>. The footer follows the header, not the reverse.</li>
+          <li><b><span class="cn">华商社群</span> becomes a label, not a page.</b> No screen was ever designed for it. If the client wants a real landing page, that is a new route and a new Lofi.</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="clean">
+          <li><b>Full CN/EN parity — 28 routes.</b> Every screen ships in both languages unless the client reduces English scope now.</li>
+          <li><b>Auth ships in Phase 1, gates nothing until Phase 2.</b> The header shows <span class="cn">注册 | 登录</span> on every deck screen; building the routes now avoids a dead link in the demo.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card on-dark" style="margin-top:20px;border-color:rgba(109,165,68,.4);background:rgba(109,165,68,.08)">
+      <h3 style="font-size:17px">Next: Lofi wireframes, 10–23 August</h3>
+      <p>Every Phase 1 route above, both locales, wireframed against this structure. Sign-off on this sitemap and the colour scheme are the two things holding that start date.</p>
+    </div>
+  </div>
+  <div class="pgnum" style="color:rgba(255,255,255,.35)">10</div>
+</section>
+
+</body>
+</html>

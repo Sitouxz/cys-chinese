@@ -1,0 +1,23 @@
+{
+  "checks": [
+    "Home has one heading",
+    "Guest save resumes on same post",
+    "Save toggles without duplicates",
+    "Invalid composer submission rejected",
+    "Composer preview shows actual entered content",
+    "Locale switch preserves unsaved composer",
+    "New post queued",
+    "Other member cannot see pending post",
+    "Approved post appears in homepage latest feed",
+    "Published revision stays public during edit review",
+    "Pending revision text does not leak",
+    "Rejected revision corrected and approved",
+    "Pending comment hidden from another member",
+    "Simulated failure preserves form",
+    "Retry creates one local receipt",
+    "Combined industry market intent filter returns results",
+    "Search empty state",
+    "No uncaught browser errors"
+  ],
+  "errors": []
+}

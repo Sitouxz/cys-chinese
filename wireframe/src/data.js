@@ -1,0 +1,156 @@
+export const milestones = [
+  {
+    year: "1981",
+    zh: "正式成为新加坡持牌金融机构",
+    en: "Licensed in Singapore",
+  },
+  {
+    year: "2011",
+    zh: "更名为 CYS Global Remit",
+    en: "Rebranded as CYS Global Remit",
+  },
+  { year: "2020", zh: "开启无现金交易时代", en: "Entered the cashless era" },
+  {
+    year: "2025",
+    zh: "迁至 GB Building 新办公室",
+    en: "Relocated to GB Building",
+  },
+  { year: "2030", zh: "寻找更多合作机会", en: "Seeking new partnerships" },
+];
+
+export const forumCategories = [
+  { id: "all", zh: "全部", en: "All" },
+  { id: "matching", zh: "商业对接", en: "Business matching" },
+  { id: "trends", zh: "行业动态", en: "Industry trends" },
+  { id: "policy", zh: "监管政策", en: "Regulatory policy" },
+  { id: "analysis", zh: "市场分析", en: "Market analysis" },
+];
+
+export const seedPosts = [
+  {
+    id: 1,
+    category: "matching",
+    authorZh: "CYS 茶餐厅",
+    authorEn: "CYS Teahouse",
+    industryZh: "餐饮 · 经销合作",
+    industryEn: "F&B · Distribution",
+    marketZh: "新加坡",
+    marketEn: "Singapore",
+    titleZh: "寻找新加坡餐饮经销合作伙伴",
+    titleEn: "Looking for an F&B distribution partner in Singapore",
+    bodyZh:
+      "我们的餐饮品牌提供鸡饭和中式炒菜，希望接触新加坡 F&B 行业的经销商。",
+    bodyEn:
+      "Our food brand offers chicken rice and Chinese stir-fry dishes. We are looking to meet distributors in Singapore’s F&B industry.",
+    seekingZh: "经销商",
+    seekingEn: "Distributor",
+    timeZh: "2小时前",
+    timeEn: "2 hours ago",
+    useful: 18,
+    comments: 5,
+    verified: true,
+  },
+  {
+    id: 2,
+    category: "matching",
+    authorZh: "南洋服装制造",
+    authorEn: "Nanyang Apparel Manufacturing",
+    industryZh: "服装制造 · 品牌合作",
+    industryEn: "Apparel · Brand partnership",
+    marketZh: "中国 · 新加坡",
+    marketEn: "China · Singapore",
+    titleZh: "印花服装生产商寻找品牌伙伴",
+    titleEn: "Printed garment manufacturer seeking brand partners",
+    bodyZh: "我们提供印花服装设计与生产，希望接触新加坡服装行业的品牌。",
+    bodyEn:
+      "We provide printed garment design and production and hope to connect with apparel brands in Singapore.",
+    seekingZh: "品牌方",
+    seekingEn: "Brand",
+    timeZh: "5小时前",
+    timeEn: "5 hours ago",
+    useful: 12,
+    comments: 3,
+    verified: false,
+  },
+  {
+    id: 3,
+    category: "trends",
+    authorZh: "东南亚日化分销",
+    authorEn: "SEA Consumer Goods Distribution",
+    industryZh: "日化 · 区域分销",
+    industryEn: "Consumer goods · Regional distribution",
+    marketZh: "马来西亚 · 新加坡",
+    marketEn: "Malaysia · Singapore",
+    titleZh: "东南亚日化市场合作趋势分享",
+    titleEn: "Partnership trends in Southeast Asia’s consumer-goods market",
+    bodyZh:
+      "我们在马来西亚和新加坡开展业务，希望认识具有潜力的品牌并分享本地市场经验。",
+    bodyEn:
+      "We operate in Malaysia and Singapore and hope to meet promising brands while sharing local market experience.",
+    seekingZh: "品牌与供应商",
+    seekingEn: "Brands & suppliers",
+    timeZh: "昨天",
+    timeEn: "Yesterday",
+    useful: 29,
+    comments: 8,
+    verified: true,
+  },
+  {
+    id: 4,
+    category: "matching",
+    authorZh: "星桥玩具贸易",
+    authorEn: "Starbridge Toy Trading",
+    industryZh: "玩具 · 跨境贸易",
+    industryEn: "Toys · Cross-border trade",
+    marketZh: "中国 · 东南亚",
+    marketEn: "China · Southeast Asia",
+    titleZh: "玩具跨境业务寻找合作投资方",
+    titleEn: "Toy trading business seeking an investment partner",
+    bodyZh:
+      "我们主营玩具类产品，正在拓展跨境贸易业务，希望寻找一位长期合作投资方。",
+    bodyEn:
+      "We specialise in toy products and are expanding cross-border trade. We are seeking a long-term investment partner.",
+    seekingZh: "投资方",
+    seekingEn: "Investor",
+    timeZh: "2天前",
+    timeEn: "2 days ago",
+    useful: 9,
+    comments: 2,
+    verified: false,
+  },
+];
+
+export const mySeedPosts = [
+  {
+    id: "mine-1",
+    titleZh: "寻找东南亚物流合作伙伴",
+    titleEn: "Seeking a Southeast Asia logistics partner",
+    status: "pending",
+    updatedZh: "刚刚提交",
+    updatedEn: "Submitted just now",
+  },
+  {
+    id: "mine-2",
+    titleZh: "新加坡企业结算经验分享",
+    titleEn: "Sharing Singapore business settlement experience",
+    status: "approved",
+    updatedZh: "2026年8月8日",
+    updatedEn: "8 Aug 2026",
+  },
+  {
+    id: "mine-3",
+    titleZh: "跨境供应链合作咨询",
+    titleEn: "Cross-border supply-chain partnership enquiry",
+    status: "rejected",
+    updatedZh: "2026年8月4日",
+    updatedEn: "4 Aug 2026",
+  },
+];
+
+export const navItems = [
+  { route: "/about", zh: "关于我们", en: "About us" },
+  { route: "/corridor", zh: "中新合作走廊", en: "CN–SG corridor" },
+  { route: "/corporate", zh: "企业合作", en: "Corporate" },
+  { route: "/individual", zh: "个人用户", en: "Individual" },
+  { route: "/contact", zh: "联系我们", en: "Contact" },
+];

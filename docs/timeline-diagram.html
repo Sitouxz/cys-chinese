@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese — Project Timeline</title>
+<style>
+:root{
+  /* Client-confirmed palette, 4 Aug 2026 — CYS_LandingPage_Mockup.html */
+  --navy-950:#0c1626; --navy-900:#12213a; --navy-800:#1a3358; --navy-700:#24446f;
+  --brass-500:#b98d42; --brass-300:#d9b877; --brass-100:#f1e3c6;
+  --ivory-50:#faf8f3;  --ivory-100:#f3efe4;
+  --ink-900:#151c26;   --ink-600:#4c5666;  --ink-400:#8992a1;
+  --line:#e3ddcd;      --teal-600:#3e6259;
+  --done:#40663f;  --done-bg:#eaf1e6;  --done-line:#b8cfb2;
+  --warn:#8a6314;  --warn-bg:#f9f0dd;  --warn-line:#e0c68c;
+  --risk:#9e2b25;  --risk-bg:#f7e9e7;  --risk-line:#dcb3ae;
+  --card:#ffffff;
+  --sans:'Inter','Segoe UI',-apple-system,sans-serif;
+  --cn:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;
+  --mono:'Cascadia Mono','Consolas',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1400px;background:var(--ivory-50);color:var(--ink-900);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased}
+#wrap{padding:40px 48px 42px}
+
+/* ---------- header ---------- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:15px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.head h1{font-size:24px;font-weight:600;letter-spacing:-.015em;color:var(--navy-900)}
+.head h1 .cn{font-family:var(--cn);font-weight:700;margin-right:9px}
+.head .meta{font-size:11.5px;color:var(--ink-600);margin-top:7px;line-height:1.6}
+.head .meta b{color:var(--ink-900);font-weight:600}
+.stamp{text-align:right;flex:none}
+.stamp .big{font-size:30px;font-weight:600;color:var(--navy-900);letter-spacing:-.02em;
+  line-height:1}
+.stamp .sm{font-size:10.5px;color:var(--ink-600);margin-top:6px;line-height:1.5}
+.stamp .sm b{color:var(--teal-600);font-weight:700}
+
+/* ---------- chart ---------- */
+.chart{position:relative}
+.axis{position:relative;height:34px;margin-left:214px;border-bottom:1px solid var(--line)}
+.mo{position:absolute;top:0;bottom:0;border-left:1px solid var(--line);
+  padding:5px 0 0 9px;font-size:10.5px;font-weight:700;color:var(--navy-900);overflow:hidden}
+.mo em{font-family:var(--mono);font-style:normal;font-size:9px;font-weight:600;
+  color:var(--ink-400);margin-left:6px;letter-spacing:.04em}
+.grid{position:absolute;left:214px;right:0;top:34px;pointer-events:none}
+.gl{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.55}
+.gw{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.24}
+
+.rows{position:relative;padding-top:8px}
+.r{position:relative;height:48px;display:flex;align-items:center}
+.r .lb{width:214px;flex:none;padding-right:16px}
+.r .lb .n{font-size:13px;font-weight:600;line-height:1.3;display:block}
+.r .lb .n .cn{font-family:var(--cn);font-weight:700}
+.r .lb .d{font-size:10px;color:var(--ink-400);font-family:var(--mono);display:block;
+  margin-top:3px;letter-spacing:.02em}
+.track{position:relative;flex:1;height:48px}
+
+.bar{position:absolute;top:10px;height:28px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;padding:0 8px;font-family:var(--mono);font-size:9.5px;font-weight:700;
+  letter-spacing:.03em;white-space:nowrap;overflow:hidden}
+.bar.design{background:var(--brass-500);color:#fff}
+.bar.build{background:var(--navy-800);color:#fff}
+.bar.forum{background:var(--navy-700);color:#fff}
+.bar.qa{background:var(--teal-600);color:#fff}
+.bdesc{position:absolute;top:10px;height:28px;display:flex;align-items:center;
+  font-size:11.5px;color:var(--ink-600);white-space:nowrap}
+.bdesc .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+
+.ms{position:absolute;top:12px;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.ms.lft{flex-direction:row-reverse}
+.ms.lft .tx{text-align:right}
+.ms .dia{width:17px;height:17px;background:var(--teal-600);transform:rotate(45deg);
+  border-radius:2px;flex:none}
+.ms .tx{font-size:12.5px;font-weight:700;color:var(--navy-900)}
+.ms .tx em{display:block;font-style:normal;font-family:var(--mono);font-size:9px;
+  font-weight:600;color:var(--ink-400);margin-top:2px}
+
+/* client sign-off ticks */
+.gate{position:absolute;top:6px;display:flex;flex-direction:column;align-items:flex-start}
+.gate .tick{width:1.5px;height:15px;background:var(--brass-500)}
+.gate .cap{margin-top:4px;font-size:10px;font-weight:700;color:#6b4f1c;white-space:nowrap;
+  background:var(--brass-100);border:1px solid var(--brass-300);border-radius:5px;
+  padding:3px 8px;line-height:1.3}
+.gate .cap em{display:block;font-style:normal;font-family:var(--mono);font-size:8.5px;
+  font-weight:600;color:#a07c37;margin-top:1px}
+.gate.urgent .tick{background:var(--risk)}
+.gate.urgent .cap{background:var(--risk-bg);border-color:var(--risk-line);color:var(--risk)}
+.gate.urgent .cap em{color:#b8564f}
+
+.guide{position:absolute;top:0;bottom:0;width:1px;border-left:1px dashed var(--brass-500);
+  opacity:.8;z-index:3}
+.guide .gt2{position:absolute;bottom:-9px;right:7px;font-family:var(--mono);font-size:8.5px;
+  font-weight:700;color:var(--brass-500);white-space:nowrap;letter-spacing:.03em;
+  background:var(--ivory-50);padding:2px 6px;border:1px solid var(--brass-300);border-radius:4px}
+
+.today{position:absolute;top:0;bottom:0;width:2px;background:var(--risk);z-index:4}
+.today .flag{position:absolute;bottom:-10px;left:8px;background:var(--risk);color:#fff;
+  font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:5px;white-space:nowrap;
+  font-family:var(--mono);letter-spacing:.04em}
+
+.groupline{display:flex;align-items:center;gap:12px;margin:18px 0 4px}
+.groupline .g{font-size:10.5px;font-weight:700;letter-spacing:.07em;color:var(--brass-500);
+  white-space:nowrap}
+.groupline .rule{height:1px;background:var(--line);flex:1}
+
+/* ---------- band ---------- */
+.band{background:var(--brass-100);border:1px solid var(--brass-300);border-radius:10px;
+  padding:16px 20px;margin-top:30px;display:grid;grid-template-columns:190px 1fr;gap:0 22px;
+  align-items:start}
+.band .h{font-size:10.5px;font-weight:700;letter-spacing:.07em;color:var(--brass-500);
+  line-height:1.5}
+.band .h span{display:block;font-family:var(--mono);font-size:9px;font-weight:600;
+  color:#a07c37;letter-spacing:.04em;margin-top:4px}
+.band .b{font-size:11.5px;color:#6b4f1c;line-height:1.7}
+.band .b b{color:#4d3810}
+.band .b ol{margin:8px 0 0 18px} .band .b li{margin-bottom:5px}
+
+/* ---------- footer ---------- */
+.foot{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px}
+.foot .b .h{font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:11px;
+  display:flex;align-items:baseline;gap:8px}
+.foot .b .h em{font-family:var(--mono);font-style:normal;font-size:9px;font-weight:600;
+  color:var(--brass-500);letter-spacing:.05em}
+.foot .b p{font-size:10.5px;color:var(--ink-600);line-height:1.7}
+.foot .b p b{color:var(--ink-900);font-weight:600}
+.foot .b p .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+.foot .b p + p{margin-top:8px}
+.dl{list-style:none;display:flex;flex-direction:column;gap:8px}
+.dl li{display:flex;gap:10px;font-size:10.5px;line-height:1.55;align-items:baseline}
+.dl li b{flex:none;width:74px;font-weight:700;color:var(--navy-900);font-size:10px}
+.dl li span{color:var(--ink-600)}
+.dl li span .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+  <div class="head">
+    <div>
+      <h1><span class="cn">星威环球中文网站</span>Project timeline</h1>
+      <div class="meta">
+        Wireframes → design → build → forum → testing, with the <b>forum included in the launch</b><br>
+        Starting <b>10 August</b>, live <b>9 October 2026</b> — inside the 2–3 months we quoted you on 27 July
+      </div>
+    </div>
+    <div class="stamp">
+      <div class="big">2 months</div>
+      <div class="sm">10 Aug → 9 Oct 2026<br><b>Website + forum, live together</b></div>
+    </div>
+  </div>
+
+  <div class="chart" id="chart">
+    <div class="axis" id="axis"></div>
+    <div class="grid" id="grid"></div>
+
+    <div class="groupline"><span class="g">THE BUILD</span><span class="rule"></span></div>
+
+    <div class="rows">
+      <div class="r">
+        <div class="lb"><span class="n">Lofi wireframes</span><span class="d">WEEKS 1–2</span></div>
+        <div class="track">
+          <div class="bar design" data-from="2026-08-10" data-to="2026-08-23"
+               data-desc="Layout and structure of every page, Chinese and English">2 wks</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="lb"><span class="n">Hifi design</span><span class="d">WEEKS 3–4</span></div>
+        <div class="track">
+          <div class="bar design" data-from="2026-08-24" data-to="2026-09-06"
+               data-desc="Full visual design in your confirmed colours, both languages">2 wks</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="lb"><span class="n">Development</span><span class="d">WEEKS 5–6 · NO FORUM</span></div>
+        <div class="track">
+          <div class="bar build" data-from="2026-09-07" data-to="2026-09-20"
+               data-desc="Every page built · content system · forms · mobile">2 wks</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="lb"><span class="n">Forum features</span><span class="d">WEEKS 7–8</span></div>
+        <div class="track">
+          <div class="bar forum" data-from="2026-09-21" data-to="2026-10-04"
+               data-desc="Accounts · posting · comments · review queue · search">2 wks</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="lb"><span class="n">UAT + QC</span><span class="d">WEEK 9</span></div>
+        <div class="track">
+          <div class="bar qa" data-from="2026-10-05" data-to="2026-10-09"
+               data-desc="Your review, our testing, final fixes">1 wk</div>
+        </div>
+      </div>
+      <div class="r">
+        <div class="lb"><span class="n">Go live</span><span class="d">MILESTONE</span></div>
+        <div class="track">
+          <div class="ms" data-at="2026-10-09" data-side="left"><span class="dia"></span>
+            <span class="tx">Website and forum live together<em>9 October 2026</em></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="groupline"><span class="g">WHEN WE NEED YOU</span><span class="rule"></span></div>
+
+    <div class="rows">
+      <div class="r" style="height:64px">
+        <div class="lb"><span class="n">Your sign-offs</span><span class="d">4 MOMENTS</span></div>
+        <div class="track" id="gates" style="height:64px"></div>
+      </div>
+    </div>
+
+    <div class="today" id="today"><span class="flag">TODAY · 7 AUG</span></div>
+  </div>
+
+  <div class="band">
+    <div class="h">WHAT THIS TIMELINE ASSUMES<span>PLEASE READ</span></div>
+    <div class="b">
+      Two months covers the website <b>and</b> the forum, which is tighter than our original plan of building the forum after the demo. It is achievable, and these are the three things it depends on:
+      <ol>
+        <li><b>Sign-offs inside three working days.</b> Each stage feeds the next, so a week spent waiting on approval is a week added to the end. The four points where we need you are marked on the timeline above.</li>
+        <li><b>One round of feedback per stage.</b> We have allowed for one proper round of comments on the wireframes and one on the designs. A second round is completely fine — it simply moves the launch date, and we will tell you by how much on the day.</li>
+        <li><b>The forum launches with the essentials.</b> Accounts, posting, comments, the review queue, search and <span style="font-family:var(--cn)">有用</span>/<span style="font-family:var(--cn)">举报</span> are all in. Extras such as image uploads, private messaging and following other members come after launch, once the forum has real members using it.</li>
+      </ol>
+      Some of the forum groundwork runs alongside the website build rather than after it, which is what makes the two months work — the website and the forum are one system, not two.
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="b">
+      <div class="h">What you'll see, and when <em>STAGE BY STAGE</em></div>
+      <ul class="dl">
+        <li><b>23 Aug</b><span>Wireframes — every page's layout, before any visual design</span></li>
+        <li><b>6 Sep</b><span>Full designs in your colours, Chinese and English</span></li>
+        <li><b>20 Sep</b><span>A working website you can click through</span></li>
+        <li><b>4 Oct</b><span>The forum working end to end, including the review queue</span></li>
+        <li><b>9 Oct</b><span>Live</span></li>
+      </ul>
+    </div>
+    <div class="b">
+      <div class="h">What we still need from you <em>TO PROTECT THE DATE</em></div>
+      <p><b>1 · Sitemap sign-off — this week.</b> Wireframes start on 10 August and this is the last thing holding them up.</p>
+      <p><b>2 · Is the forum Chinese-only, or Chinese and English?</b> Your word list is Chinese-only, so if members can post in English we would need an English list too. Worth deciding before the forum work starts.</p>
+      <p><b>3 · Who at CYS will review posts?</b> They will need to read Chinese. This is the one thing that can hold up the forum launch however well it is built.</p>
+      <p><b>4 · The remaining content</b> — FAQ, terms and privacy. The privacy page needs proper drafting because the forum collects members' information.</p>
+    </div>
+    <div class="b">
+      <div class="h">Already settled <em>NOTHING NEEDED</em></div>
+      <p><b>Colour theme</b> — confirmed on 4 August from your mockup, and already used across these documents.</p>
+      <p><b>How posts get approved</b> — your word list runs first and rejects the highest-risk terms instantly, an automated check reads the rest for context, and only the genuinely uncertain posts reach your reviewer. Nothing appears on the forum unchecked.</p>
+      <p><b>Where the site lives</b> — the Chinese site sits on its own address alongside your existing English site, which stays exactly as it is.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Runs past go-live so the late bars have room for their labels and the
+  // 27 Oct reference mark falls inside the canvas rather than off the edge.
+  var START = new Date('2026-08-03'), END = new Date('2026-11-08');
+  var span = END - START;
+  var track = document.querySelector('.track');
+  var W = track.getBoundingClientRect().width;
+
+  function x(d){ return (new Date(d) - START) / span * W; }
+  function nextDay(d){
+    return new Date(new Date(d).getTime() + 864e5).toISOString().slice(0,10);
+  }
+
+  // month bands + week ticks
+  var axis = document.getElementById('axis'), grid = document.getElementById('grid');
+  var months = [['2026-08-03','August','2026'],['2026-09-01','September',''],
+                ['2026-10-01','October',''],['2026-11-01','November','']];
+  months.forEach(function(m, i){
+    var el = document.createElement('div');
+    el.className = 'mo';
+    el.style.left = x(m[0]) + 'px';
+    el.style.width = ((i+1 < months.length ? x(months[i+1][0]) : W) - x(m[0])) + 'px';
+    el.innerHTML = m[1] + (m[2] ? '<em>' + m[2] + '</em>' : '');
+    if(i === 0) el.style.borderLeft = 'none';
+    axis.appendChild(el);
+    var g = document.createElement('div');
+    g.className = 'gl'; g.style.left = x(m[0]) + 'px';
+    grid.appendChild(g);
+  });
+  // every Monday, so a nine-week plan reads as nine weeks
+  for(var d = new Date('2026-08-10'); d < END; d.setDate(d.getDate() + 7)){
+    var t = document.createElement('div');
+    t.className = 'gw'; t.style.left = x(d.toISOString().slice(0,10)) + 'px';
+    grid.appendChild(t);
+  }
+
+  document.querySelectorAll('.bar').forEach(function(b){
+    var l = x(b.dataset.from), r = x(nextDay(b.dataset.to));
+    b.style.left = l + 'px'; b.style.width = Math.max(r - l, 8) + 'px';
+    if(b.dataset.desc){
+      var d2 = document.createElement('span');
+      d2.className = 'bdesc';
+      d2.innerHTML = b.dataset.desc;
+      d2.style.left = (r + 12) + 'px';
+      b.parentNode.appendChild(d2);
+    }
+  });
+
+  document.querySelectorAll('.ms').forEach(function(m){
+    var px = x(m.dataset.at);
+    if(m.dataset.side === 'left'){
+      m.classList.add('lft');
+      m.style.left = (px - m.offsetWidth + 8) + 'px';
+    } else {
+      m.style.left = (px - 8) + 'px';
+    }
+  });
+
+  // the four points where the client has to act
+  var gates = [
+    ['2026-08-07','Sitemap sign-off','THIS WEEK', true],
+    ['2026-08-24','Wireframes approved','BY 26 AUG', false],
+    ['2026-09-07','Designs approved','BY 9 SEP', false],
+    ['2026-10-05','Final approval','UAT WEEK', false]
+  ];
+  var gc = document.getElementById('gates');
+  gates.forEach(function(g){
+    var el = document.createElement('div');
+    el.className = 'gate' + (g[3] ? ' urgent' : '');
+    el.style.left = x(g[0]) + 'px';
+    el.innerHTML = '<span class="tick"></span><span class="cap">' + g[1] +
+                   '<em>' + g[2] + '</em></span>';
+    gc.appendChild(el);
+  });
+
+  // the 3-month mark from the July estimate — we land comfortably before it
+  var gd = document.createElement('div');
+  gd.className = 'guide';
+  gd.style.left = x('2026-10-27') + 'px';
+  gd.innerHTML = '<span class="gt2">3 MONTHS FROM OUR 27 JUL ESTIMATE</span>';
+  grid.appendChild(gd);
+
+  var chart = document.getElementById('chart');
+  var t2 = document.getElementById('today');
+  t2.style.left = (214 + x('2026-08-07')) + 'px';
+  t2.style.top = '34px';
+  t2.style.height = (chart.scrollHeight - 34) + 'px';
+  t2.style.bottom = 'auto';
+  grid.style.height = (chart.scrollHeight - 34) + 'px';
+  grid.style.bottom = 'auto';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese — Forum Features</title>
+<style>
+:root{
+  /* Client-confirmed palette, 4 Aug 2026 — CYS_LandingPage_Mockup.html */
+  --navy-950:#0c1626; --navy-900:#12213a; --navy-800:#1a3358; --navy-700:#24446f;
+  --brass-500:#b98d42; --brass-300:#d9b877; --brass-100:#f1e3c6;
+  --ivory-50:#faf8f3;  --ivory-100:#f3efe4;
+  --ink-900:#151c26;   --ink-600:#4c5666;  --ink-400:#8992a1;
+  --line:#e3ddcd;      --teal-600:#3e6259;
+  --yes:#40663f;   --yes-bg:#eaf1e6;   --yes-line:#b8cfb2;
+  --later:#8a6314; --later-bg:#f9f0dd; --later-line:#e0c68c;
+  --no:#9e2b25;    --no-bg:#f7e9e7;    --no-line:#dcb3ae;
+  --card:#ffffff;
+  --sans:'Inter','Segoe UI',-apple-system,sans-serif;
+  --cn:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;
+  --mono:'Cascadia Mono','Consolas',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1400px;background:var(--ivory-50);color:var(--ink-900);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased}
+#wrap{padding:40px 48px 42px}
+
+/* ---------- header ---------- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:15px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+.head h1{font-size:24px;font-weight:600;letter-spacing:-.015em;color:var(--navy-900)}
+.head h1 .cn{font-family:var(--cn);font-weight:700;margin-right:9px}
+.head .meta{font-size:11px;color:var(--ink-600);margin-top:6px;line-height:1.55}
+.head .meta b{color:var(--ink-900);font-weight:600}
+.head .meta .cn{font-family:var(--cn);font-weight:700}
+.legend{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.lg{font-size:10px;font-weight:600;padding:5px 11px;border-radius:20px;border:1px solid;
+  display:flex;align-items:center;gap:7px;white-space:nowrap}
+.lg b{font-family:var(--mono);font-size:10px}
+.lg.yes{background:var(--yes-bg);border-color:var(--yes-line);color:var(--yes)}
+.lg.later{background:var(--later-bg);border-color:var(--later-line);color:var(--later)}
+.lg.no{background:var(--no-bg);border-color:var(--no-line);color:var(--no)}
+
+/* ---------- main split ---------- */
+.main{display:grid;grid-template-columns:566px 1fr;gap:0 40px;align-items:start}
+.sec-h{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--navy-900);
+  display:flex;align-items:baseline;gap:9px;margin-bottom:13px;text-transform:uppercase}
+.sec-h em{font-family:var(--mono);font-style:normal;font-size:9px;font-weight:600;
+  color:var(--brass-500);letter-spacing:.04em;text-transform:none}
+
+/* ---------- the post card ---------- */
+.pc{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:0;
+  box-shadow:0 2px 6px rgba(12,22,38,.06),0 1px 2px rgba(12,22,38,.04);overflow:hidden}
+.pc .hd{display:flex;align-items:center;gap:11px;padding:14px 17px 12px}
+.pc .av{width:38px;height:38px;border-radius:9px;background:var(--navy-900);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  flex:none;letter-spacing:.02em}
+.pc .who .n{font-family:var(--cn);font-size:14px;font-weight:700;display:block;line-height:1.3}
+.pc .who .n em{font-family:var(--sans);font-style:normal;font-weight:500;font-size:11.5px;
+  color:var(--ink-600);margin-left:7px}
+.pc .who .sub{font-size:10.5px;color:var(--ink-400);display:block;margin-top:2px}
+.pc .vf{margin-left:auto;font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:20px;
+  background:var(--yes-bg);border:1px solid var(--yes-line);color:var(--yes);
+  font-family:var(--cn);flex:none}
+.pc .chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 17px 13px}
+.pc .ch{font-size:10.5px;padding:4px 10px;border-radius:6px;background:var(--ivory-100);
+  border:1px solid var(--line);color:var(--ink-600);font-family:var(--cn)}
+.pc .ch.intent{background:var(--brass-100);border-color:var(--brass-300);color:#6b4f1c;
+  font-weight:700}
+.pc .ch i{font-family:var(--sans);font-style:normal;color:var(--ink-400);font-weight:400;
+  margin-right:5px;font-size:9.5px}
+.pc .body{padding:0 17px 15px;font-family:var(--cn);font-size:12.5px;line-height:1.85;
+  color:var(--ink-900)}
+.pc .body .en{display:block;font-family:var(--sans);font-size:11px;color:var(--ink-600);
+  line-height:1.6;margin-top:7px}
+.pc .bar{display:flex;align-items:center;gap:7px;padding:11px 17px;
+  border-top:1px solid var(--line);background:#fcfbf8}
+.act{font-size:11px;font-weight:600;padding:6px 11px;border-radius:7px;border:1px solid;
+  display:flex;align-items:center;gap:6px;white-space:nowrap}
+.act .cn{font-family:var(--cn);font-weight:700}
+.act .ct{font-family:var(--mono);font-size:9.5px;opacity:.75}
+.act.on{background:var(--yes-bg);border-color:var(--yes-line);color:var(--yes)}
+.act.pl{background:var(--card);border-color:var(--line);color:var(--ink-600)}
+.act.rep{background:var(--card);border-color:var(--no-line);color:var(--no);margin-left:auto}
+.act.cta{background:var(--brass-500);border-color:var(--brass-500);color:#fff}
+.pc .cmt{padding:12px 17px 14px;border-top:1px solid var(--line);display:flex;gap:10px}
+.pc .cmt .av2{width:26px;height:26px;border-radius:7px;background:var(--ivory-100);
+  border:1px solid var(--line);flex:none}
+.pc .cmt .tx{font-size:11px;color:var(--ink-600);line-height:1.55}
+.pc .cmt .tx b{font-family:var(--cn);color:var(--ink-900);font-size:11.5px}
+.pend{font-family:var(--cn);font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:20px;
+  background:var(--later-bg);border:1px solid var(--later-line);color:var(--later);
+  margin-left:7px;white-space:nowrap}
+
+.killed{margin-top:11px;background:var(--no-bg);border:1px solid var(--no-line);
+  border-radius:9px;padding:11px 15px;display:flex;gap:12px;align-items:flex-start}
+.killed .x{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--no);
+  line-height:1.1;flex:none}
+.killed .tx{font-size:11px;color:#7d3630;line-height:1.6}
+.killed .tx b{color:var(--no);font-weight:700}
+.killed .tx .cn{font-family:var(--cn);font-weight:700}
+
+.why{margin-top:11px;font-size:10.5px;color:var(--ink-600);line-height:1.7}
+.why b{color:var(--ink-900);font-weight:600}
+.why .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+
+/* ---------- author-facing state cards ---------- */
+.st{background:var(--card);border:1px solid var(--line);border-radius:9px;
+  padding:12px 15px 12px 17px;position:relative;overflow:hidden}
+.st + .st{margin-top:8px}
+.st .accent{position:absolute;left:0;top:0;bottom:0;width:4px}
+.st .top{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.st .pill2{font-family:var(--cn);font-size:11px;font-weight:700;padding:3px 10px;
+  border-radius:6px;border:1px solid;flex:none}
+.st .en2{font-size:11.5px;font-weight:600;color:var(--ink-900)}
+.st .vis{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--ink-400);
+  letter-spacing:.03em;flex:none}
+.st .d{font-size:10.5px;color:var(--ink-600);line-height:1.6}
+.st .d b{color:var(--ink-900);font-weight:600}
+.st .d .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+.st.p .accent{background:var(--later)}
+.st.p .pill2{background:var(--later-bg);border-color:var(--later-line);color:var(--later)}
+.st.a .accent{background:var(--teal-600)}
+.st.a .pill2{background:#e6efec;border-color:#b3cbc4;color:var(--teal-600)}
+.st.r .accent{background:var(--no)}
+.st.r .pill2{background:var(--no-bg);border-color:var(--no-line);color:var(--no)}
+.mailnote{margin-top:10px;font-size:10.5px;color:var(--ink-600);line-height:1.7;
+  padding-left:13px;border-left:2px solid var(--brass-300)}
+.mailnote b{color:var(--ink-900);font-weight:600}
+
+/* ---------- feature matrix ---------- */
+.grp{margin-bottom:16px}
+.grp .gh{font-size:10.5px;font-weight:700;color:var(--navy-900);margin-bottom:7px;
+  display:flex;align-items:baseline;gap:8px}
+.grp .gh em{font-family:var(--cn);font-style:normal;font-weight:400;font-size:10.5px;
+  color:var(--ink-400)}
+.rows{display:flex;flex-direction:column;gap:4px}
+.row{display:grid;grid-template-columns:20px 1fr auto;gap:0 10px;align-items:baseline;
+  background:var(--card);border:1px solid var(--line);border-radius:7px;padding:7px 11px}
+.row .mk{font-family:var(--mono);font-size:11px;font-weight:700;text-align:center;line-height:1.3}
+.row.yes .mk{color:var(--yes)} .row.later .mk{color:var(--later)} .row.no .mk{color:var(--no)}
+.row.no{background:var(--no-bg);border-color:var(--no-line)}
+.row.later{background:#fdfaf2}
+.row .lb{font-size:11.5px;line-height:1.45}
+.row .lb .cn{font-family:var(--cn);font-weight:700;margin-right:6px}
+.row .lb .en{color:var(--ink-600)}
+.row .nt{font-size:10px;color:var(--ink-400);text-align:right;line-height:1.45;max-width:216px}
+.row.no .nt{color:#a5645e}
+
+/* ---------- decision band ---------- */
+.band{background:var(--brass-100);border:1px solid var(--brass-300);border-radius:10px;
+  padding:15px 20px;margin-top:34px;display:grid;grid-template-columns:190px 1fr;gap:0 22px;
+  align-items:start}
+.band .h{font-size:10.5px;font-weight:700;letter-spacing:.07em;color:var(--brass-500);
+  line-height:1.5}
+.band .h span{display:block;font-family:var(--mono);font-size:9px;font-weight:600;
+  color:#a07c37;letter-spacing:.04em;margin-top:4px}
+.band .b{font-size:11.5px;color:#6b4f1c;line-height:1.65}
+.band .b b{color:#4d3810} .band .b .cn{font-family:var(--cn);font-weight:700}
+.band .b ol{margin:7px 0 0 17px} .band .b li{margin-bottom:3px}
+
+/* ---------- footer ---------- */
+.foot{margin-top:32px;padding-top:22px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px}
+.foot .b .h{font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:10px;
+  display:flex;align-items:baseline;gap:8px}
+.foot .b .h em{font-family:var(--mono);font-style:normal;font-size:9px;font-weight:600;
+  color:var(--brass-500);letter-spacing:.05em}
+.foot .b .h em.cn{font-family:var(--cn);font-size:10px;letter-spacing:0}
+.foot .b p{font-size:10.5px;color:var(--ink-600);line-height:1.7}
+.foot .b p b{color:var(--ink-900);font-weight:600}
+.foot .b p .cn{font-family:var(--cn);font-weight:700;color:var(--ink-900)}
+.states{list-style:none;display:flex;flex-direction:column;gap:7px}
+.states li{display:flex;align-items:baseline;gap:10px;font-size:10.5px;line-height:1.5}
+.states li b{font-family:var(--cn);font-weight:700;flex:none;width:52px;
+  padding:2px 7px;border-radius:5px;text-align:center;font-size:10px}
+.states li.p b{background:var(--later-bg);border:1px solid var(--later-line);color:var(--later)}
+.states li.a b{background:#e6efec;border:1px solid #b3cbc4;color:var(--teal-600)}
+.states li.r b{background:var(--no-bg);border:1px solid var(--no-line);color:var(--no)}
+.states li span{color:var(--ink-600)}
+.ph{display:flex;flex-direction:column;gap:8px}
+.ph .p{font-size:10.5px;line-height:1.6}
+.ph .p .k{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.05em;
+  display:block;margin-bottom:3px}
+.ph .p.now .k{color:var(--yes)} .ph .p.next .k{color:var(--later)}
+.ph .p span{color:var(--ink-600)}
+.ph .p span .cn{font-family:var(--cn);color:var(--ink-900);font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+  <div class="head">
+    <div>
+      <h1><span class="cn">星威华商论坛</span>What users can do</h1>
+      <div class="meta">
+        Proposed feature set — nothing here is specified in the deck or the mockup, so this is our recommendation<br>
+        Designed around what the deck's sample posts actually are: <b>a business saying who it is and who it wants to meet</b> — <span class="cn">一个双向的商业对接社区，而非单纯的资讯站</span>
+      </div>
+    </div>
+    <div class="legend">
+      <span class="lg yes"><b>✔</b> Ships at launch — phase 2</span>
+      <span class="lg later"><b>↗</b> Deferred — phase 2.5+</span>
+      <span class="lg no"><b>✕</b> Recommend against</span>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ============ LEFT: anatomy of a post ============ -->
+    <div>
+      <div class="sec-h">Anatomy of a post <em>every action a user has</em></div>
+
+      <div class="pc">
+        <div class="hd">
+          <div class="av">CYS</div>
+          <div class="who">
+            <span class="n">星威茶餐厅<em>CYS Teahouse</em></span>
+            <span class="sub">Singapore · joined Aug 2026 · 4 posts</span>
+          </div>
+          <span class="vf">已认证</span>
+        </div>
+
+        <div class="chips">
+          <span class="ch"><i>行业</i>餐饮 F&amp;B</span>
+          <span class="ch"><i>产品</i>鸡饭 · 中式炒菜</span>
+          <span class="ch"><i>市场</i>新加坡</span>
+          <span class="ch intent"><i>寻找</i>经销商 Distributor</span>
+        </div>
+
+        <div class="body">
+          我的餐饮品牌叫CYS茶餐厅，提供鸡饭和中式炒菜。希望可以接触到新加坡F&amp;B行业的经销商，期待和您联络。
+          <span class="en">My F&amp;B brand is CYS Teahouse, offering chicken rice and Chinese stir-fry dishes. Looking to connect with distributors in Singapore's F&amp;B industry.</span>
+        </div>
+
+        <div class="bar">
+          <span class="act on"><span class="cn">有用</span>Useful<span class="ct">12</span></span>
+          <span class="act pl"><span class="cn">评论</span>Comment<span class="ct">3</span></span>
+          <span class="act pl"><span class="cn">收藏</span>Save</span>
+          <span class="act pl"><span class="cn">分享</span>Share</span>
+          <span class="act cta"><span class="cn">联系对方</span>Connect</span>
+        </div>
+        <div class="bar" style="border-top:none;padding-top:0">
+          <span class="act rep" style="margin-left:0"><span class="cn">举报</span>Report — private, goes to the moderator</span>
+        </div>
+
+        <div class="cmt">
+          <div class="av2"></div>
+          <div class="tx"><b>南洋食品贸易</b> — 我们在新加坡有20家零售点，方便详谈吗？
+            <span class="pend">审核中</span>
+            <br>Comments go through the same review as posts.</div>
+        </div>
+      </div>
+
+      <div class="killed">
+        <span class="x">✕</span>
+        <div class="tx">
+          <b>No dislike button.</b> Your word list rates <span class="cn">骗子</span> and <span class="cn">被骗了</span> as risky because public accusations against businesses are a liability. A dislike counter is that same risk with a number attached — live instantly, never reviewed, sitting on someone else's listing. And since the businesses here compete, it is a one-click way to push a rival out of <span class="cn">热门话题</span>. <b>Use <span class="cn">举报</span>/Report instead.</b>
+        </div>
+      </div>
+
+      <p class="why">
+        <b>Why the fields above the text matter.</b> All four sample posts follow the same shape, so we capture it at entry rather than as free prose. That is what makes <span class="cn">检索用户/产品/服务</span> a real query instead of keyword soup, makes filters work, and gives the moderation check a cleaner signal — a post whose fields say <i>apparel manufacturer seeking brands</i> but whose body discusses <span class="cn">换汇</span> is visibly incongruent.
+      </p>
+
+      <div class="sec-h" style="margin-top:26px">What the author sees <em>because posts are checked first</em></div>
+
+      <div class="st p">
+        <span class="accent"></span>
+        <div class="top"><span class="pill2">审核中</span><span class="en2">Under review</span><span class="vis">visible to author only</span></div>
+        <div class="d">Sits in <span class="cn">我的帖子</span> with a review-time expectation. Still editable. Nothing is on the forum yet.</div>
+      </div>
+      <div class="st a">
+        <span class="accent"></span>
+        <div class="top"><span class="pill2">已发布</span><span class="en2">Published</span><span class="vis">public</span></div>
+        <div class="d">Live with its own link. <b>Any later edit returns it to review</b> — otherwise approve-then-edit would defeat the whole arrangement.</div>
+      </div>
+      <div class="st r">
+        <span class="accent"></span>
+        <div class="top"><span class="pill2">未通过</span><span class="en2">Not approved</span><span class="vis">visible to author only</span></div>
+        <div class="d">Shows the <b>category</b> and a rewrite hint — <b>never the word that matched</b>, which would hand a bad actor something to iterate against. Editable, and resubmits to the queue.</div>
+      </div>
+
+      <p class="mailnote">
+        <b>Every state change sends an email.</b> With posts checked before they appear, a poster hits submit and sees nothing — so silence is the single biggest UX risk in this design. It reads as a broken site, and they don't come back.
+      </p>
+    </div>
+
+    <!-- ============ RIGHT: feature matrix ============ -->
+    <div>
+      <div class="sec-h">Full feature set <em>by area</em></div>
+
+      <div class="grp">
+        <div class="gh">Account &amp; identity <em>注册 · 身份</em></div>
+        <div class="rows">
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">注册 | 登录</span><span class="en">Register / log in</span></span><span class="nt">Routes built in phase 1 — header already shows it</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">个人主页</span><span class="en">Company profile</span></span><span class="nt">A company card, not a social profile</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">已认证</span><span class="en">Verified badge</span></span><span class="nt">Who verifies is an open question</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="gh">Posting <em>发布</em></div>
+        <div class="rows">
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">创建帖子</span><span class="en">Create post</span></span><span class="nt">Structured fields, not a blank box</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">编辑 · 删除</span><span class="en">Edit / delete own post</span></span><span class="nt">An edit re-enters the review queue</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">评论 · 回复</span><span class="en">Comment + 1 level of replies</span></span><span class="nt">Flat replies — deep nesting suits argument, not enquiry</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">我的帖子</span><span class="en">My posts + status</span></span><span class="nt">Essential once posts are pre-checked</span></div>
+          <div class="row later"><span class="mk">↗</span><span class="lb"><span class="en">Images in posts</span></span><span class="nt">Each upload is a moderation surface with no word list to check it</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="gh">Engagement <em>互动</em></div>
+        <div class="rows">
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">有用</span><span class="en">Useful — the "like"</span></span><span class="nt">Renamed from 点赞. Also feeds 热门 ranking</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">举报</span><span class="en">Report</span></span><span class="nt">Private, reasoned, routed to the moderator</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">收藏</span><span class="en">Save / bookmark</span></span><span class="nt">High value on a directory</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">分享</span><span class="en">Share</span></span><span class="nt">Copy link + WeChat. No third-party JS</span></div>
+          <div class="row no"><span class="mk">✕</span><span class="lb"><span class="cn">不喜欢</span><span class="en">Dislike</span></span><span class="nt">Defamation surface + brigading vector</span></div>
+          <div class="row no"><span class="mk">✕</span><span class="lb"><span class="cn">私信</span><span class="en">Direct messages</span></span><span class="nt">A second unmoderated channel. Your list already flags 私聊</span></div>
+        </div>
+      </div>
+
+      <div class="grp">
+        <div class="gh">Discovery <em>检索 · 发现</em></div>
+        <div class="rows">
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">检索用户/产品/服务</span><span class="en">Search</span></span><span class="nt">Chinese-aware full-text — a deck requirement</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">筛选</span><span class="en">Filter by industry / market / intent</span></span><span class="nt">Powered by the structured fields</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">最新 · 热门</span><span class="en">Sort newest / trending</span></span><span class="nt">热门 needs 有用 to rank on</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">关注板块</span><span class="en">Follow a topic</span></span><span class="nt">Cheap, drives return visits</span></div>
+          <div class="row later"><span class="mk">↗</span><span class="lb"><span class="cn">关注用户</span><span class="en">Follow a poster</span></span><span class="nt">Wait until there are enough posters</span></div>
+          <div class="row later"><span class="mk">↗</span><span class="lb"><span class="en">Semantic matching</span></span><span class="nt">"Find me a distributor in Malaysia" — intent, not keywords</span></div>
+        </div>
+      </div>
+
+      <div class="grp" style="margin-bottom:0">
+        <div class="gh">Contact &amp; notifications <em>联络 · 通知</em></div>
+        <div class="rows">
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">联系对方</span><span class="en">Connect enquiry</span></span><span class="nt">The conversion. Every sample post ends 期待和您联络</span></div>
+          <div class="row yes"><span class="mk">✔</span><span class="lb"><span class="cn">通知</span><span class="en">Email notifications</span></span><span class="nt">Every review decision reaches the author</span></div>
+          <div class="row later"><span class="mk">↗</span><span class="lb"><span class="en">In-app notification centre</span></span><span class="nt">Email is enough at launch volume</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ decision band ============ -->
+  <div class="band">
+    <div class="h">ONE DECISION FOR CYS<span>DISLIKES — YES / NO</span></div>
+    <div class="b">
+      You asked what we propose for likes, comments and dislikes. <b>Likes yes, comments yes, dislikes no.</b> Renaming the like to <span class="cn">有用</span>/<i>Useful</i> gives you a signal that means something on a matching board — "this supplier is relevant to me" — and gives <span class="cn">热门话题</span> something real to rank on, which it currently has no source for. Dislikes we would leave out:
+      <ol>
+        <li>It publishes an unreviewed negative judgement onto a business listing — the opposite of the pre-publication rule you asked for everywhere else.</li>
+        <li>Your own word list treats accusations against businesses as a risk (<span class="cn">骗子</span>, <span class="cn">被骗了</span>). This reintroduces that risk as a product feature.</li>
+        <li>The members compete with each other, so the motive to abuse it is built in.</li>
+      </ol>
+      If you want a negative signal anyway, the least-harmful form is a <b>private</b> downvote that feeds ranking and is never shown — but we would not ship even that at launch, because a poster whose listing quietly stops appearing cannot be given an explanation.
+    </div>
+  </div>
+
+  <!-- ============ footer ============ -->
+  <div class="foot">
+    <div class="b">
+      <div class="h">Not a discussion forum <em>THE CONSTRAINT</em></div>
+      <p>Every feature above is judged on one question: <b>does it help a real business get found by the right counterparty?</b> The deck's four sample posts are all the same shape — <i>"I am this business, I want to meet that kind of partner"</i> — so this is a <b>business directory with discussion attached</b>, not a message board.</p>
+      <p style="margin-top:9px">Reddit-style engagement mechanics optimise for attention on opinions instead, which is why we've reframed the like and dropped the dislike rather than importing the usual set wholesale.</p>
+    </div>
+    <div class="b">
+      <div class="h">Open questions <em>NEED A DECISION</em></div>
+      <p><b>1 · Dislikes</b> — happy with the recommendation? Only item here that changes the data model.</p>
+      <p style="margin-top:7px"><b>2 · Read access</b> — we suggest posts publicly readable, posting and contact details login-gated. Public read is what makes the forum work as a shopfront and findable at all.</p>
+      <p style="margin-top:7px"><b>3 · Forum language</b> — Chinese-only or bilingual? Every label here has a CN/EN pair, but the word list is Chinese-only, so English posts would be only half-checked.</p>
+      <p style="margin-top:7px"><b>4 · Comments</b> — reviewed before they appear too, or posts only? Assumed yes above.</p>
+      <p style="margin-top:7px"><b>5 · Verified badge</b> — does CYS verify a company, or is it self-declared?</p>
+    </div>
+    <div class="b">
+      <div class="h">Phasing <em>PHASE 2</em></div>
+      <div class="ph">
+        <div class="p now"><span class="k">✔ AT LAUNCH</span><span>Accounts, profiles, structured posting, edit/delete, comments + replies, <span class="cn">有用</span>, <span class="cn">举报</span>, <span class="cn">收藏</span>, <span class="cn">分享</span>, follow a topic, search + filters, <span class="cn">最新/热门</span>, <span class="cn">我的帖子</span> with statuses, email notifications, <span class="cn">联系对方</span></span></div>
+        <div class="p next"><span class="k">↗ AFTER LAUNCH</span><span>Follow a poster, image uploads, in-app notifications, semantic matching, reputation display</span></div>
+      </div>
+      <p style="margin-top:10px">Auth routes land in <b>phase 1</b> — the header shows <span class="cn">注册 | 登录</span> on every page and would otherwise be a dead link.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

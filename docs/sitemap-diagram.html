@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese — Sitemap Diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A1628; --navy:#16305C; --azure:#2E6FB7; --jade:#6DA544; --rust:#A8574A;
+  --canvas:#F7F6F3; --line:#C7CEDA; --card:#FFFFFF; --edge:#E1E5EC;
+  --slate:#5A6B85; --mist:#94A2B8;
+  --body:'Archivo','Noto Sans SC',sans-serif;
+  --cn:'Noto Sans SC',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1560px;background:var(--canvas);font-family:var(--body);
+  -webkit-font-smoothing:antialiased;color:var(--ink)}
+#wrap{position:relative;padding:44px 56px 48px}
+#wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+/* ---------- header ---------- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:16px;margin-bottom:26px;border-bottom:1px solid var(--edge)}
+.head h1{font-size:25px;font-weight:600;letter-spacing:-.015em}
+.head h1 .cn{font-family:var(--cn);font-weight:700;margin-right:8px}
+.head .meta{font-size:11px;color:var(--slate);margin-top:5px}
+.head .meta b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:7px;align-items:center}
+.chip{font-size:10px;font-weight:600;padding:5px 10px;border-radius:20px;
+  border:1px solid var(--edge);background:var(--card);color:var(--slate);
+  display:flex;align-items:center;gap:6px}
+.chip i{width:9px;height:9px;border-radius:3px;display:block}
+
+/* ---------- layout ---------- */
+.tree-row{display:flex;align-items:flex-start;gap:78px;position:relative;z-index:2}
+.branches{display:flex;flex-direction:column;gap:30px}
+.branch-row{display:flex;align-items:center;gap:78px}
+.branch-row.sub{gap:56px}
+.kids{display:flex;flex-direction:column;gap:14px}
+.kids.tight{gap:8px}
+
+/* ---------- nodes ---------- */
+.node{background:var(--card);border:1px solid var(--edge);border-radius:8px;
+  padding:11px 15px;width:250px;position:relative;
+  box-shadow:0 1px 2px rgba(10,22,40,.05),0 1px 1px rgba(10,22,40,.03)}
+.node .cn{font-family:var(--cn);font-weight:700;font-size:14px;display:block;
+  line-height:1.3;letter-spacing:.01em}
+.node .en{display:block;font-size:11.5px;color:var(--slate);line-height:1.3;margin-top:1px}
+.node .rt{display:block;font-family:var(--mono);font-size:10px;color:var(--azure);
+  margin-top:5px}
+.node .accent{position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px}
+
+.node.root{background:var(--ink);border-color:var(--ink);width:236px;padding:14px 18px;
+  margin-top:70px;box-shadow:0 3px 10px rgba(10,22,40,.16)}
+.node.root .cn{color:#fff;font-size:16px}
+.node.root .en{color:rgba(255,255,255,.62)}
+.node.root .rt{color:#8FD05F;font-size:10.5px}
+
+.node.l1{background:var(--navy);border-color:var(--navy);width:232px;
+  box-shadow:0 2px 6px rgba(22,48,92,.20)}
+.node.l1 .cn{color:#fff;font-size:14.5px}
+.node.l1 .en{color:rgba(255,255,255,.66)}
+.node.l1 .rt{color:#9DC7F2}
+
+.node.p2{background:#F3F8EE;border-color:#BEDCA4}
+.node.p2 .rt{color:#4A7A2E}
+.node.mod{background:#FBF2F0;border-color:#E3BDB5}
+.node.mod .rt{color:var(--rust)}
+.node.auth{border-style:dashed;border-color:#B6C0D0;background:#FBFCFD}
+.node.sm{width:232px;padding:8px 13px}
+.node.sm .cn{font-size:12.5px}
+.node.sm .en{font-size:10.5px;margin-top:0}
+.node.sm .rt{font-size:9.5px;margin-top:3px}
+.node.info{background:transparent;border-style:dashed;border-color:#C3CBD8;
+  box-shadow:none;width:250px}
+.node.info .lbl{font-size:11px;font-weight:600;color:var(--mist);display:block;
+  margin-bottom:5px;line-height:1.35}
+.node.info .cn{font-weight:400;font-size:12px;color:var(--slate);line-height:1.65}
+
+.badge{position:absolute;top:-8px;right:10px;font-family:var(--mono);font-size:8.5px;
+  font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:.04em;color:#fff}
+.badge.p2{background:var(--jade)} .badge.lock{background:#7E8CA3}
+.badge.mod{background:var(--rust)}
+
+/* ---------- group frame ---------- */
+.frame{border:1px dashed #BFC8D6;border-radius:10px;padding:16px 16px 14px;
+  position:relative;background:rgba(255,255,255,.45)}
+.frame .ftitle{position:absolute;top:-9px;left:14px;background:var(--canvas);
+  padding:0 8px;font-size:10px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mist)}
+.frame.p2f{border-color:#BEDCA4}
+.frame.p2f .ftitle{color:#4A7A2E}
+
+/* ---------- off-tree band ---------- */
+.band{margin-top:38px;padding-top:26px;border-top:1px solid var(--edge);position:relative;z-index:2}
+.band .bt{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mist);margin-bottom:14px}
+.band .row{display:flex;gap:14px;flex-wrap:wrap}
+.node.util{width:172px;padding:9px 13px}
+.node.util .cn{font-size:12.5px}
+.node.util .en{font-size:10.5px;margin-top:0}
+.node.util .rt{font-size:9.5px;margin-top:3px}
+
+/* ---------- footnote ---------- */
+.foot{margin-top:30px;padding-top:18px;border-top:1px solid var(--edge);
+  display:flex;gap:44px;position:relative;z-index:2}
+.foot div{font-size:11px;color:var(--slate);line-height:1.55;max-width:400px}
+.foot b{color:var(--ink);font-weight:600}
+.foot .h{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--mist);margin-bottom:6px}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <svg id="wires"></svg>
+
+  <div class="head">
+    <div>
+      <h1><span class="cn">星威环球</span>CYS Chinese Website — Sitemap</h1>
+      <div class="meta"><b>cn.cys.com.sg</b> &nbsp;·&nbsp; 14 Phase 1 routes + 9 forum routes &nbsp;·&nbsp; every route exists in <b>zh</b> and <b>en</b> &nbsp;·&nbsp; 3 August 2026</div>
+    </div>
+    <div class="chips">
+      <div class="chip"><i style="background:#16305C"></i>Nav section</div>
+      <div class="chip"><i style="background:#fff;border:1px solid #E1E5EC"></i>Page</div>
+      <div class="chip"><i style="background:#F3F8EE;border:1px solid #BEDCA4"></i>Phase 2</div>
+      <div class="chip"><i style="background:#FBFCFD;border:1px dashed #B6C0D0"></i>Auth</div>
+      <div class="chip"><i style="background:#FBF2F0;border:1px solid #E3BDB5"></i>Moderator</div>
+    </div>
+  </div>
+
+  <div class="tree-row">
+    <div class="node root" id="n-home">
+      <span class="cn">首页</span>
+      <span class="en">Home</span>
+      <span class="rt">/[zh|en]</span>
+    </div>
+
+    <div class="branches">
+
+      <!-- ABOUT -->
+      <div class="branch-row">
+        <div class="node l1" id="n-about" data-parent="n-home">
+          <span class="cn">关于我们</span><span class="en">About us</span><span class="rt">/about</span>
+        </div>
+        <div class="kids">
+          <div class="node" id="n-intro" data-parent="n-about"><span class="accent" style="background:var(--azure)"></span><span class="cn">公司简介</span><span class="en">Introduction</span><span class="rt">/about/intro</span></div>
+          <div class="node" id="n-hist" data-parent="n-about"><span class="accent" style="background:var(--azure)"></span><span class="cn">企业发展历史</span><span class="en">Milestones — 1981 › 2030</span><span class="rt">/about/history</span></div>
+          <div class="node" id="n-cult" data-parent="n-about"><span class="accent" style="background:var(--azure)"></span><span class="cn">企业文化</span><span class="en">Culture — 包容 创新 启迪</span><span class="rt">/about/culture</span></div>
+        </div>
+      </div>
+
+      <!-- CORRIDOR -->
+      <div class="branch-row">
+        <div class="node l1" id="n-corr" data-parent="n-home">
+          <span class="cn">中新合作走廊</span><span class="en">CN–SG Corridor</span><span class="rt">/corridor</span>
+        </div>
+        <div class="kids">
+          <div class="node" id="n-part" data-parent="n-corr"><span class="accent" style="background:var(--azure)"></span><span class="cn">中新合作伙伴</span><span class="en">Partners &amp; investors</span><span class="rt">/corridor/partners</span></div>
+          <div class="node" id="n-story" data-parent="n-corr"><span class="accent" style="background:var(--azure)"></span><span class="cn">伙伴故事</span><span class="en">Partner stories</span><span class="rt">/corridor/stories</span></div>
+        </div>
+      </div>
+
+      <!-- BUSINESS -->
+      <div class="branch-row">
+        <div class="node l1" id="n-biz" data-parent="n-home">
+          <span class="cn">企业合作</span><span class="en">Business users</span><span class="rt">/business</span>
+        </div>
+        <div class="kids">
+          <div class="node" id="n-fi" data-parent="n-biz"><span class="accent" style="background:var(--azure)"></span><span class="cn">金融机构</span><span class="en">Financial institutions</span><span class="rt">/business/institutions</span></div>
+          <div class="node" id="n-cb" data-parent="n-biz"><span class="accent" style="background:var(--azure)"></span><span class="cn">跨境企业</span><span class="en">Cross-border corporates</span><span class="rt">/business/cross-border</span></div>
+
+          <div class="branch-row sub">
+            <div class="node p2" id="n-forum" data-parent="n-biz">
+              <span class="badge p2">PHASE 2</span>
+              <span class="accent" style="background:var(--jade)"></span>
+              <span class="cn">华商论坛</span><span class="en">Chinese Business Forum</span><span class="rt">/forum</span>
+            </div>
+            <div class="frame p2f">
+              <div class="ftitle">Forum routes · Phase 2</div>
+              <div class="kids tight">
+                <div class="node sm p2" id="f1" data-parent="n-forum"><span class="cn">论坛首页</span><span class="en">Post list · filters · search</span><span class="rt">/forum</span></div>
+                <div class="node sm p2" id="f2" data-parent="n-forum"><span class="cn">帖子详情</span><span class="en">Post detail · comments</span><span class="rt">/forum/[slug]</span></div>
+                <div class="node sm p2 auth" id="f3" data-parent="n-forum"><span class="badge lock">AUTH</span><span class="cn">创建帖子</span><span class="en">Composer → status: pending</span><span class="rt">/forum/new</span></div>
+                <div class="node sm p2 auth" id="f4" data-parent="n-forum"><span class="badge lock">AUTH</span><span class="cn">编辑帖子</span><span class="en">Edit → back to pending</span><span class="rt">/forum/[slug]/edit</span></div>
+                <div class="node sm p2" id="f5" data-parent="n-forum"><span class="cn">检索</span><span class="en">Search — PGroonga CN+EN</span><span class="rt">/forum/search</span></div>
+                <div class="node sm p2" id="f6" data-parent="n-forum"><span class="cn">用户主页</span><span class="en">Public profile</span><span class="rt">/forum/u/[handle]</span></div>
+                <div class="node sm p2 auth" id="f7" data-parent="n-forum"><span class="badge lock">AUTH</span><span class="cn">我的帖子</span><span class="en">My posts — all statuses</span><span class="rt">/account/posts</span></div>
+                <div class="node sm p2 auth" id="f8" data-parent="n-forum"><span class="badge lock">AUTH</span><span class="cn">我的资料</span><span class="en">Profile settings</span><span class="rt">/account/profile</span></div>
+                <div class="node sm mod" id="f9" data-parent="n-forum"><span class="badge mod">MOD</span><span class="cn">审核队列</span><span class="en">Moderation queue · audit log</span><span class="rt">/admin/moderation</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL -->
+      <div class="branch-row">
+        <div class="node l1" id="n-ind" data-parent="n-home">
+          <span class="cn">个人用户</span><span class="en">Individual user</span><span class="rt">/individual</span>
+        </div>
+        <div class="kids">
+          <div class="node info" id="n-indinfo" data-parent="n-ind">
+            <span class="lbl">No child routes — one page,<br>three use-case blocks</span>
+            <span class="cn">给海外家人汇学费生活费<br>兑换外币购物<br>境外投资</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="branch-row">
+        <div class="node l1" id="n-con" data-parent="n-home">
+          <span class="cn">联系我们</span><span class="en">Contact us</span><span class="rt">/contact</span>
+        </div>
+        <div class="kids">
+          <div class="node" id="n-cd" data-parent="n-con"><span class="accent" style="background:var(--azure)"></span><span class="cn">联系方式</span><span class="en">Details · WhatsApp · WeChat</span><span class="rt">/contact</span></div>
+          <div class="node" id="n-ce" data-parent="n-con"><span class="accent" style="background:var(--azure)"></span><span class="cn">用户信息填写</span><span class="en">Enquiry — corporate/individual</span><span class="rt">/contact/enquiry</span></div>
+          <div class="node" id="n-cf" data-parent="n-con"><span class="accent" style="background:var(--azure)"></span><span class="cn">用户反馈</span><span class="en">Feedback</span><span class="rt">/contact/feedback</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OFF-TREE -->
+  <div class="band">
+    <div class="bt">Off-tree routes — reachable from footer or header, not in the nav dropdowns</div>
+    <div class="row">
+      <div class="node util"><span class="cn">常见问题</span><span class="en">FAQ</span><span class="rt">/faq</span></div>
+      <div class="node util"><span class="cn">条款和条件</span><span class="en">Terms &amp; Conditions</span><span class="rt">/terms</span></div>
+      <div class="node util"><span class="cn">隐私声明</span><span class="en">Privacy Statement</span><span class="rt">/privacy</span></div>
+      <div class="node util auth"><span class="badge lock">AUTH</span><span class="cn">注册</span><span class="en">Register</span><span class="rt">/register</span></div>
+      <div class="node util auth"><span class="badge lock">AUTH</span><span class="cn">登录</span><span class="en">Log in</span><span class="rt">/login</span></div>
+      <div class="node util auth"><span class="cn">验证 / 重置</span><span class="en">Verify · reset password</span><span class="rt">/verify · /reset</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div>
+      <div class="h">Locale scheme</div>
+      Locale is the first path segment — <b>/zh/about/history</b> and <b>/en/about/history</b>. <b>/</b> redirects to <b>/zh</b>. Route segments stay English in both locales, so no percent-encoded Chinese URLs. The switcher swaps only the locale segment and keeps the rest of the path.
+    </div>
+    <div>
+      <div class="h">Nav taxonomy — resolved</div>
+      The deck's footer filed <b>伙伴故事</b> and <b>星威论坛</b> under <b>华商社群</b>; the header filed them under <b>中新合作走廊</b> and <b>企业合作</b>. This diagram adopts the <b>header taxonomy as canonical</b> — it matches the URL tree. <b>华商社群</b> becomes a footer heading, not a page.
+    </div>
+    <div>
+      <div class="h">Phase split</div>
+      Everything in white and navy ships in the <b>Phase 1 demo</b>, early October. The green forum cluster is <b>Phase 2</b>, around December. Auth routes are built in Phase 1 so the header links aren't dead, but gate nothing until the forum exists.
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var wrap = document.getElementById('wrap');
+  var svg  = document.getElementById('wires');
+  var W = wrap.scrollWidth, H = wrap.scrollHeight;
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  document.body.style.height = H + 'px';
+
+  var base = wrap.getBoundingClientRect();
+  var R = 10;
+  var parts = [];
+
+  document.querySelectorAll('[data-parent]').forEach(function(el){
+    var p = document.getElementById(el.getAttribute('data-parent'));
+    if(!p) return;
+    var a = p.getBoundingClientRect(), b = el.getBoundingClientRect();
+    var x1 = a.right - base.left, y1 = a.top - base.top + a.height/2;
+    var x2 = b.left  - base.left, y2 = b.top - base.top + b.height/2;
+    var mx = x1 + (x2 - x1) / 2;
+    var d;
+    if (Math.abs(y2 - y1) < 2) {
+      d = 'M' + x1 + ' ' + y1 + ' H' + x2;
+    } else {
+      var s = y2 > y1 ? 1 : -1;
+      var r = Math.min(R, Math.abs(y2 - y1) / 2, Math.abs(mx - x1), Math.abs(x2 - mx));
+      d = 'M' + x1 + ' ' + y1 +
+          ' H' + (mx - r) +
+          ' Q' + mx + ' ' + y1 + ' ' + mx + ' ' + (y1 + s * r) +
+          ' V' + (y2 - s * r) +
+          ' Q' + mx + ' ' + y2 + ' ' + (mx + r) + ' ' + y2 +
+          ' H' + x2;
+    }
+    var stroke = el.classList.contains('p2') || el.classList.contains('mod') ? '#A9CE8B' : '#C7CEDA';
+    parts.push('<path d="'+d+'" fill="none" stroke="'+stroke+'" stroke-width="1.5" stroke-linecap="round"/>');
+    parts.push('<circle cx="'+x2+'" cy="'+y2+'" r="2.6" fill="'+stroke+'"/>');
+  });
+
+  svg.innerHTML = parts.join('');
+})();
+</script>
+</body>
+</html>

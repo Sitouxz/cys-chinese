@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYS Chinese — Forum Moderation Flow</title>
+<style>
+:root{
+  /* Client-confirmed palette, 4 Aug 2026 — CYS_LandingPage_Mockup.html */
+  --navy-950:#0c1626; --navy-900:#12213a; --navy-800:#1a3358; --navy-700:#24446f;
+  --brass-500:#b98d42; --brass-300:#d9b877; --brass-100:#f1e3c6;
+  --ivory-50:#faf8f3;  --ivory-100:#f3efe4;
+  --ink-900:#151c26;   --ink-600:#4c5666;  --ink-400:#8992a1;
+  --line:#e3ddcd;      --teal-600:#3e6259;
+  /* risk tiers — the client's own red/amber/green coding, tuned for an ivory ground */
+  --risk-high:#9e2b25;  --risk-high-bg:#f7e9e7;  --risk-high-line:#dcb3ae;
+  --risk-mid:#8a6314;   --risk-mid-bg:#f9f0dd;   --risk-mid-line:#e0c68c;
+  --risk-low:#40663f;   --risk-low-bg:#eaf1e6;   --risk-low-line:#b8cfb2;
+  --card:#ffffff;
+  --sans:'Inter','Segoe UI',-apple-system,sans-serif;
+  --cn:'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif;
+  --mono:'Cascadia Mono','Consolas',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1400px;background:var(--ivory-50);color:var(--ink-900);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased}
+#wrap{position:relative;padding:40px 48px 42px}
+#wires{position:absolute;inset:0;pointer-events:none;z-index:1}
+.layer{position:relative;z-index:2}
+
+/* ---------- header ---------- */
+.head{display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:15px;margin-bottom:30px;border-bottom:1px solid var(--line)}
+.head h1{font-size:24px;font-weight:600;letter-spacing:-.015em;color:var(--navy-900)}
+.head h1 .cn{font-family:var(--cn);font-weight:700;margin-right:9px}
+.head .meta{font-size:11px;color:var(--ink-600);margin-top:6px;line-height:1.5}
+.head .meta b{color:var(--ink-900);font-weight:600}
+.chips{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.chip{font-size:10px;font-weight:600;padding:5px 11px;border-radius:20px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-600);
+  display:flex;align-items:center;gap:7px;white-space:nowrap}
+.chip i{width:9px;height:9px;border-radius:3px;display:block;flex:none}
+
+/* ---------- grid ---------- */
+.grid{display:grid;grid-template-columns:300px 1fr 320px;gap:0 40px;align-items:start}
+.col{display:flex;flex-direction:column;align-items:center}
+.col.left{align-items:flex-end}
+.col.right{align-items:flex-start}
+.sp{width:100%;flex:none}
+
+/* ---------- nodes ---------- */
+.node{background:var(--card);border:1px solid var(--line);border-radius:9px;
+  padding:12px 16px;position:relative;
+  box-shadow:0 1px 2px rgba(12,22,38,.05),0 1px 1px rgba(12,22,38,.03)}
+.node .t{font-size:13.5px;font-weight:600;line-height:1.35;display:block}
+.node .t .cn{font-family:var(--cn);font-weight:700}
+.node .s{display:block;font-size:11px;color:var(--ink-600);line-height:1.45;margin-top:4px}
+.node .m{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink-400);
+  margin-top:6px;letter-spacing:.01em}
+.node.spine{width:460px}
+.node.side{width:288px}
+.node.sider{width:308px}
+
+.node.start{background:var(--navy-900);border-color:var(--navy-900);width:300px;
+  box-shadow:0 3px 9px rgba(18,33,58,.18)}
+.node.start .t{color:#fff;font-size:14px}
+.node.start .s{color:rgba(255,255,255,.66)}
+
+.node.gate{background:var(--ivory-100);border-color:var(--brass-300)}
+.node.gate .m{color:var(--brass-500);font-weight:600}
+
+/* stage banners */
+.stage{width:460px;background:var(--navy-800);border:1px solid var(--navy-800);
+  border-radius:9px;padding:13px 17px 14px;color:#fff;position:relative;
+  box-shadow:0 3px 10px rgba(26,51,88,.20)}
+.stage .n{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  color:var(--brass-300);display:block;margin-bottom:5px}
+.stage .t{font-size:15px;font-weight:600;display:block;line-height:1.3}
+.stage .s{font-size:11px;color:rgba(255,255,255,.72);display:block;margin-top:5px;line-height:1.5}
+.stage .cost{position:absolute;top:12px;right:15px;font-family:var(--mono);font-size:9.5px;
+  color:rgba(255,255,255,.62);text-align:right;line-height:1.5}
+.stage.human{background:var(--card);border-color:var(--brass-500);border-width:1.5px;
+  color:var(--ink-900);width:308px;box-shadow:0 2px 8px rgba(185,141,66,.16)}
+.stage.human .n{color:var(--brass-500)}
+.stage.human .s{color:var(--ink-600)}
+
+/* risk verdict pills */
+.pill{border-radius:8px;padding:9px 13px;border:1px solid;width:288px;position:relative}
+.pill .r{font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:7px}
+.pill .r i{width:10px;height:10px;border-radius:50%;display:block;flex:none}
+.pill .c{font-family:var(--mono);font-size:9.5px;margin-left:auto;font-weight:600}
+.pill .s{display:block;font-size:10.5px;margin-top:4px;line-height:1.45;color:var(--ink-600)}
+.pill.high{background:var(--risk-high-bg);border-color:var(--risk-high-line)}
+.pill.high .r,.pill.high .c{color:var(--risk-high)}
+.pill.high .r i{background:var(--risk-high)}
+.pill.mid{background:var(--risk-mid-bg);border-color:var(--risk-mid-line)}
+.pill.mid .r,.pill.mid .c{color:var(--risk-mid)}
+.pill.mid .r i{background:var(--risk-mid)}
+.pill.low{background:var(--risk-low-bg);border-color:var(--risk-low-line)}
+.pill.low .r,.pill.low .c{color:var(--risk-low)}
+.pill.low .r i{background:var(--risk-low)}
+
+/* outcomes */
+.out{width:288px;border-radius:9px;padding:11px 15px;border:1px solid}
+.out .t{font-size:13px;font-weight:700;display:block}
+.out .t .cn{font-family:var(--cn)}
+.out .s{font-size:10.5px;display:block;margin-top:3px;line-height:1.45}
+.out.reject{background:var(--risk-high-bg);border-color:var(--risk-high-line)}
+.out.reject .t{color:var(--risk-high)} .out.reject .s{color:#7d3630}
+.out.live{background:var(--teal-600);border-color:var(--teal-600);width:460px;
+  box-shadow:0 3px 10px rgba(62,98,89,.22)}
+.out.live .t{color:#fff;font-size:15px} .out.live .s{color:rgba(255,255,255,.75)}
+
+.audit{width:460px;background:var(--navy-950);border:1px solid var(--navy-950);
+  border-radius:9px;padding:12px 16px;box-shadow:0 3px 10px rgba(12,22,38,.20)}
+.audit .t{font-size:13px;font-weight:600;color:#fff;display:block}
+.audit .s{font-size:10.5px;color:rgba(255,255,255,.66);display:block;margin-top:4px;line-height:1.5}
+.audit .m{font-family:var(--mono);font-size:9.5px;color:var(--brass-300);display:block;margin-top:6px}
+
+/* switch callout — full-width band, deliberately outside the wire lanes */
+.switch{background:var(--brass-100);border:1px solid var(--brass-300);border-radius:10px;
+  padding:15px 20px;margin-top:40px;display:grid;grid-template-columns:190px 1fr;gap:0 22px;
+  align-items:start}
+.switch .h{font-size:10.5px;font-weight:700;letter-spacing:.07em;color:var(--brass-500);
+  line-height:1.5}
+.switch .h span{display:block;font-family:var(--mono);font-size:9px;font-weight:600;
+  color:#a07c37;letter-spacing:.04em;margin-top:4px}
+.switch .b{font-size:11.5px;color:#6b4f1c;line-height:1.65}
+.switch .b b{color:#4d3810}
+.switch .b .cn{font-family:var(--cn);font-weight:700}
+.switch .b code{font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.65);
+  padding:1px 6px;border-radius:3px;border:1px solid var(--brass-300)}
+
+/* label on a wire */
+.wlab{position:absolute;font-family:var(--mono);font-size:9px;font-weight:600;
+  color:var(--ink-400);background:var(--ivory-50);padding:1px 6px;letter-spacing:.04em;
+  z-index:3;white-space:nowrap}
+
+/* ---------- footer strips ---------- */
+.foot{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px}
+.foot .b .h{font-size:11px;font-weight:700;color:var(--navy-900);margin-bottom:9px;
+  display:flex;align-items:center;gap:7px}
+.foot .b .h em{font-family:var(--mono);font-style:normal;font-size:9px;font-weight:600;
+  color:var(--brass-500);letter-spacing:.06em}
+.foot .b p{font-size:10.5px;color:var(--ink-600);line-height:1.65}
+.foot .b p b{color:var(--ink-900);font-weight:600}
+.foot .b .cn{font-family:var(--cn)}
+.states{list-style:none;display:flex;flex-direction:column;gap:6px}
+.states li{display:flex;align-items:baseline;gap:9px;font-size:10.5px;line-height:1.5}
+.states li b{font-family:var(--cn);font-weight:700;color:var(--ink-900);flex:none;width:62px}
+.states li span{color:var(--ink-600)}
+table.cost{width:100%;border-collapse:collapse;font-size:10.5px}
+table.cost td{padding:5px 0;border-bottom:1px solid var(--line);color:var(--ink-600)}
+table.cost tr:last-child td{border-bottom:none}
+table.cost td:last-child{text-align:right;font-family:var(--mono);font-size:9.5px;
+  color:var(--ink-900);font-weight:600}
+</style>
+</head>
+<body>
+<div id="wrap">
+<svg id="wires"></svg>
+
+<div class="layer">
+
+  <div class="head">
+    <div>
+      <h1><span class="cn">星威华商论坛</span>Post approval flow</h1>
+      <div class="meta">
+        How a forum post gets checked before it goes live · built on the client's <b>敏感词库</b> word list, received 4 Aug 2026<br>
+        <b>219</b> active keywords + <b>8</b> pattern rules · <b>nothing publishes without passing review</b>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip"><i style="background:var(--navy-800)"></i>Automated — no human time</span>
+      <span class="chip"><i style="background:var(--brass-500)"></i>Human moderator</span>
+      <span class="chip"><i style="background:var(--teal-600)"></i>Published</span>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- ================= LEFT: automated rejections ================= -->
+    <div class="col left">
+      <div class="sp" style="height:357px"></div>
+      <div class="out reject" id="rejHigh">
+        <span class="t">Rejected automatically</span>
+        <span class="s">Author sees the <b>category</b> and a rewrite hint — never the matched word</span>
+      </div>
+      <div class="sp" style="height:201px"></div>
+      <div class="out reject" id="rejSpam">
+        <span class="t">Rejected — spam</span>
+        <span class="s">Obvious junk never reaches a person</span>
+      </div>
+    </div>
+
+    <!-- ================= CENTRE: the spine ================= -->
+    <div class="col mid">
+      <div class="node start" id="submit">
+        <span class="t"><span class="cn">创建帖子</span> — author submits</span>
+        <span class="s">Nothing is visible on the forum yet</span>
+      </div>
+
+      <div class="sp" style="height:38px"></div>
+
+      <div class="node gate spine" id="pending">
+        <span class="t">status = <span style="font-family:var(--mono);font-size:12.5px">pending</span></span>
+        <span class="s">Set by a database trigger, never taken from the browser — a post cannot arrive pre-approved</span>
+        <span class="m">审核中 · Under review</span>
+      </div>
+
+      <div class="sp" style="height:38px"></div>
+
+      <div class="stage" id="stage1">
+        <span class="cost">~1 ms<br>no cost</span>
+        <span class="n">STAGE 1 — AUTOMATED</span>
+        <span class="t"><span style="font-family:var(--cn)">敏感词库</span> word-list scan</span>
+        <span class="s">219 keywords + 8 combination rules. Longest match wins, so <span style="font-family:var(--cn)">非法换汇</span> outranks the <span style="font-family:var(--cn)">换汇</span> inside it</span>
+      </div>
+
+      <div class="sp" style="height:210px"></div>
+
+      <div class="stage" id="stage2">
+        <span class="cost">~2 s<br>~$0.0015</span>
+        <span class="n">STAGE 2 — AUTOMATED</span>
+        <span class="t">AI context check</span>
+        <span class="s">Judges intent, not vocabulary. Catches what a word list cannot: negation, tone, and sensitive posts that use no listed word</span>
+      </div>
+
+      <div class="sp" style="height:258px"></div>
+
+      <div class="out live" id="live">
+        <span class="t"><span class="cn">已发布</span> — Published</span>
+        <span class="s">Live on the forum. Any later edit returns the post to <span style="font-family:var(--mono)">pending</span></span>
+      </div>
+
+      <div class="sp" style="height:44px"></div>
+
+      <div class="audit" id="audit">
+        <span class="t">Every decision logged + author emailed</span>
+        <span class="s">Who or what decided, why, which word matched, and which version of the word list judged it</span>
+        <span class="m">moderation_events · insert-only audit trail</span>
+      </div>
+    </div>
+
+    <!-- ================= RIGHT: verdicts + human queue ================= -->
+    <div class="col right">
+      <div class="sp" style="height:270px"></div>
+
+      <div class="pill high" id="pHigh">
+        <span class="r"><i></i>高风险 High risk<span class="c">129 terms</span></span>
+        <span class="s">No defensible context — politically sensitive, weapons, illegal FX, fraud</span>
+      </div>
+      <div class="sp" style="height:9px"></div>
+      <div class="pill mid" id="pMid">
+        <span class="r"><i></i>中风险 Mid risk<span class="c">61 terms</span></span>
+        <span class="s">The file's own note says <span style="font-family:var(--cn)">需结合上下文判断</span> — needs context to judge</span>
+      </div>
+      <div class="sp" style="height:9px"></div>
+      <div class="pill low" id="pLow">
+        <span class="r"><i></i>低风险 Low risk<span class="c">29 terms</span></span>
+        <span class="s">Competitor names, off-platform contact, promo codes</span>
+      </div>
+
+      <div class="sp" style="height:223px"></div>
+
+      <div class="stage human" id="queue">
+        <span class="n">STAGE 3 — HUMAN</span>
+        <span class="t">Moderator review queue</span>
+        <span class="s">A CYS reviewer who reads Chinese. Only the posts that genuinely need a decision reach here — approve or reject</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="switch">
+    <div class="h">ONE DECISION FOR CYS<span>MID_RISK_ACTION</span></div>
+    <div class="b">You asked for high <b>and mid</b> risk to be blocked outright. High risk — agreed, straight rejection. For <b>mid risk we recommend the review queue instead</b>, and the reason is in your own file: every mid-risk row is annotated <span class="cn">需结合上下文判断</span> — <i>needs context to judge</i>. <span class="cn">换汇</span> sits on that list and it is your own core service, so <span class="cn">我们提供合规换汇服务</span> would be auto-rejected and the business would never learn why. Same for <span class="cn">发票</span>, <span class="cn">佣金</span>, <span class="cn">代付</span>. The queue keeps the identical guarantee — still checked before it goes live — without losing good posts. Ships as <code>MID_RISK_ACTION</code>, switchable either way, so nothing waits on your answer.</div>
+  </div>
+
+  <!-- ================= footer ================= -->
+  <div class="foot">
+    <div class="b">
+      <div class="h">What the author sees <em>审核状态</em></div>
+      <ul class="states">
+        <li><b>审核中</b><span>Under review — visible in <span class="cn">我的帖子</span>, still editable</span></li>
+        <li><b>已发布</b><span>Published, with its public link</span></li>
+        <li><b>未通过</b><span>Not approved — category + rewrite hint, editable, resubmits to the queue</span></li>
+      </ul>
+      <p style="margin-top:9px">Every state change sends an email. Silence after submitting is the biggest risk in a pre-publication design — it reads as a broken site.</p>
+    </div>
+    <div class="b">
+      <div class="h">Why the word list runs first <em>STAGE 1 → 2</em></div>
+      <p>The scan is instant, free, and <b>legally legible</b> — "matched <span class="cn">逃汇</span>, <span class="cn">《外汇管理条例》</span>" is a defensible answer to a regulator; a model's opinion is not. It also means high-risk posts are rejected before any AI call is paid for.</p>
+      <p style="margin-top:8px">The AI stage exists for the word list's blind spot: <b>negation</b> — <span class="cn">反洗钱</span> contains <span class="cn">洗钱</span> — and posts that are sensitive without using any listed word.</p>
+    </div>
+    <div class="b">
+      <div class="h">Cost and speed <em>PER POST</em></div>
+      <table class="cost">
+        <tr><td>Word-list scan</td><td>~1 ms · free</td></tr>
+        <tr><td>AI context check</td><td>~2 s · ~$0.0015</td></tr>
+        <tr><td>Running cost at 50 posts/day</td><td>~$2 / month</td></tr>
+        <tr><td>Human review</td><td>flagged posts only</td></tr>
+      </table>
+      <p style="margin-top:10px">The word list keeps the AI bill near zero by rejecting the worst content before it is ever sent.</p>
+    </div>
+  </div>
+
+</div><!-- /layer -->
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  var wrap = document.getElementById('wrap');
+  var svg  = document.getElementById('wires');
+  var base = wrap.getBoundingClientRect();
+
+  var C = { grey:'#c8c0ac', high:'#c9938c', mid:'#d3b475', low:'#a8c0a1',
+            pass:'#7f93a8', brass:'#c9a465', teal:'#7a9b91' };
+  var R = 9;
+
+  function box(id){
+    var r = document.getElementById(id).getBoundingClientRect();
+    return { l:r.left-base.left, r:r.right-base.left, t:r.top-base.top,
+             b:r.bottom-base.top, cx:r.left-base.left+r.width/2,
+             cy:r.top-base.top+r.height/2 };
+  }
+  function pt(b, side){
+    if(side==='top')    return [b.cx, b.t];
+    if(side==='bottom') return [b.cx, b.b];
+    if(side==='left')   return [b.l, b.cy];
+    return [b.r, b.cy];
+  }
+
+  var out = [];
+  function wire(fromId, fSide, toId, tSide, colour, opts){
+    opts = opts || {};
+    var a = pt(box(fromId), fSide), z = pt(box(toId), tSide);
+    var x1=a[0], y1=a[1], x2=z[0], y2=z[1], d;
+
+    if(fSide==='bottom' && tSide==='top'){
+      if(Math.abs(x2-x1) < 1.5){
+        d = 'M'+x1+' '+y1+' V'+y2;
+      } else {
+        var my = opts.my || y1 + (y2-y1)/2;
+        var sx = x2 > x1 ? 1 : -1;
+        var r  = Math.min(R, Math.abs(y2-y1)/2, Math.abs(x2-x1)/2);
+        d = 'M'+x1+' '+y1+' V'+(my-r)+
+            ' Q'+x1+' '+my+' '+(x1+sx*r)+' '+my+
+            ' H'+(x2-sx*r)+
+            ' Q'+x2+' '+my+' '+x2+' '+(my+r)+
+            ' V'+y2;
+      }
+    } else if(fSide==='bottom' && (tSide==='left'||tSide==='right')){
+      // straight down out of the node, then across into the target's side
+      var sx4 = x2 > x1 ? 1 : -1;
+      var r4 = Math.min(R, Math.abs(y2-y1)/2, Math.abs(x2-x1)/2);
+      d = 'M'+x1+' '+y1+' V'+(y2-r4)+
+          ' Q'+x1+' '+y2+' '+(x1+sx4*r4)+' '+y2+
+          ' H'+x2;
+    } else if((fSide==='right'||fSide==='left') && tSide==='top'){
+      // out sideways, then down into the top of the target
+      var sy = y2 > y1 ? 1 : -1;
+      var r2 = Math.min(R, Math.abs(y2-y1)/2, Math.abs(x2-x1)/2);
+      var sx2 = x2 > x1 ? 1 : -1;
+      d = 'M'+x1+' '+y1+' H'+(x2-sx2*r2)+
+          ' Q'+x2+' '+y1+' '+x2+' '+(y1+sy*r2)+
+          ' V'+y2;
+    } else if(Math.abs(y2-y1) < 1.5){
+      d = 'M'+x1+' '+y1+' H'+x2;
+    } else {
+      var mx2 = opts.mx || x1 + (x2-x1)/2;
+      var s = y2 > y1 ? 1 : -1;
+      var sx3 = x2 > x1 ? 1 : -1;
+      var r3 = Math.min(R, Math.abs(y2-y1)/2, Math.abs(mx2-x1), Math.abs(x2-mx2));
+      d = 'M'+x1+' '+y1+' H'+(mx2-sx3*r3)+
+          ' Q'+mx2+' '+y1+' '+mx2+' '+(y1+s*r3)+
+          ' V'+(y2-s*r3)+
+          ' Q'+mx2+' '+y2+' '+(mx2+sx3*r3)+' '+y2+
+          ' H'+x2;
+    }
+    var dash = opts.dash ? ' stroke-dasharray="5 4"' : '';
+    out.push('<path d="'+d+'" fill="none" stroke="'+colour+'" stroke-width="1.6" '+
+             'stroke-linecap="round" stroke-linejoin="round"'+dash+
+             ' marker-end="url(#ah-'+opts.mk+')"/>');
+  }
+
+  // Wire lanes. The gutter between the spine (ends x=920) and the right column
+  // (starts x=1032) is 112px wide; each edge gets its own vertical lane inside it
+  // so nothing is drawn over a node or shares a track with another wire.
+  var LANE = {
+    reject: 936,   // pHigh  -> rejHigh   (drops, then runs left under stage 1)
+    fanHigh: 952,  // stage1 -> pHigh
+    fanMid: 964,   // stage1 -> pMid
+    fanLow: 976,   // stage1 -> pLow
+    qMid: 992,     // pMid   -> queue
+    qStage2: 1004, // stage2 -> queue
+    qLow: 1016,    // pLow   -> queue
+    spam: 404      // stage2 -> rejSpam  (left-hand gutter, 348..460)
+  };
+
+  // ---- spine
+  wire('submit','bottom','pending','top', C.grey, {mk:'grey'});
+  wire('pending','bottom','stage1','top', C.grey, {mk:'grey'});
+
+  // ---- stage 1 fans out to the three risk tiers
+  wire('stage1','right','pHigh','left', C.high, {mk:'high', mx:LANE.fanHigh});
+  wire('stage1','right','pMid','left',  C.mid,  {mk:'mid',  mx:LANE.fanMid});
+  wire('stage1','right','pLow','left',  C.low,  {mk:'low',  mx:LANE.fanLow});
+
+  // ---- tiers to their destinations
+  wire('pHigh','left','rejHigh','right', C.high, {mk:'high', mx:LANE.reject});
+  wire('pMid','left','queue','left',     C.mid,  {mk:'mid',  mx:LANE.qMid});
+  wire('pLow','left','queue','left',     C.low,  {mk:'low',  mx:LANE.qLow});
+
+  // ---- no hit -> stage 2
+  wire('stage1','bottom','stage2','top', C.pass, {mk:'pass'});
+
+  // ---- stage 2 fan-out
+  wire('stage2','left','rejSpam','right', C.high,  {mk:'high',  mx:LANE.spam});
+  wire('stage2','right','queue','left',   C.brass, {mk:'brass', mx:LANE.qStage2});
+  wire('stage2','bottom','live','top',    C.teal,  {mk:'teal'});
+
+  // ---- human queue -> published
+  wire('queue','bottom','live','right',   C.brass, {mk:'brass'});
+
+  // ---- published -> audit
+  wire('live','bottom','audit','top', C.grey, {mk:'grey'});
+
+  var defs =
+    '<defs>' +
+    Object.keys(C).map(function(k){
+      return '<marker id="ah-'+k+'" viewBox="0 0 8 8" refX="6.4" refY="4" '+
+             'markerWidth="6" markerHeight="6" orient="auto-start-reverse">'+
+             '<path d="M0.6 0.9 L6.8 4 L0.6 7.1 Z" fill="'+C[k]+'"/></marker>';
+    }).join('') + '</defs>';
+
+  var W = wrap.scrollWidth, H = wrap.scrollHeight;
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  svg.innerHTML = defs + out.join('');
+
+  // ---- wire labels
+  function label(text, x, y){
+    var el = document.createElement('div');
+    el.className = 'wlab'; el.textContent = text;
+    el.style.left = x+'px'; el.style.top = y+'px';
+    wrap.appendChild(el);
+  }
+  var s1 = box('stage1'), s2 = box('stage2'), q = box('queue'), lv = box('live');
+  label('no listed word', s1.cx + 9, s1.b + 96);   // clear of the reject wire crossing
+  label('clearly benign', s2.cx + 9, s2.b + 70);
+  label('uncertain',      s2.r + 12, s2.cy - 25);
+  label('spam',           s2.l - 46, s2.cy - 25);
+  label('approved',       q.cx + 11, q.b + 42);
+
+  document.body.style.height = H + 'px';
+})();
+</script>
+</body>
+</html>

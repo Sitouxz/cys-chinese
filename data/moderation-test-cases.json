@@ -1,0 +1,101 @@
+{
+  "purpose": "Fixture for the Phase 2 lexicon scanner. Every case here is a regression a Chinese word list produces by construction, not a hypothetical. Load in the test suite alongside data/moderation-lexicon.json.",
+  "source": "docs/09-moderation-flow.md §3.2 and §5",
+  "expectations": {
+    "must_not_block": "Legitimate business language. Under MID_RISK_ACTION=queue these may queue, but must never auto-reject.",
+    "must_resolve_high": "Longest-match correctness — a shorter mid-risk term nested inside must not win.",
+    "must_block": "True positives. If these ever pass, the scanner is broken."
+  },
+  "must_not_block": [
+    {
+      "text": "我们提供合规换汇服务",
+      "en": "we provide compliant FX services",
+      "naive_hit": "换汇",
+      "naive_risk": "mid",
+      "why": "换汇 is CYS's own core service and the forum's core vocabulary"
+    },
+    {
+      "text": "我们严格遵守反洗钱规定",
+      "en": "we strictly comply with AML rules",
+      "naive_hit": "洗钱",
+      "naive_risk": "high",
+      "why": "negation — 反洗钱 is anti-money-laundering, the opposite of the match"
+    },
+    {
+      "text": "反诈骗宣传",
+      "en": "anti-fraud awareness",
+      "naive_hit": "诈骗",
+      "naive_risk": "high",
+      "why": "negation"
+    },
+    {
+      "text": "防骗指南：识别骗子",
+      "en": "anti-scam guide: spotting scammers",
+      "naive_hit": "骗子",
+      "naive_risk": "mid",
+      "why": "negation"
+    },
+    {
+      "text": "合法避税与税务规划",
+      "en": "lawful tax planning",
+      "naive_hit": "避税",
+      "naive_risk": "high",
+      "why": "qualifier 合法 (lawful) reverses the sense"
+    },
+    {
+      "text": "需要开具发票",
+      "en": "we need an invoice issued",
+      "naive_hit": "发票",
+      "naive_risk": "mid",
+      "why": "routine trade vocabulary"
+    },
+    {
+      "text": "按行业标准支付佣金",
+      "en": "commission paid at industry standard",
+      "naive_hit": "佣金",
+      "naive_risk": "mid",
+      "why": "routine trade vocabulary"
+    },
+    {
+      "text": "我们不做水货",
+      "en": "we do not deal in parallel imports",
+      "naive_hit": "水货",
+      "naive_risk": "mid",
+      "why": "negation"
+    },
+    {
+      "text": "我们在新加坡和马来西亚的市场都有业务",
+      "en": "we operate in both the Singapore and Malaysia markets",
+      "naive_hit": "场",
+      "naive_risk": "high",
+      "why": "guards the encoding-damage repair — a truncated 场外交易 would match 市场 here. See 09 §3.3"
+    },
+    {
+      "text": "我的餐饮品牌叫CYS茶餐厅，提供鸡饭和中式炒菜。希望可以接触到新加坡F&B行业的经销商，期待和您联络。",
+      "en": "deck sample post 1 — F&B brand seeking distributors",
+      "naive_hit": null,
+      "why": "the client's own sample post must sail through clean"
+    },
+    {
+      "text": "我正在进行跨境贸易，主营玩具类产品。需要一位合作投资方，期待和您联络。",
+      "en": "deck sample post 4 — cross-border trade seeking investor",
+      "naive_hit": null,
+      "why": "the client's own sample post must sail through clean"
+    }
+  ],
+  "must_resolve_high": [
+    { "text": "非法换汇", "expect_term": "非法换汇", "not": "换汇", "why": "mid-risk 换汇 is nested inside" },
+    { "text": "私下换汇", "expect_term": "私下换汇", "not": "换汇", "why": "mid-risk 换汇 is nested inside" },
+    { "text": "帮人换汇", "expect_term": "帮人换汇", "not": "换汇", "why": "mid-risk 换汇 is nested inside" }
+  ],
+  "must_block": [
+    { "text": "50万人民币换新币，有渠道的私聊", "expect": "high", "via": "pattern", "rule": "大额资金+换汇组合" },
+    { "text": "USDT换人民币，价格好商量", "expect": "high", "via": "pattern", "rule": "虚拟货币+换汇组合" },
+    { "text": "保证月收益20%，保本", "expect": "high", "via": "pattern", "rule": "承诺收益/保本" },
+    { "text": "帮我换点人民币，急", "expect": "high", "via": "pattern", "rule": "寻求帮忙换汇" }
+  ],
+  "normalisation_evasions": {
+    "note": "All must resolve to the same verdict as the plain form. See 09 §5.",
+    "cases": ["换 汇", "换-汇", "換匯", "ｈｕａｎ换汇"]
+  }
+}

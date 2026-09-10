@@ -1,0 +1,2415 @@
+{
+  "source": {
+    "file": "敏感词库.xlsx",
+    "origin": "client attachment, ClickUp task 86eyczra3, comment 90180244034227",
+    "received": "2026-08-04"
+  },
+  "generated_by": "scripts/build_lexicon.py",
+  "match_rules": {
+    "order": "longest active term first, then patterns",
+    "note": "No word boundaries in Chinese. Match on the longest term so a shorter mid-risk term cannot shadow a longer high-risk one.",
+    "single_char_terms": [
+      "枪"
+    ],
+    "inactive_terms_excluded": [
+      "报税"
+    ]
+  },
+  "risk_levels": [
+    "high",
+    "mid",
+    "low"
+  ],
+  "categories": {
+    "political": {
+      "name_cn": "政治敏感",
+      "note": "涉及国家主权、领土完整、政治体制等内容"
+    },
+    "forex_regulation": {
+      "name_cn": "外汇管制合规",
+      "note": "涉及SAFE外汇管理规定的违规内容"
+    },
+    "financial_crime": {
+      "name_cn": "金融监管合规",
+      "note": "涉及PBOC监管、反洗钱等金融合规内容"
+    },
+    "trade_gray": {
+      "name_cn": "跨境贸易合规",
+      "note": "涉及跨境贸易灰色操作/违规行为"
+    },
+    "internet": {
+      "name_cn": "互联网内容合规",
+      "note": "涉及中国大陆互联网内容监管红线"
+    },
+    "business_risk": {
+      "name_cn": "公司业务风险",
+      "note": "涉及公司品牌负面影响、竞品引流、私下交易等内容"
+    },
+    "singapore_local": {
+      "name_cn": "新加坡本地风险",
+      "note": "涉及新加坡本地法规及中新跨境敏感话题"
+    },
+    "general": {
+      "name_cn": "通用违禁内容",
+      "note": "违反公序良俗或法律法规的通用违禁内容"
+    }
+  },
+  "counts": {
+    "keywords": 220,
+    "keywords_active": 219,
+    "patterns": 8,
+    "by_risk": {
+      "low": 29,
+      "high": 129,
+      "mid": 61
+    },
+    "nested_conflicts": 3,
+    "damaged_rows": 3
+  },
+  "damaged_rows": [
+    {
+      "seq": 100,
+      "term": "大额换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及大额换汇，需确认不涉及逃汇套汇",
+      "basis": "《外汇管理条例》",
+      "active": true,
+      "source_term": "��额换汇",
+      "repair": "confident",
+      "repair_evidence": "涉及大额换汇，需确认不涉及逃汇套汇"
+    },
+    {
+      "seq": 104,
+      "term": "报税",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "low",
+      "reason": "涉及税务申报话题，需确认是否涉及跨境税务问题",
+      "basis": "税务相关规定",
+      "active": false,
+      "source_term": "��税",
+      "repair": "inferred",
+      "repair_evidence": "涉及税务申报话题"
+    },
+    {
+      "seq": 161,
+      "term": "赌场",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及赌博场所宣传或讨��",
+      "basis": "《治安管理处罚法》第七十条",
+      "active": true,
+      "source_term": "��场",
+      "repair": "confident",
+      "repair_evidence": "涉及赌博场所宣传或讨论"
+    }
+  ],
+  "nested_conflicts": [
+    {
+      "inner": "换汇",
+      "inner_risk": "mid",
+      "outer": "帮人换汇",
+      "outer_risk": "high"
+    },
+    {
+      "inner": "换汇",
+      "inner_risk": "mid",
+      "outer": "私下换汇",
+      "outer_risk": "high"
+    },
+    {
+      "inner": "换汇",
+      "inner_risk": "mid",
+      "outer": "非法换汇",
+      "outer_risk": "high"
+    }
+  ],
+  "keywords": [
+    {
+      "seq": 8,
+      "term": "WorldRemit",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "提及竞品平台",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 9,
+      "term": "XTransfer",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "提及竞品平台",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 107,
+      "term": "terrorism",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义相关内容（英文）",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 108,
+      "term": "terrorist",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义相关内容（英文）",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 6,
+      "term": "WhatsApp",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及引导至站外通讯工具",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 5,
+      "term": "Remitly",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "提及竞品平台",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 18,
+      "term": "汇款手续费太高",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及对公司定价的负面评价，需评估是否合理反馈",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 192,
+      "term": "10亿洗钱案",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及新加坡2023年10亿新币洗钱大案，高度敏感",
+      "basis": "新加坡《严重犯罪法》",
+      "active": true
+    },
+    {
+      "seq": 84,
+      "term": "人民币换新币",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及人民币与新币之间的兑换请求，需确认是否为正规渠道换汇",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 39,
+      "term": "数字货币交易",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及被禁止的虚拟货币交易活动",
+      "basis": "央行等《关于进一步防范和处置虚拟货币交易炒作风险的通知》",
+      "active": true
+    },
+    {
+      "seq": 91,
+      "term": "新币换人民币",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及新币与人民币之��的兑换请求，需确认是否��正规渠道换汇",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 194,
+      "term": "汇款公司跑路",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及汇款公司失信/卷款问题，如讨论其他公司案例也可能影响行业信心",
+      "basis": "新加坡MAS/警方",
+      "active": true
+    },
+    {
+      "seq": 59,
+      "term": "跨境支付牌照",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "low",
+      "reason": "涉及支付牌照合规话题，需确认不涉及无牌经营引导",
+      "basis": "央行《非金融机构支付服务管理办法》",
+      "active": true
+    },
+    {
+      "seq": 99,
+      "term": "跨境汇款限制",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及跨境汇款限制讨论，需注意合规",
+      "basis": "央行/SAFE相关规定",
+      "active": true
+    },
+    {
+      "seq": 26,
+      "term": "OTC交易",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及虚拟货币场外交易",
+      "basis": "央行等虚拟货��相关通知",
+      "active": true
+    },
+    {
+      "seq": 50,
+      "term": "P2P网贷",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "P2P网贷已被全面清退，涉及相关话题需注意合规",
+      "basis": "银保监会P2P专项整治相关规定",
+      "active": true
+    },
+    {
+      "seq": 188,
+      "term": "VPN翻墙",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "mid",
+      "reason": "涉及规避网络审查的行为",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 106,
+      "term": "jihad",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及宗教极端主义/恐怖主义（英文）",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 189,
+      "term": "中国共产党",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "mid",
+      "reason": "涉及政党敏感话题，需结合上下文判断是否涉及攻击/诋毁",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 14,
+      "term": "同样是汇款",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及同行比较/竞品讨论，需注意合规",
+      "basis": "《反不正当竞争法》",
+      "active": true
+    },
+    {
+      "seq": 177,
+      "term": "天安门事件",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及政治敏感历史��件",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 41,
+      "term": "比特币交易",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "中国境内禁止虚拟货币交易平台运营",
+      "basis": "央行等《关于进一步防范和处置虚拟货币交易炒作风险的通知》",
+      "active": true
+    },
+    {
+      "seq": 201,
+      "term": "汇款不到账",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及汇款延迟/不到账投诉",
+      "basis": "公司客户服务",
+      "active": true
+    },
+    {
+      "seq": 195,
+      "term": "汇款被冻结",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及跨境汇款被冻结事件，参考2023年新加坡汇款冻结事件",
+      "basis": "新加坡警方/MAS",
+      "active": true
+    },
+    {
+      "seq": 202,
+      "term": "牛车水汇款",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及新加坡牛车水汇款中心事件，该事件曾引发大量投诉",
+      "basis": "新加坡消费者保护",
+      "active": true
+    },
+    {
+      "seq": 137,
+      "term": "自杀式袭击",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义���击方式",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 220,
+      "term": "进出口代理",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "low",
+      "reason": "涉及进出口代理服务讨论，需确认合规性",
+      "basis": "《对外贸易法》",
+      "active": true
+    },
+    {
+      "seq": 83,
+      "term": "5万美元",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及个人购汇额度，需注意讨论方向是否引导规避",
+      "basis": "SAFE《个人外汇管理办法》",
+      "active": true
+    },
+    {
+      "seq": 198,
+      "term": "EP申请",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及Employment Pass申请，需确认合规",
+      "basis": "新加坡人力部(MOM)规定",
+      "active": true
+    },
+    {
+      "seq": 105,
+      "term": "ISIS",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及国际恐怖组织",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 199,
+      "term": "PR申请",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及永久居民申请话题",
+      "basis": "新加坡ICA规定",
+      "active": true
+    },
+    {
+      "seq": 27,
+      "term": "USDT",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及虚拟货币（泰达币），中国境内禁止相关交易服务",
+      "basis": "央行等《关于进一步防范和处置虚拟货币交易炒作风险的通知》",
+      "active": true
+    },
+    {
+      "seq": 7,
+      "term": "Wise",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "提及竞品平台",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 170,
+      "term": "一中一台",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及违背一个中国原则的表述",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 216,
+      "term": "一件代发",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "low",
+      "reason": "涉及代发模式，需确认不涉及侵权/仿品",
+      "basis": "《商标法》",
+      "active": true
+    },
+    {
+      "seq": 217,
+      "term": "三角贸易",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "low",
+      "reason": "涉及三角贸易模式，需确认合规",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 172,
+      "term": "两个中国",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及违背一个中国原则的表述",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 204,
+      "term": "买单出口",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "high",
+      "reason": "涉及虚假出口报关、骗取出口退税",
+      "basis": "《刑法》第二百零四条",
+      "active": true
+    },
+    {
+      "seq": 60,
+      "term": "人头账户",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及利用他人账户进行洗钱/逃汇",
+      "basis": "《反洗钱法》",
+      "active": true
+    },
+    {
+      "seq": 149,
+      "term": "人肉搜索",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及侵犯个人隐私",
+      "basis": "《网络安全法》《民法典》",
+      "active": true
+    },
+    {
+      "seq": 109,
+      "term": "人肉炸弹",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义袭击方式",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 53,
+      "term": "代收代付",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "需确认不涉及无牌照从事支付结算业务",
+      "basis": "央行支付结算管理规定",
+      "active": true
+    },
+    {
+      "seq": 110,
+      "term": "伊斯兰国",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及国际恐怖组织ISIS",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 54,
+      "term": "保险返佣",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及保险返佣，在中国大陆属于违规行为",
+      "basis": "保监会相关规定",
+      "active": true
+    },
+    {
+      "seq": 174,
+      "term": "六四事件",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及政治敏感历史事件",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 1,
+      "term": "内部渠道",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "mid",
+      "reason": "可能涉及非官方渠道/灰色操作",
+      "basis": "公司合规政策",
+      "active": true
+    },
+    {
+      "seq": 193,
+      "term": "冻结账户",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及银行账户被冻结，可能涉及反洗钱调查",
+      "basis": "新加坡MAS规定",
+      "active": true
+    },
+    {
+      "seq": 61,
+      "term": "出人民币",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及场外外汇交易/私下换汇",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 210,
+      "term": "出口退税",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及出口退税政策，需注意是否涉及骗税",
+      "basis": "《刑法》第二百零四条",
+      "active": true
+    },
+    {
+      "seq": 63,
+      "term": "分拆结汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "通过多人分拆方式规避结汇管理",
+      "basis": "SAFE《个人外汇管理办法实施细则》",
+      "active": true
+    },
+    {
+      "seq": 64,
+      "term": "分拆购汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "通过多人分拆方式规避5万美元个人购汇额度限制",
+      "basis": "SAFE《个人外汇管理办法实施细则》",
+      "active": true
+    },
+    {
+      "seq": 56,
+      "term": "加密货币",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及加密货币话题，需注意合规性",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 13,
+      "term": "加我微信",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及引导私下联系",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 206,
+      "term": "包税清关",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "high",
+      "reason": "涉及灰色清关操作",
+      "basis": "《海关法》",
+      "active": true
+    },
+    {
+      "seq": 207,
+      "term": "双清包税",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "high",
+      "reason": "涉及灰色清关/包税进口，存在海关违法风险",
+      "basis": "《海关法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 175,
+      "term": "台湾独立",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及分裂国家言论",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 65,
+      "term": "地下钱庄",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及非法金融活动，违反外汇管理规定",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 116,
+      "term": "基地组织",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及国际恐怖组织",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 86,
+      "term": "外汇管制",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及外汇管制政策讨论，需注意不引导规避行为",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 100,
+      "term": "大额换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及大额换汇，需确认不涉及逃汇套汇",
+      "basis": "《外汇管理条例》",
+      "active": true,
+      "source_term": "��额换汇",
+      "repair": "confident",
+      "repair_evidence": "涉及大额换汇，需确认不涉及逃汇套汇"
+    },
+    {
+      "seq": 87,
+      "term": "大额资金",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及大额资金跨境，需确认合规",
+      "basis": "《反洗钱法》",
+      "active": true
+    },
+    {
+      "seq": 33,
+      "term": "套路保险",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及保险诈骗行为",
+      "basis": "《刑法》第一百九十八条",
+      "active": true
+    },
+    {
+      "seq": 200,
+      "term": "工作准证",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及新加坡工作准证话题，需确认不涉及非法代办",
+      "basis": "新加坡人力部(MOM)规定",
+      "active": true
+    },
+    {
+      "seq": 68,
+      "term": "帮人换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及代他人进行外汇兑换，可能构成非法经营",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 69,
+      "term": "帮忙汇款",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及代他人跨境汇款，可能构成非法资金转移",
+      "basis": "《反洗钱法》",
+      "active": true
+    },
+    {
+      "seq": 218,
+      "term": "平行进口",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "low",
+      "reason": "涉及平行进口商品讨论，需确认合规",
+      "basis": "《商标法》《海关法》",
+      "active": true
+    },
+    {
+      "seq": 36,
+      "term": "庞氏骗局",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及���融诈骗模式",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 163,
+      "term": "彩票预测",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及未经批准的彩票相关内容",
+      "basis": "《彩票管理条例》",
+      "active": true
+    },
+    {
+      "seq": 119,
+      "term": "恐怖主义",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义意识形态传播",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 120,
+      "term": "恐怖分子",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖主义相关内容，危害国家安全",
+      "basis": "《反恐怖主义法》《刑��》",
+      "active": true
+    },
+    {
+      "seq": 121,
+      "term": "恐怖组织",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖组织相关内容",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 122,
+      "term": "恐怖袭击",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及恐怖袭击相关内容",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 15,
+      "term": "手续费低",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及竞品优势比较",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 16,
+      "term": "扫码联系",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及引导扫码联系，可能为营销引流",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 89,
+      "term": "换汇额度",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及个人外汇额度管理话题，需注意不引导规避额度限制",
+      "basis": "SAFE个人外汇管理相关规定",
+      "active": true
+    },
+    {
+      "seq": 17,
+      "term": "推荐汇款",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及推荐其他汇款��道，需评估是否影响客户��导",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 178,
+      "term": "新疆独立",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及分裂国家言论",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 179,
+      "term": "无界浏览",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及非法网络工具",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 212,
+      "term": "无票采购",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及无发票采购，可能存在税务风险",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 127,
+      "term": "极端组织",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及极端主义组织相关内容",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 92,
+      "term": "汇款路径",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及跨境汇款路径讨论，需确认不引导非法渠道",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 93,
+      "term": "汇款额度",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及个人外汇额度话题，需注意是否引导规避",
+      "basis": "SAFE个人外汇管理相关规定",
+      "active": true
+    },
+    {
+      "seq": 19,
+      "term": "汇率不好",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及汇率相关负面评价，需确认是否可能引发客户误解",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 101,
+      "term": "海外账户",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "low",
+      "reason": "涉及海外银行账户话题，需注意不涉及逃汇/避税",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 20,
+      "term": "熊猫速汇",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "提及竞品平台",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 42,
+      "term": "皮包公司",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及利用皮包公司进行非法金融活动",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 95,
+      "term": "离岸账户",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及离岸账户，可能涉及逃汇或避税",
+      "basis": "《外汇管理条例》及税务规定",
+      "active": true
+    },
+    {
+      "seq": 72,
+      "term": "私下换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "未经批准的私下外汇买卖行为",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 214,
+      "term": "私账收款",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及通过个人账户收取经营款项，存在税务合规风险",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 43,
+      "term": "空壳公司",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及利用空壳公司进行非法金融活动",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 138,
+      "term": "花呗套现",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及非法套现行为",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 73,
+      "term": "虚假贸易",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "通过虚假贸易背景实现资金跨境转移",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 58,
+      "term": "虚拟货币",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及虚拟货币话题，需注意是否涉及交易/炒作",
+      "basis": "央行等《关于防范虚拟货币交易炒作风险的公告》",
+      "active": true
+    },
+    {
+      "seq": 74,
+      "term": "虛假贸易",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "通过虚假贸易背景实现资金跨境转移",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 75,
+      "term": "蚂蚁搬家",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "指分拆购汇/结汇逃避外汇管理，属于违法违规行为",
+      "basis": "SAFE《个人外���管理办法》第七条",
+      "active": true
+    },
+    {
+      "seq": 185,
+      "term": "西藏独立",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及分裂国家言论",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 96,
+      "term": "购汇额度",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及个人购汇额度话题",
+      "basis": "SAFE《个人外汇管理办法》",
+      "active": true
+    },
+    {
+      "seq": 97,
+      "term": "资金出境",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及跨境资金转移，需注意合规性",
+      "basis": "《外汇管理条例》及央行相关规定",
+      "active": true
+    },
+    {
+      "seq": 98,
+      "term": "资金转移",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及资金跨境转移，需确认合规性",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 102,
+      "term": "跨境支付",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "low",
+      "reason": "跨境支付常规话题，需确认合规",
+      "basis": "央行支付结算管理规定",
+      "active": true
+    },
+    {
+      "seq": 103,
+      "term": "跨境转账",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "low",
+      "reason": "跨境汇款常规话题��但需确认讨论内容不涉及规避监管",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 219,
+      "term": "转口贸易",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "low",
+      "reason": "涉及转口贸易，需确认不涉及虚假贸易",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 77,
+      "term": "转钱出国",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及将资金转移出境，可能涉及逃汇",
+      "basis": "《外汇管理条例》第三十九条",
+      "active": true
+    },
+    {
+      "seq": 186,
+      "term": "达赖喇嘛",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及分裂势力代表人物",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 160,
+      "term": "钓鱼网站",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及网络钓鱼诈骗",
+      "basis": "《刑法》《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 197,
+      "term": "非法打工",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及在新加坡非法务工/黑工",
+      "basis": "新加坡《雇佣外籍劳工法》",
+      "active": true
+    },
+    {
+      "seq": 81,
+      "term": "非法换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "未经批准私自买卖外汇，属于违法行为",
+      "basis": "《外汇��理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 46,
+      "term": "非法理财",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及未经批准的理财产品/服务",
+      "basis": "《商业银行理财业务监督管理办法》",
+      "active": true
+    },
+    {
+      "seq": 47,
+      "term": "非法集资",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法集资行为，涉嫌刑事犯罪",
+      "basis": "《��法》第一百七十��条",
+      "active": true
+    },
+    {
+      "seq": 187,
+      "term": "香港独立",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及分裂国家言论",
+      "basis": "《香港��安法》",
+      "active": true
+    },
+    {
+      "seq": 82,
+      "term": "黑市汇率",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及非法外汇交易市场的汇率信息",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 24,
+      "term": "BTC",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及比特币交易，中国境内禁止相关服务",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 25,
+      "term": "ETH",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及以太坊等虚拟货币，中国境内禁止相关交易服务",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 190,
+      "term": "习近平",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "mid",
+      "reason": "涉及现任国家领导人，��评估是否存在不尊重或攻击性言论",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 10,
+      "term": "优惠码",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及非官方优惠信息发布",
+      "basis": "公司营销合规政策",
+      "active": true
+    },
+    {
+      "seq": 209,
+      "term": "公转私",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及对公账户向个人账户违规转账",
+      "basis": "央行支付结算管理规定",
+      "active": true
+    },
+    {
+      "seq": 113,
+      "term": "冲锋枪",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及枪支类武器",
+      "basis": "《枪支管理法》",
+      "active": true
+    },
+    {
+      "seq": 62,
+      "term": "出美金",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及场外外汇交易/私下换汇",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 11,
+      "term": "到账快",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "可能涉及竞品优势讨论",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 12,
+      "term": "加微信",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及引导私域联系，需确认不是在规避平台监管",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 34,
+      "term": "套路贷",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法贷款诈骗行为",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 70,
+      "term": "收新币",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及场外外汇交易/私下换汇",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 40,
+      "term": "校园贷",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及已被禁止的校园网络贷款",
+      "basis": "银保监会相关规定",
+      "active": true
+    },
+    {
+      "seq": 94,
+      "term": "汇率差",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及利用汇率差套利，可能构成非法外汇交易",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 180,
+      "term": "法轮功",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及被依法取缔的非法组织",
+      "basis": "《刑法》第三百条",
+      "active": true
+    },
+    {
+      "seq": 196,
+      "term": "洗钱案",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "high",
+      "reason": "涉及新加坡洗钱案件讨论，可能对公司造成负面影响",
+      "basis": "新加坡《贪污、贩毒及其他严重犯罪（没收利益）法》",
+      "active": true
+    },
+    {
+      "seq": 134,
+      "term": "爆炸物",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及危险爆炸物品",
+      "basis": "《刑法》第一百二十五条",
+      "active": true
+    },
+    {
+      "seq": 183,
+      "term": "自由门",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及���法网络工具",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 23,
+      "term": "薅羊毛",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及套利/优惠滥用讨论",
+      "basis": "公司营销合规政策",
+      "active": true
+    },
+    {
+      "seq": 2,
+      "term": "被骗了",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "mid",
+      "reason": "可能涉及诈骗投诉或负面经历分享，需核实真实性",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 44,
+      "term": "资金盘",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法资金盘骗局",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 203,
+      "term": "金管局",
+      "category": "singapore_local",
+      "category_cn": "新加坡本地风险",
+      "risk": "mid",
+      "reason": "涉及新加坡金融管理局(MAS)监管",
+      "basis": "MAS监管规定",
+      "active": true
+    },
+    {
+      "seq": 215,
+      "term": "零申报",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及企业零申报，可能涉及税务违规",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 3,
+      "term": "领红包",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "mid",
+      "reason": "涉及诱导性营销/返利",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 48,
+      "term": "首付贷",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及违规房地产金融业务",
+      "basis": "住建部/央行相关规定",
+      "active": true
+    },
+    {
+      "seq": 49,
+      "term": "高利贷",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法高利放贷行为",
+      "basis": "《关于办理非法放贷刑事案件若干问题的意见》",
+      "active": true
+    },
+    {
+      "seq": 28,
+      "term": "U商",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及USDT场外交易商，中国境内禁止",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 171,
+      "term": "东突",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及恐怖主义组织，危害国家安全",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 51,
+      "term": "代付",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及第三方代付服务，可能涉及洗钱",
+      "basis": "《反洗钱法》",
+      "active": true
+    },
+    {
+      "seq": 52,
+      "term": "代充",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及第三方代充值服务，可能涉及洗钱",
+      "basis": "《反洗钱法》",
+      "active": true
+    },
+    {
+      "seq": 162,
+      "term": "代办",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "可能涉及代办非法证件/资质，需结合上下��判断",
+      "basis": "《治安管理处罚法》",
+      "active": true
+    },
+    {
+      "seq": 143,
+      "term": "代抢",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "mid",
+      "reason": "涉及代抢购/代拍服务，可能涉及非法经营",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 148,
+      "term": "代购",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "low",
+      "reason": "涉及跨境代购，需确认不涉及走私/逃税",
+      "basis": "《海关法》",
+      "active": true
+    },
+    {
+      "seq": 205,
+      "term": "仿牌",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "high",
+      "reason": "涉及仿冒品牌商品",
+      "basis": "《商标法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 29,
+      "term": "传销",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法传销活动",
+      "basis": "《禁止传销条例》",
+      "active": true
+    },
+    {
+      "seq": 144,
+      "term": "佣金",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "mid",
+      "reason": "涉及返佣/佣金等商业利益话题，需确认不涉及非法返佣",
+      "basis": "《反不正当竞争法��",
+      "active": true
+    },
+    {
+      "seq": 150,
+      "term": "假证",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及伪造证件违法行为",
+      "basis": "《刑法》第二百八十条",
+      "active": true
+    },
+    {
+      "seq": 111,
+      "term": "偷税",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及税务违法行为",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 85,
+      "term": "兑钱",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及私下货币兑换，需确认是否合规",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 173,
+      "term": "六四",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及政治敏感历史事件",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 112,
+      "term": "军火",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及军火/武器非法交易",
+      "basis": "《刑法》第一百二十五条",
+      "active": true
+    },
+    {
+      "seq": 30,
+      "term": "出U",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及USDT场外交易/变现",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 55,
+      "term": "刷单",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及虚假交易，可能构成不正当竞争或诈骗",
+      "basis": "《反不正当竞争法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 114,
+      "term": "劫持",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及暴力犯罪行为",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 151,
+      "term": "博彩",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及博彩相关内容",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 31,
+      "term": "卡商",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及非法买卖/租借银行卡用于洗钱",
+      "basis": "《刑法》第一百七十七条",
+      "active": true
+    },
+    {
+      "seq": 32,
+      "term": "卡头",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及组织买卖银行卡的犯罪活动",
+      "basis": "《刑法》第一百七十七条",
+      "active": true
+    },
+    {
+      "seq": 211,
+      "term": "原单",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及所谓原单/尾单商品，可能涉及侵权",
+      "basis": "《商标法》",
+      "active": true
+    },
+    {
+      "seq": 145,
+      "term": "发票",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "mid",
+      "reason": "可能涉及虚开发票等违法行为，需结合上下文",
+      "basis": "《刑法��第二百零五条",
+      "active": true
+    },
+    {
+      "seq": 176,
+      "term": "台独",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及国家分裂言论，违反《反分裂国家法》",
+      "basis": "《反分裂国家法》第二条",
+      "active": true
+    },
+    {
+      "seq": 146,
+      "term": "回扣",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "mid",
+      "reason": "涉及商业贿赂风险",
+      "basis": "《刑法》第一百六十三条",
+      "active": true
+    },
+    {
+      "seq": 115,
+      "term": "圣战",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及宗教极端主义及恐怖主义",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 66,
+      "term": "套汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "套取外汇的违法行为",
+      "basis": "《外汇管理条例》第四十条",
+      "active": true
+    },
+    {
+      "seq": 117,
+      "term": "套现",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及信用卡/花呗套现等非法行为",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 67,
+      "term": "对敲",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "跨境对敲式非法资金转移方式",
+      "basis": "《反洗钱法》及外汇管理规定",
+      "active": true
+    },
+    {
+      "seq": 35,
+      "term": "币商",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及虚拟货币交易商",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 118,
+      "term": "弹药",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及弹药/危险品相关内容",
+      "basis": "《刑法》第一百二十五条",
+      "active": true
+    },
+    {
+      "seq": 123,
+      "term": "手枪",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及枪支类武器",
+      "basis": "《枪支管理法》",
+      "active": true
+    },
+    {
+      "seq": 104,
+      "term": "报税",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "low",
+      "reason": "涉及税务申报话题，需确认是否涉及跨境税务问题",
+      "basis": "税务相关规定",
+      "active": false,
+      "source_term": "��税",
+      "repair": "inferred",
+      "repair_evidence": "涉及税务申报话题"
+    },
+    {
+      "seq": 37,
+      "term": "挖矿",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及虚拟货币挖矿活动，已被全面整治",
+      "basis": "发改委等《关于整治虚拟货币挖矿活动的通知》",
+      "active": true
+    },
+    {
+      "seq": 88,
+      "term": "换汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及货币兑换话题，需结合上下��判断是否涉及私下换汇/场外交易",
+      "basis": "《外汇管理条例》第四十五条",
+      "active": true
+    },
+    {
+      "seq": 90,
+      "term": "换钱",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "mid",
+      "reason": "涉及私下货币兑换，需确认是否合规",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 57,
+      "term": "搬砖",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "mid",
+      "reason": "涉及加密货币跨平台套利，可能涉及非法金融活动",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 38,
+      "term": "收U",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及USDT场外交易",
+      "basis": "央行等虚拟货币相关通知",
+      "active": true
+    },
+    {
+      "seq": 164,
+      "term": "文凭",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "可能涉及虚假学历/文凭买卖，需结合上下文",
+      "basis": "《刑法》",
+      "active": true
+    },
+    {
+      "seq": 124,
+      "term": "斩首",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及极端暴力/恐怖主义行为",
+      "basis": "《刑法》《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 125,
+      "term": "暴恐",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及暴力恐怖主义内容",
+      "basis": "《反恐怖主义法》",
+      "active": true
+    },
+    {
+      "seq": 126,
+      "term": "杀人",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及暴力犯罪内容",
+      "basis": "《刑法》《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 129,
+      "term": "枪支",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及枪支/武器相关内容",
+      "basis": "《枪支管理法》",
+      "active": true
+    },
+    {
+      "seq": 152,
+      "term": "枪支",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及枪支/武器相关���容",
+      "basis": "《枪支管理法》",
+      "active": true
+    },
+    {
+      "seq": 130,
+      "term": "步枪",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及枪支类武器",
+      "basis": "《枪支管理法》",
+      "active": true
+    },
+    {
+      "seq": 131,
+      "term": "武器",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及武器相关内容，需确认是否涉及非法交易",
+      "basis": "《枪支管理法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 153,
+      "term": "毒品",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及毒品相关内容",
+      "basis": "《禁毒法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 213,
+      "term": "水货",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "mid",
+      "reason": "涉及非正规渠道进口商品",
+      "basis": "《海关法》",
+      "active": true
+    },
+    {
+      "seq": 71,
+      "term": "洗钱",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及洗钱犯罪活动",
+      "basis": "《反洗钱法》第二条",
+      "active": true
+    },
+    {
+      "seq": 181,
+      "term": "港独",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及国家分裂言论，危害国家安全",
+      "basis": "《香港国安法》",
+      "active": true
+    },
+    {
+      "seq": 132,
+      "term": "漏税",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及税务违法行为",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 133,
+      "term": "炸弹",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及爆炸物/危险物品相关内容",
+      "basis": "《刑法》《治安管理处罚法》",
+      "active": true
+    },
+    {
+      "seq": 182,
+      "term": "疆独",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及���家分裂言论，危害国家安全",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 21,
+      "term": "私聊",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及��导私下交流，需确认目的",
+      "basis": "论坛运营规范",
+      "active": true
+    },
+    {
+      "seq": 154,
+      "term": "窃听",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及非法窃听器材或行为",
+      "basis": "《刑法》第二百八十四条",
+      "active": true
+    },
+    {
+      "seq": 22,
+      "term": "竞品",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及竞争对手讨论，需注意不涉及恶意诋毁",
+      "basis": "《反不正当竞争法》",
+      "active": true
+    },
+    {
+      "seq": 135,
+      "term": "绑架",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及暴力犯罪行为",
+      "basis": "《刑法》第二百三十九条",
+      "active": true
+    },
+    {
+      "seq": 165,
+      "term": "维权",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及敏感社会话题，需评估是否存在煽动性内容",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 147,
+      "term": "网贷",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "mid",
+      "reason": "涉及网络借贷话题，需注意合规",
+      "basis": "银保监会网贷管理规定",
+      "active": true
+    },
+    {
+      "seq": 155,
+      "term": "网赌",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及网络赌博",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 191,
+      "term": "翻墙",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "mid",
+      "reason": "涉及规避网络审查的行为",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 166,
+      "term": "翻录",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及盗版翻录行为",
+      "basis": "《著作权法》",
+      "active": true
+    },
+    {
+      "seq": 136,
+      "term": "自杀",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及自残/自杀相关内容，可能危害身心健康",
+      "basis": "《网络安全法》",
+      "active": true
+    },
+    {
+      "seq": 156,
+      "term": "色情",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及色情淫秽内容",
+      "basis": "《治安管理处罚法》���刑法》",
+      "active": true
+    },
+    {
+      "seq": 157,
+      "term": "色站",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及色情网站",
+      "basis": "《网络安全法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 184,
+      "term": "藏独",
+      "category": "political",
+      "category_cn": "政治敏感",
+      "risk": "high",
+      "reason": "涉及国家分裂言论",
+      "basis": "《反分裂国家法》",
+      "active": true
+    },
+    {
+      "seq": 139,
+      "term": "行贿",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及商业贿赂/腐败行为",
+      "basis": "《刑法》第三百八十九条",
+      "active": true
+    },
+    {
+      "seq": 158,
+      "term": "裸聊",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及色情内容",
+      "basis": "《治安管理处罚法》",
+      "active": true
+    },
+    {
+      "seq": 140,
+      "term": "诈骗",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及诈骗行为讨论或引导",
+      "basis": "《刑法》第二百六十六条",
+      "active": true
+    },
+    {
+      "seq": 167,
+      "term": "谣言",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及传播不实信息",
+      "basis": "《治安管理处罚法》第二十五条",
+      "active": true
+    },
+    {
+      "seq": 168,
+      "term": "贩卖",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及交易敏感物品的可能性，需结合上下文判断",
+      "basis": "互联网信息服务管理办法",
+      "active": true
+    },
+    {
+      "seq": 159,
+      "term": "赌博",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及赌博内容，违反互联网信息服务管理规定",
+      "basis": "《网络安全法》《互联网信息服务管理办法》",
+      "active": true
+    },
+    {
+      "seq": 161,
+      "term": "赌场",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "high",
+      "reason": "涉及赌博场所宣传或讨��",
+      "basis": "《治安管理处罚法》第七十条",
+      "active": true,
+      "source_term": "��场",
+      "repair": "confident",
+      "repair_evidence": "涉及赌博场所宣传或讨论"
+    },
+    {
+      "seq": 141,
+      "term": "走私",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及走私犯罪行为",
+      "basis": "《刑法》第一百五十三条",
+      "active": true
+    },
+    {
+      "seq": 76,
+      "term": "走资",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "指非法转移资金出境，属于严重违法行为",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 45,
+      "term": "跑分",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及洗钱黑话，利用他人账户分散转移资金",
+      "basis": "《反洗钱法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 78,
+      "term": "逃汇",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "逃避外汇管理规定的行为，属于违法",
+      "basis": "《外汇管理条例》第三十九条",
+      "active": true
+    },
+    {
+      "seq": 142,
+      "term": "逃税",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及故意逃避税务义务的违法行为",
+      "basis": "《税收征收管理法》《刑法》第二百零一条",
+      "active": true
+    },
+    {
+      "seq": 79,
+      "term": "避税",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及逃避税务义务",
+      "basis": "《税收征收管理法》",
+      "active": true
+    },
+    {
+      "seq": 80,
+      "term": "钱庄",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及非法金融机构",
+      "basis": "《外汇管理条例》",
+      "active": true
+    },
+    {
+      "seq": 4,
+      "term": "骗子",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "mid",
+      "reason": "涉及欺诈指控，可能对公司或他人造成名誉影响",
+      "basis": "公司品牌声誉管理",
+      "active": true
+    },
+    {
+      "seq": 208,
+      "term": "高仿",
+      "category": "trade_gray",
+      "category_cn": "跨境贸易合规",
+      "risk": "high",
+      "reason": "涉及高仿假冒商品",
+      "basis": "《商标法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 169,
+      "term": "黑客",
+      "category": "internet",
+      "category_cn": "互联网内容合规",
+      "risk": "mid",
+      "reason": "涉及网络攻击/入侵行为",
+      "basis": "《网络安全法》《刑法》",
+      "active": true
+    },
+    {
+      "seq": 128,
+      "term": "枪",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及枪支相关内容",
+      "basis": "《枪支管理法》",
+      "active": true
+    }
+  ],
+  "patterns": [
+    {
+      "name": "大额资金+换汇组合",
+      "pattern": "(\\d{2,})\\s*万.*(换|兑|汇|转)",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及大额资金换汇/转移，需重点核查是否涉及逃汇、非法换汇",
+      "basis": "《外汇管理条例》"
+    },
+    {
+      "name": "寻求帮忙换汇",
+      "pattern": "(帮(我|忙|个忙)).*(换|汇|转).*(钱|款|人民币|新币|美金|外币)",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及请求他人代为换汇/汇款，可能构成非法资金转移",
+      "basis": "《外汇管理条例》第四十五条"
+    },
+    {
+      "name": "出/收人民币+外币组合",
+      "pattern": "(出|收).*(人民币|新币|美金|美元|外币|CNY|SGD|USD).*(收|出)",
+      "category": "forex_regulation",
+      "category_cn": "外汇管制合规",
+      "risk": "high",
+      "reason": "涉及场外双向换汇，可能构成非法买卖外汇",
+      "basis": "《外汇管理条例》第四十五条"
+    },
+    {
+      "name": "虚拟货币+换汇组合",
+      "pattern": "(USDT|BTC|ETH|虚拟货币|加密货币|数字货币).*(换|兑|转|变现).*(人民币|新币|现金|法币)",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及利用虚拟货币进行法币兑换，属于被禁止的金融活动",
+      "basis": "央行等《关于进一步防范和处置虚拟货币��易炒作风险的通知》"
+    },
+    {
+      "name": "大量金额+避税",
+      "pattern": "(\\d{2,})\\s*(万|百万|千万).*(避税|少交税|不交税)",
+      "category": "general",
+      "category_cn": "通用违禁内容",
+      "risk": "high",
+      "reason": "涉及大额资金避税行为",
+      "basis": "《税收征收管理法》"
+    },
+    {
+      "name": "加微/加V+交易",
+      "pattern": "(加.*(微信|V|v信|WX|wx)).*(交易|换|买|卖|转账|汇款|优惠)",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "mid",
+      "reason": "涉及引导私下交易/联系，需确认目的",
+      "basis": "论坛运营规范"
+    },
+    {
+      "name": "敏感微信号码模式",
+      "pattern": "(微信|VX|wx|vx|WeChat)\\s*[:：]\\s*[a-zA-Z0-9_-]{6,}",
+      "category": "business_risk",
+      "category_cn": "公司业务风险",
+      "risk": "low",
+      "reason": "涉及公布个人微信账号，需确认是否涉及私下营销",
+      "basis": "论坛运营规范"
+    },
+    {
+      "name": "承诺收益/保本",
+      "pattern": "(保证|承诺|确保|一定).*(收益|回报|赚钱|盈利|赚).*(\\d+)",
+      "category": "financial_crime",
+      "category_cn": "金融监管合规",
+      "risk": "high",
+      "reason": "涉及承诺收益/保本宣传，可能涉及非法集资或金融诈骗",
+      "basis": "《广告法》《刑法》"
+    }
+  ]
+}
