@@ -277,24 +277,10 @@ div[id] {
   line-height: 1;
   color: inherit;
 }
-.wordmark strong {
-  font-family: Georgia, serif;
-  font-size: 39px;
-  font-weight: 500;
-  letter-spacing: 2px;
-}
-.wordmark strong span {
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  vertical-align: top;
-  letter-spacing: 0;
-  position: relative;
-  top: 5px;
-}
-.wordmark small {
-  font-size: 10px;
-  letter-spacing: 3px;
-  margin-top: 7px;
+.wordmark img {
+  display: block;
+  height: 52px;
+  width: auto;
 }
 .desktop-nav {
   display: flex;
@@ -1963,12 +1949,8 @@ dialog::backdrop {
   .site-header {
     height: 64px;
   }
-  .wordmark strong {
-    font-size: 32px;
-  }
-  .wordmark small {
-    font-size: 9px;
-    margin-top: 4px;
+  .wordmark img {
+    height: 42px;
   }
   .hero-main {
     min-height: 530px;
@@ -2921,8 +2903,8 @@ dialog::backdrop {
 .list-skeleton span:last-child {
   width: 65%;
 }
-.site-header.compact .wordmark strong {
-  font-size: 33px;
+.site-header.compact .wordmark img {
+  height: 44px;
 }
 .site-header.compact .header-inner {
   height: 64px;

@@ -118,10 +118,12 @@ export function Shell({ children }) {
             to="/home"
             aria-label={t("CYS 星威环球 · 首页", "CYS Global Remit · Home")}
           >
-            <strong>
-              CYS<span>®</span>
-            </strong>
-            <small>{t("星威环球", "GLOBAL REMIT")}</small>
+            <img
+              src="/assets/cys-logo-white.png"
+              alt=""
+              width="440"
+              height="200"
+            />
           </Link>
           <nav
             className="desktop-nav"
@@ -202,10 +204,12 @@ export function Shell({ children }) {
         <div className="shell footer-grid">
           <div>
             <Link className="wordmark" to="/home">
-              <strong>
-                CYS<span>®</span>
-              </strong>
-              <small>{t("星威环球", "GLOBAL REMIT")}</small>
+              <img
+                src="/assets/cys-logo-white.png"
+                alt={t("CYS 星威环球", "CYS Global Remit")}
+                width="440"
+                height="200"
+              />
             </Link>
             <p>{t("1981年启航于新加坡", "Founded in Singapore, 1981")}</p>
             <p className="muted">CYS Global Remit Pte Ltd</p>
