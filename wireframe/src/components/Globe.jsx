@@ -1,213 +1,215 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useApp } from "./runtime.jsx";
+// Local equirectangular Earth imagery, projected onto a sphere without a WebGL dependency.
 export function Globe() {
-  const ref = useRef(null);
+  const ref = useRef(null),
+    control = useRef({ longitude: 105, zoom: 1, paused: false, dirty: true });
+  const { t } = useApp();
+  const [paused, setPaused] = useState(
+      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+    ),
+    [failed, setFailed] = useState(false);
+  useEffect(() => {
+    control.current.paused = paused;
+    control.current.dirty = true;
+  }, [paused]);
   useEffect(() => {
     const canvas = ref.current,
       ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const size = 360;
+    canvas.width = size;
+    canvas.height = size;
     let frame,
+      texture,
       visible = true,
-      rotation = -0.3,
-      phase = 0,
-      pointer = { x: 0, y: 0 },
-      width = 600;
-    const resize = () => {
-      width = canvas.clientWidth || 600;
-      const ratio = Math.min(devicePixelRatio, 2);
-      canvas.width = width * ratio;
-      canvas.height = width * ratio;
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      previous = 0,
+      drag = null,
+      disposed = false;
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const motion = () => setPaused(media.matches);
+    media.addEventListener("change", motion);
+    const img = new Image();
+    img.onload = () => {
+      if (disposed) return;
+      const map = document.createElement("canvas");
+      map.width = img.width;
+      map.height = img.height;
+      const c = map.getContext("2d", { willReadFrequently: true });
+      c.drawImage(img, 0, 0);
+      texture = c.getImageData(0, 0, img.width, img.height);
+      control.current.dirty = true;
     };
-    const project = (lat, lon, radius = 1) => {
-      const a = (lat * Math.PI) / 180,
-        b = ((lon - 105) * Math.PI) / 180 + rotation + pointer.x;
-      const x = Math.cos(a) * Math.sin(b),
-        y = -Math.sin(a),
-        z = Math.cos(a) * Math.cos(b);
-      const tilt = 0.16 + pointer.y;
-      return {
-        x: width / 2 + x * width * 0.39 * radius,
-        y:
-          width / 2 +
-          (y * Math.cos(tilt) - z * Math.sin(tilt)) * width * 0.39 * radius,
-        z,
-      };
+    img.onerror = () => {
+      if (!disposed) setFailed(true);
     };
-    const line = (points) => {
-      ctx.beginPath();
-      points.forEach((p, i) => {
-        if (i === 0) ctx.moveTo(p.x, p.y);
-        else ctx.lineTo(p.x, p.y);
-      });
-      ctx.stroke();
-    };
-    // Geographic outlines are a decorative approximation, never asserted payment routes.
-    const lands = [
-      [
-        [70, 35],
-        [55, 30],
-        [48, 45],
-        [42, 50],
-        [30, 48],
-        [22, 60],
-        [8, 77],
-        [25, 90],
-        [20, 106],
-        [5, 104],
-        [-6, 112],
-        [-7, 130],
-        [5, 122],
-        [23, 121],
-        [35, 140],
-        [48, 145],
-        [58, 160],
-        [70, 145],
-        [70, 35],
-      ],
-      [
-        [-12, 130],
-        [-20, 115],
-        [-34, 115],
-        [-39, 145],
-        [-25, 153],
-        [-12, 142],
-        [-12, 130],
-      ],
-      [
-        [35, -5],
-        [30, 30],
-        [12, 45],
-        [-15, 40],
-        [-34, 20],
-        [-10, 10],
-        [5, -15],
-        [35, -5],
-      ],
-      [
-        [70, -160],
-        [55, -130],
-        [32, -115],
-        [15, -87],
-        [28, -80],
-        [50, -60],
-        [70, -100],
-        [70, -160],
-      ],
-      [
-        [10, -80],
-        [-5, -35],
-        [-30, -50],
-        [-55, -70],
-        [-15, -78],
-        [10, -80],
-      ],
-    ];
-    const draw = () => {
-      if (visible && !document.hidden) {
-        ctx.clearRect(0, 0, width, width);
-        if (!media.matches) {
-          phase += 0.0007;
-          rotation = -0.3 + Math.sin(phase) * 0.26;
-        }
-        const glow = ctx.createRadialGradient(
-          width / 2,
-          width / 2,
-          width * 0.1,
-          width / 2,
-          width / 2,
-          width * 0.49,
-        );
-        glow.addColorStop(0, "#1A335830");
-        glow.addColorStop(0.8, "#24446F20");
-        glow.addColorStop(1, "#12213A00");
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, width, width);
-        ctx.lineWidth = 0.65;
-        ctx.strokeStyle = "#D9B87730";
-        for (let lat = -75; lat <= 75; lat += 15)
-          line(Array.from({ length: 121 }, (_, i) => project(lat, i * 3)));
-        for (let lon = 0; lon < 360; lon += 15)
-          line(Array.from({ length: 61 }, (_, i) => project(i * 3 - 90, lon)));
-        ctx.strokeStyle = "#D9B87780";
-        ctx.lineWidth = 1;
-        lands.forEach((land) => {
-          for (let i = 0; i < land.length - 1; i++) {
-            const a = land[i],
-              b = land[i + 1];
-            const points = Array.from({ length: 12 }, (_, n) =>
-              project(
-                a[0] + ((b[0] - a[0]) * n) / 11,
-                a[1] + ((b[1] - a[1]) * n) / 11,
-              ),
-            );
-            if (points.every((p) => p.z > -0.1)) line(points);
-          }
-        });
-        for (let lat = -45; lat <= 65; lat += 5)
-          for (let lon = 30; lon < 155; lon += 5) {
-            if ((lat * 17 + lon * 13) % 7 > 3) continue;
-            const p = project(lat, lon);
-            if (p.z > 0) {
-              ctx.fillStyle = "#D9B87765";
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
-              ctx.fill();
-            }
-          }
-        const sg = project(1.3, 103.8),
-          cn = project(31.2, 121.5);
-        if (sg.z > 0 && cn.z > 0) {
-          ctx.strokeStyle = "#D9B877";
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(sg.x, sg.y);
-          ctx.quadraticCurveTo(
-            cn.x + width * 0.16,
-            cn.y + width * 0.12,
-            cn.x,
-            cn.y,
-          );
-          ctx.stroke();
-          [sg, cn].forEach((p) => {
-            ctx.fillStyle = "#D9B87725";
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = "#F1E3C6";
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-            ctx.fill();
-          });
-        }
+    img.src = "/assets/earth-day.jpg";
+    const render = (time) => {
+      frame = requestAnimationFrame(render);
+      if (!texture || !visible || document.hidden || time - previous < 60)
+        return;
+      const elapsed = Math.min(100, time - previous);
+      previous = time;
+      const c = control.current;
+      if (!c.paused && !drag) {
+        c.longitude += elapsed * 0.0015;
+        c.dirty = true;
       }
-      frame = requestAnimationFrame(draw);
+      if (!c.dirty) return;
+      c.dirty = false;
+      const image = ctx.createImageData(size, size),
+        radius = 158 * c.zoom;
+      for (let y = 0; y < size; y++)
+        for (let x = 0; x < size; x++) {
+          const nx = (x - size / 2) / radius,
+            ny = (size / 2 - y) / radius,
+            r2 = nx * nx + ny * ny;
+          if (r2 > 1) continue;
+          const z = Math.sqrt(1 - r2),
+            tilt = (18 * Math.PI) / 180;
+          const worldY = ny * Math.cos(tilt) + z * Math.sin(tilt),
+            worldZ = z * Math.cos(tilt) - ny * Math.sin(tilt);
+          const lat = Math.asin(worldY),
+            lon = Math.atan2(nx, worldZ) + (c.longitude * Math.PI) / 180;
+          const u = (((lon / (2 * Math.PI) + 0.5) % 1) + 1) % 1,
+            v = 0.5 - lat / Math.PI;
+          const ti =
+              (Math.min(texture.height - 1, Math.floor(v * texture.height)) *
+                texture.width +
+                Math.floor(u * texture.width)) *
+              4,
+            di = (y * size + x) * 4;
+          const light =
+            0.35 + 0.65 * Math.max(0, z * 0.85 - nx * 0.35 + ny * 0.2);
+          for (let channel = 0; channel < 3; channel++)
+            image.data[di + channel] = texture.data[ti + channel] * light;
+          image.data[di + 3] = Math.min(255, (1 - r2) * radius * 255);
+        }
+      ctx.putImageData(image, 0, 0);
+      const project = (lat, lon) => {
+        const a = (lat * Math.PI) / 180,
+          b = ((lon - c.longitude) * Math.PI) / 180,
+          tilt = (18 * Math.PI) / 180;
+        const yy = Math.sin(a),
+          zz = Math.cos(a) * Math.cos(b);
+        return {
+          x: size / 2 + Math.cos(a) * Math.sin(b) * radius,
+          y: size / 2 - (yy * Math.cos(tilt) - zz * Math.sin(tilt)) * radius,
+          front: zz * Math.cos(tilt) + yy * Math.sin(tilt) > 0,
+        };
+      };
+      for (const [lat, lon, name] of [
+        [31.2, 121.5, t("中国", "CHINA")],
+        [1.3, 103.8, t("新加坡", "SINGAPORE")],
+      ]) {
+        const p = project(lat, lon);
+        if (!p.front) continue;
+        ctx.fillStyle = "#f2d697";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.font = "11px system-ui";
+        ctx.fillText(name, p.x + 8, p.y - 7);
+      }
+    };
+    const down = (e) => {
+      drag = { x: e.clientX };
+      canvas.setPointerCapture(e.pointerId);
     };
     const move = (e) => {
-      if (media.matches) return;
-      const r = canvas.getBoundingClientRect();
-      pointer = {
-        x: ((e.clientX - r.left) / r.width - 0.5) * 0.1,
-        y: ((e.clientY - r.top) / r.height - 0.5) * 0.06,
-      };
+      if (!drag) return;
+      control.current.longitude -= (e.clientX - drag.x) * 0.4;
+      drag.x = e.clientX;
+      control.current.dirty = true;
     };
-    const observer = new IntersectionObserver((entries) => {
-      visible = entries[0].isIntersecting;
+    const up = () => {
+      drag = null;
+    };
+    canvas.addEventListener("pointerdown", down);
+    canvas.addEventListener("pointermove", move);
+    canvas.addEventListener("pointerup", up);
+    canvas.addEventListener("pointercancel", up);
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
     });
     observer.observe(canvas);
-    const size = new ResizeObserver(resize);
-    size.observe(canvas);
-    resize();
-    draw();
-    canvas.parentElement.addEventListener("pointermove", move);
+    frame = requestAnimationFrame(render);
     return () => {
+      disposed = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
-      size.disconnect();
-      canvas.parentElement?.removeEventListener("pointermove", move);
+      media.removeEventListener("change", motion);
+      canvas.removeEventListener("pointerdown", down);
+      canvas.removeEventListener("pointermove", move);
+      canvas.removeEventListener("pointerup", up);
+      canvas.removeEventListener("pointercancel", up);
     };
-  }, []);
-  return <canvas className="globe" ref={ref} aria-hidden="true" />;
+  }, [t("中国", "CHINA")]);
+  const change = (key, amount) => {
+    control.current[key] += amount;
+    control.current.zoom = Math.max(0.8, Math.min(1.1, control.current.zoom));
+    control.current.dirty = true;
+  };
+  return (
+    <div className="earth-interactive">
+      <canvas
+        className="globe"
+        ref={ref}
+        role="img"
+        aria-label={t(
+          "真实地球：中国与新加坡。拖动旋转，或使用下方按钮。",
+          "Earth showing China and Singapore. Drag to rotate, or use the controls below.",
+        )}
+      />
+      {failed && (
+        <p role="status">
+          {t("地球图像暂时无法加载", "Earth image could not load")}
+        </p>
+      )}
+      <div className="globe-controls">
+        <button
+          aria-label={t("向左旋转", "Rotate left")}
+          onClick={() => change("longitude", -15)}
+        >
+          ←
+        </button>
+        <button
+          aria-label={t("向右旋转", "Rotate right")}
+          onClick={() => change("longitude", 15)}
+        >
+          →
+        </button>
+        <button
+          aria-label={t("放大地球", "Zoom in")}
+          onClick={() => change("zoom", 0.1)}
+        >
+          +
+        </button>
+        <button
+          aria-label={t("缩小地球", "Zoom out")}
+          onClick={() => change("zoom", -0.1)}
+        >
+          −
+        </button>
+        <button onClick={() => setPaused(!paused)}>
+          {paused
+            ? t("自动旋转", "Auto-rotate")
+            : t("暂停旋转", "Pause rotation")}
+        </button>
+        <button
+          onClick={() => {
+            Object.assign(control.current, {
+              longitude: 105,
+              zoom: 1,
+              dirty: true,
+            });
+          }}
+        >
+          {t("重置", "Reset")}
+        </button>
+      </div>
+    </div>
+  );
 }
 export function Counter({ value, suffix = "" }) {
   const ref = useRef(null);

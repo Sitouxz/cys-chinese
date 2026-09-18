@@ -1,3 +1,5 @@
+import { TierBadge, PromotedSlot } from "./Community.jsx";
+import { rankingScore } from "../mock/community.js";
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import { Arrow, Empty, Modal, PageTitle, Tabs } from "../components/ui.jsx";
@@ -11,6 +13,22 @@ import {
   values,
 } from "../content/catalog.js";
 import { publicPosts } from "../mock/service.js";
+function RevealText({ children }) {
+  const segments = children.match(/\S+\s*/g) || [children];
+  return (
+    <span className="reveal-copy" aria-label={children}>
+      {segments.map((word, i) => (
+        <span
+          aria-hidden="true"
+          key={i}
+          style={{ "--reveal-delay": `${Math.min(i * 65, 1200)}ms` }}
+        >
+          {word}{" "}
+        </span>
+      ))}
+    </span>
+  );
+}
 export function Values() {
   const { txt } = useApp();
   return (
@@ -53,6 +71,7 @@ export function PostRows({ posts, compact = false }) {
               <Link to={"/forum/member/" + profile.id}>
                 {txt(profile.name)}
               </Link>
+              <TierBadge profile={profile} />
               <span>{txt(industries.find((c) => c.id === post.industry))}</span>
               <span>{post.markets.join(" · ")}</span>
               <span>{txt(intents.find((i) => i.id === post.intent))}</span>
@@ -77,7 +96,7 @@ export function PostRows({ posts, compact = false }) {
 }
 export function Home() {
   const { state, txt, t, location, query, go } = useApp();
-  const [feed, setFeed] = useState("latest"),
+  const [feed, setFeed] = useState("recommended"),
     [search, setSearch] = useState("");
   const published = publicPosts(state),
     tab = ["payment", "consulting", "forum"].includes(
@@ -122,15 +141,15 @@ export function Home() {
             </p>
             <h1>
               {t(
-                "连接中国与东南亚的可信支付桥梁，",
-                "A trusted payment bridge connecting China and Southeast Asia.",
+                "连接中国与东南亚的可信商业桥梁，",
+                "A trusted business bridge connecting China and Southeast Asia.",
               )}
               <em>{t("启迪跨境商业新可能。", "")}</em>
             </h1>
             <p className="hero-description">
               {t(
-                "从跨境支付到商业合作，以专业连接每一份信任。与 CYS 一起，探索更广阔的可能。",
-                "From cross-border payments to lasting partnerships. Connect with expertise, explore new possibilities and grow together with CYS.",
+                "从专业咨询到商业合作，以经验连接每一份信任。与 CYS 一起，探索更广阔的可能。",
+                "From specialist advice to lasting partnerships. Connect with expertise, explore new possibilities and grow together with CYS.",
               )}
             </p>
             <div className="actions">
@@ -225,6 +244,7 @@ export function Home() {
               {t("浏览华商论坛", "Browse the forum")}
               <Arrow />
             </Link>
+            <PromotedSlot />
           </div>
           <div>
             <Tabs
@@ -233,6 +253,7 @@ export function Home() {
               value={feed}
               onChange={setFeed}
               options={[
+                { id: "recommended", label: t("为您推荐", "Recommended") },
                 { id: "latest", label: t("最新发布", "Latest") },
                 { id: "featured", label: t("精选机会", "Featured") },
               ]}
@@ -247,7 +268,12 @@ export function Home() {
                   compact
                   posts={(feed === "featured"
                     ? published.filter((p) => p.featured)
-                    : published
+                    : feed === "recommended"
+                      ? [...published].sort(
+                          (a, b) =>
+                            rankingScore(b, state) - rankingScore(a, state),
+                        )
+                      : published
                   ).slice(0, 3)}
                 />
               ) : (
@@ -330,40 +356,7 @@ export function Home() {
           </div>
         </div>
       </section>
-      <section className="section dark history-preview">
-        <div className="shell history-layout">
-          <div>
-            <p className="origin">SINCE 1981</p>
-            <h2>
-              {t(
-                "四十余年，\n始终与您同行。",
-                "Over four decades. Still moving forward, together.",
-              )}
-            </h2>
-            <p>
-              {t(
-                "从新加坡出发，连接亚太地区的企业与家庭。坚持一对一专业咨询，携手伙伴探索更多合作可能。",
-                "From Singapore, connecting businesses and families across Asia Pacific through one-to-one consultation and an enduring commitment to partnership.",
-              )}
-            </p>
-            <Link className="text-link" to="/about#history">
-              {t("了解星威环球历史", "Explore our history")}
-              <Arrow />
-            </Link>
-          </div>
-          <div className="history-stat">
-            <Counter value={40} suffix="+" />
-            <span>{t("年 · 专注连接", "years of connection")}</span>
-            <div className="mini-years">
-              1981
-              <span />
-              2025
-              <span />
-              2030<small>{t("展望", "Outlook")}</small>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HistoryTimeline />
       <section className="section">
         <div className="shell audience-grid">
           <article>
@@ -410,8 +403,7 @@ export function Home() {
   );
 }
 export function About() {
-  const { t, txt } = useApp();
-  const [year, setYear] = useState(0);
+  const { t } = useApp();
   return (
     <>
       <PageTitle
@@ -422,7 +414,7 @@ export function About() {
       >
         {t("关于星威环球", "About CYS Global Remit")}
       </PageTitle>
-      <section id="intro" className="section">
+      <section id="intro" className="section text-reveal">
         <div className="shell editorial-grid">
           <h2>
             {t(
@@ -432,10 +424,12 @@ export function About() {
           </h2>
           <div>
             <p className="lead">
-              {t(
-                "CYS 成立于1981年，总部设于新加坡。我们专注于为中小企业、金融机构及大型企业提供外汇流动性与支付解决方案。",
-                "Founded in 1981 and headquartered in Singapore, CYS focuses on FX liquidity and payment solutions for small and medium businesses, financial institutions and large corporates.",
-              )}
+              <RevealText>
+                {t(
+                  "CYS 成立于1981年，总部设于新加坡。我们专注于为中小企业、金融机构及大型企业提供外汇流动性与支付解决方案。",
+                  "Founded in 1981 and headquartered in Singapore, CYS focuses on FX liquidity and payment solutions for small and medium businesses, financial institutions and large corporates.",
+                )}
+              </RevealText>
             </p>
             <p>
               {t(
@@ -460,63 +454,21 @@ export function About() {
           </div>
         </div>
       </section>
-      <section id="history" className="section dark timeline-section">
-        <div className="timeline-globe">
-          <Globe />
-        </div>
-        <div className="shell timeline-content">
-          <div className="section-head">
-            <h2>
-              {t(
-                "每一步，都为下一次连接。",
-                "Every chapter opens another connection.",
-              )}
-            </h2>
-            <Counter value={40} suffix="+" />
-          </div>
-          <div
-            className="timeline"
-            role="tablist"
-            aria-label={t("公司历史", "Company history")}
-          >
-            {history.map((h, i) => (
-              <button
-                key={h.year}
-                role="tab"
-                aria-selected={year === i}
-                aria-controls="milestone-detail"
-                onMouseEnter={() => setYear(i)}
-                onFocus={() => setYear(i)}
-                onClick={() => setYear(i)}
-                onKeyDown={(e) => {
-                  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-                    e.preventDefault();
-                    const next =
-                      (i + (e.key === "ArrowRight" ? 1 : -1) + 5) % 5;
-                    e.currentTarget.parentElement.children[next].focus();
-                  }
-                }}
-              >
-                <span>{h.year}</span>
-                <small>{i === 4 ? t("展望", "Outlook") : txt(h.title)}</small>
-              </button>
-            ))}
-          </div>
-          <div
-            className="milestone-detail"
-            id="milestone-detail"
-            role="tabpanel"
-          >
-            <span>{history[year].year}</span>
-            <div>
-              <h3>{txt(history[year].title)}</h3>
-              <p>{txt(history[year].body)}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HistoryTimeline />
       <div id="culture">
         <Values />
+        <div className="shell film-preview">
+          <div>
+            <span className="eyebrow">CYS / FILM</span>
+            <h2>
+              {t("看见连接的力量。", "The people behind every connection.")}
+            </h2>
+            <p>{t("品牌影片即将呈现。", "Our brand film is coming soon.")}</p>
+          </div>
+          <span className="film-placeholder">
+            {t("影片待提供", "Film awaiting client supply")}
+          </span>
+        </div>
         <p className="shell small muted">
           {t(
             "文化预览：采用所提供的核心价值，正式内容待确认。",
@@ -538,7 +490,7 @@ export function Corridor() {
           "Championing China–Singapore business growth, together with our partners.",
         )}
       </PageTitle>
-      <section className="section" id="partners">
+      <section className="section dark corridor-partners" id="partners">
         <div className="shell">
           <div className="editorial-grid">
             <div>
@@ -926,5 +878,62 @@ export function Individual() {
         </div>
       </section>
     </>
+  );
+}
+
+export function HistoryTimeline() {
+  const { t, txt } = useApp();
+  const [year, setYear] = useState(0);
+  return (
+    <section id="history" className="section dark timeline-section">
+      <div className="timeline-globe">
+        <Globe />
+      </div>
+      <div className="shell timeline-content">
+        <div className="section-head">
+          <h2>
+            {t(
+              "每一步，都为下一次连接。",
+              "Every chapter opens another connection.",
+            )}
+          </h2>
+          <Counter value={40} suffix="+" />
+        </div>
+        <div
+          className="timeline"
+          role="tablist"
+          aria-label={t("公司历史", "Company history")}
+        >
+          {history.map((h, i) => (
+            <button
+              key={h.year}
+              role="tab"
+              aria-selected={year === i}
+              aria-controls="milestone-detail"
+              onMouseEnter={() => setYear(i)}
+              onFocus={() => setYear(i)}
+              onClick={() => setYear(i)}
+              onKeyDown={(e) => {
+                if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                  e.preventDefault();
+                  const next = (i + (e.key === "ArrowRight" ? 1 : -1) + 5) % 5;
+                  e.currentTarget.parentElement.children[next].focus();
+                }
+              }}
+            >
+              <span>{h.year}</span>
+              <small>{i === 4 ? t("展望", "Outlook") : txt(h.title)}</small>
+            </button>
+          ))}
+        </div>
+        <div className="milestone-detail" id="milestone-detail" role="tabpanel">
+          <span>{history[year].year}</span>
+          <div>
+            <h3>{txt(history[year].title)}</h3>
+            <p>{txt(history[year].body)}</p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

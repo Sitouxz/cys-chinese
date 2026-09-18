@@ -1,3 +1,4 @@
+import { Connections, Advertising } from "./Community.jsx";
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import {
@@ -17,7 +18,7 @@ export function Moderation() {
     [error, setError] = useState(null),
     [risk, setRisk] = useState(""),
     [reportState, setReportState] = useState("open");
-  const tab = ["comments", "reports", "history"].includes(
+  const tab = ["comments", "reports", "history", "connections", "ads"].includes(
     location.searchParams.get("tab"),
   )
     ? location.searchParams.get("tab")
@@ -35,6 +36,23 @@ export function Moderation() {
             {t("打开预览控制台选择角色", "Choose a role in Preview controls")}
           </Link>
         </Empty>
+      </section>
+    );
+  if (tab === "connections" || tab === "ads")
+    return (
+      <section className="section shell">
+        <nav className="forum-nav">
+          <Link to="/moderation">{t("内容审核", "Content review")}</Link>
+          <Link to="/moderation?tab=connections">
+            {t("连接申请", "Connections")}
+          </Link>
+          <Link to="/moderation?tab=ads">{t("推广审核", "Promotions")}</Link>
+        </nav>
+        {tab === "connections" ? (
+          <Connections moderator />
+        ) : (
+          <Advertising moderator />
+        )}
       </section>
     );
   const records =
@@ -84,6 +102,12 @@ export function Moderation() {
   };
   return (
     <>
+      <nav className="shell forum-nav">
+        <Link to="/moderation?tab=connections">
+          {t("连接申请", "Connections")}
+        </Link>
+        <Link to="/moderation?tab=ads">{t("推广审核", "Promotions")}</Link>
+      </nav>
       <PageTitle compact title={t("内容审核工作台", "Moderation workspace")}>
         {t(
           "模拟分类与人工审核 · 所有操作仅改变本地演示数据",

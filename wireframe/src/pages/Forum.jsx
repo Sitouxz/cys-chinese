@@ -1,3 +1,5 @@
+import { ConnectButton, TierBadge } from "./Community.jsx";
+import { rankingScore } from "../mock/community.js";
 import { useEffect, useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import {
@@ -58,7 +60,7 @@ export function Forum({ categoryId = "" }) {
     industry = location.searchParams.get("industry") || "",
     market = location.searchParams.get("market") || "",
     intent = location.searchParams.get("intent") || "",
-    sort = location.searchParams.get("sort") || "latest",
+    sort = location.searchParams.get("sort") || "recommended",
     q = location.searchParams.get("q") || "";
   const [filterDraft, setFilterDraft] = useState({ industry, market, intent });
   useEffect(() => {
@@ -91,12 +93,12 @@ export function Forum({ categoryId = "" }) {
           .includes(q.toLowerCase())),
   );
   if (sort === "featured") posts = posts.filter((p) => p.featured);
-  if (sort === "trending") {
-    const score = (p) =>
-      state.reactions.filter((r) => r.targetId === p.id).length * 2 +
-      state.comments.filter((c) => c.postId === p.id && c.status === "approved")
-        .length;
-    posts.sort((a, b) => score(b) - score(a) || b.publishedAt - a.publishedAt);
+  if (sort === "trending" || sort === "recommended") {
+    posts.sort(
+      (a, b) =>
+        rankingScore(b, state) - rankingScore(a, state) ||
+        b.publishedAt - a.publishedAt,
+    );
   }
   const pages = Math.max(1, Math.ceil(posts.length / 6)),
     page = Math.min(
@@ -255,6 +257,9 @@ export function Forum({ categoryId = "" }) {
                     value={sort}
                     onChange={(e) => query("sort", e.target.value)}
                   >
+                    <option value="recommended">
+                      {t("推荐排序", "Recommended")}
+                    </option>
                     <option value="latest">{t("最新", "Latest")}</option>
                     <option value="trending">{t("热门", "Trending")}</option>
                     <option value="featured">{t("精选", "Featured")}</option>
@@ -420,23 +425,24 @@ export function Gate({ children }) {
   return children;
 }
 export function PostDetail({ id }) {
-  const {
-    state,
-    session,
-    t,
-    txt,
-    gate,
-    act,
-    busy,
-    toast,
-    errorText,
-    go,
-    lang,
-  } = useApp();
+  const { state, session, t, txt, gate, act, busy, toast, errorText, lang } =
+    useApp();
   const [comment, setComment] = useState(""),
     [parentId, setParentId] = useState(null),
     [error, setError] = useState(null),
     [share, setShare] = useState(false);
+  useEffect(() => {
+    const key = "cys-view-" + id;
+    try {
+      if (!sessionStorage.getItem(key)) {
+        act("viewPost", { id })
+          .then(() => sessionStorage.setItem(key, "1"))
+          .catch(() => {});
+      }
+    } catch {
+      /* Storage may be unavailable; the listing still renders. */
+    }
+  }, [id]);
   const post = visiblePost(state, id, session),
     published = publicPosts(state).find((p) => p.id === id);
   if (!post)
@@ -673,6 +679,7 @@ export function PostDetail({ id }) {
           <aside className="company-panel">
             <div className="avatar">{txt(profile.name).slice(0, 2)}</div>
             <h2>{txt(profile.name)}</h2>
+            <TierBadge profile={profile} />
             {profile.verified && (
               <span className="status approved">
                 ✓ {t("演示认证", "Demo verification")}
@@ -684,11 +691,7 @@ export function PostDetail({ id }) {
               {t("查看企业资料", "View company")}
               <Arrow />
             </Link>
-            {published && (
-              <Button onClick={() => gate(() => go("/contact?post=" + id))}>
-                {t("建立联系", "Connect")}
-              </Button>
-            )}
+            {published && <ConnectButton targetId={profile.id} postId={id} />}
           </aside>
         </div>
       </div>
@@ -1073,7 +1076,7 @@ export function Report({ id }) {
   );
 }
 export function Members({ id }) {
-  const { state, txt, t, gate, go } = useApp();
+  const { state, txt, t } = useApp();
   const [search, setSearch] = useState(""),
     [industry, setIndustry] = useState("");
   const profile = state.profiles.find((p) => p.id === id);
@@ -1111,6 +1114,7 @@ export function Members({ id }) {
                 <div className="avatar">{txt(profile.name).slice(0, 2)}</div>
                 <div>
                   <h2>{txt(profile.name)}</h2>
+                  <TierBadge profile={profile} />
                   {profile.verified && (
                     <span className="status approved">
                       ✓ {t("演示认证", "Demo verification")}
@@ -1121,18 +1125,7 @@ export function Members({ id }) {
                     {txt(industries.find((i) => i.id === profile.industry))} ·{" "}
                     {profile.markets.join(" / ")}
                   </p>
-                  <Button
-                    onClick={() =>
-                      gate(() =>
-                        go(
-                          "/contact?topic=" +
-                            encodeURIComponent(txt(profile.name)),
-                        ),
-                      )
-                    }
-                  >
-                    {t("建立联系", "Connect")}
-                  </Button>
+                  <ConnectButton targetId={profile.id} />
                 </div>
               </div>
               <h2>{t("已发布合作需求", "Published partnership requests")}</h2>

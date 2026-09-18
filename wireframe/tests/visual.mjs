@@ -15,13 +15,26 @@ try {
       ),
   );
 }
-const browser = await pw.chromium.launch({ headless: true });
+const browser = await pw.chromium.launch({
+  headless: true,
+  ...(process.env.CYS_BROWSER_CHANNEL
+    ? { channel: process.env.CYS_BROWSER_CHANNEL }
+    : {}),
+});
 const root = "http://127.0.0.1:5173";
-const out = path.resolve("../docs/verification/screenshots");
+const evidenceRoot =
+  process.env.CYS_QA_OUTPUT || path.join(os.tmpdir(), "cys-qa");
+const out = path.join(evidenceRoot, "screenshots");
 await fs.mkdir(out, { recursive: true });
 const failures = [],
   evidence = [];
 const routes = [
+  ["register-company", "/auth?mode=register"],
+  ["membership", "/membership"],
+  ["connections", "/me/connections", "member"],
+  ["ads", "/me/ads", "member"],
+  ["review-connections", "/moderation?tab=connections", "moderator"],
+  ["review-ads", "/moderation?tab=ads", "moderator"],
   ["home", "/home"],
   ["about", "/about"],
   ["timeline", "/about#history"],
@@ -134,12 +147,12 @@ for (const size of [
   );
   await context.close();
   await fs.writeFile(
-    "../docs/verification/responsive-matrix.json",
+    path.join(evidenceRoot, "responsive-matrix.json"),
     JSON.stringify({ evidence, failures }, null, 2),
   );
 }
 await fs.writeFile(
-  "../docs/verification/responsive-matrix.json",
+  path.join(evidenceRoot, "responsive-matrix.json"),
   JSON.stringify({ evidence, failures }, null, 2),
 );
 console.log(JSON.stringify(failures, null, 2));

@@ -1,5 +1,6 @@
 import { scanContent as scan } from "./scanner.js";
 import { makeSeed, CLOCK } from "./seed.js";
+import { communityAction, communityActions } from "./community.js";
 import {
   categories,
   industries,
@@ -115,6 +116,10 @@ export function mutate(
       actorId: session.id,
       createdAt: now(),
     });
+  if (communityActions.includes(action)) {
+    result = communityAction(state, session, action, data, fail);
+    return { state, result };
+  }
   if (action === "post") {
     requireMember(session);
     validatePost(data, data.draft);
@@ -198,8 +203,12 @@ export function mutate(
     revision.status = data.decision === "changes" ? "rejected" : data.decision;
     revision.reason = data.reason || null;
     if (revision.status === "approved") {
+      if (!post.firstPublishedAt)
+        post.firstPublishedAt = post.publishedRevisionId
+          ? post.publishedAt
+          : Date.now();
       post.publishedRevisionId = revision.id;
-      post.publishedAt = now();
+      post.publishedAt = post.firstPublishedAt;
     }
     event(revision.id, data.decision, data.reason);
     receipt(
@@ -227,7 +236,11 @@ export function mutate(
       (x) => x.authorId === session.id && x.targetId === data.id,
     );
     if (existing >= 0) state[key].splice(existing, 1);
-    else state[key].push({ authorId: session.id, targetId: data.id });
+    else {
+      state[key].push({ authorId: session.id, targetId: data.id });
+      if (action === "reaction")
+        state.posts.find((p) => p.id === data.id).lastActivityAt = Date.now();
+    }
   } else if (action === "comment") {
     requireMember(session);
     if (!publicPosts(state).some((p) => p.id === data.postId))
@@ -279,6 +292,9 @@ export function mutate(
       fail("reason");
     comment.status = data.decision === "approved" ? "approved" : "rejected";
     comment.reason = data.reason;
+    if (comment.status === "approved")
+      state.posts.find((p) => p.id === comment.postId).lastActivityAt =
+        Date.now();
     event(comment.id, data.decision, data.reason);
     receipt(
       pair(
@@ -432,6 +448,21 @@ export function mutate(
       });
   } else if (action === "register") {
     if (
+      !["company", "individual"].includes(data.track) ||
+      !bounded(data.firstName, 1, 80) ||
+      !bounded(data.lastName, 1, 80) ||
+      !/^[0-9 ()-]{5,20}$/.test(data.phone || "") ||
+      (data.phone || "").replace(/\D/g, "").length < 5 ||
+      !/^\+[1-9]\d{0,3}$/.test(data.countryCode || "") ||
+      (data.track === "company" &&
+        (!bounded(data.company, 2, 120) ||
+          !["owner", "partner", "director", "staff", "other"].includes(
+            data.position,
+          ))) ||
+      (data.profileLink && !/^https?:\/\/[^\s]+$/i.test(data.profileLink))
+    )
+      fail("registrationFields");
+    if (
       !demoEmail(data.email) ||
       !bounded(data.password, 8, 128) ||
       data.password !== data.confirm ||
@@ -453,8 +484,13 @@ export function mutate(
     state.profiles.push({
       id: accountId,
       email: data.email.toLowerCase(),
-      name: pair("新示例企业", "New demo company"),
-      displayName: pair("新示例会员", "New demo member"),
+      name:
+        data.track === "company"
+          ? data.company.trim()
+          : `${data.firstName.trim()} ${data.lastName.trim()}`,
+      displayName: `${data.firstName.trim()} ${data.lastName.trim()}`,
+      tier: "silver",
+      track: data.track,
       industry: "services",
       markets: ["SG"],
       intro: pair(

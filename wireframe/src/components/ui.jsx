@@ -41,6 +41,15 @@ export function Button({
 }
 const FormFeedback = createContext(null);
 const errorFields = {
+  registrationFields: [
+    "firstName",
+    "lastName",
+    "phone",
+    "countryCode",
+    "company",
+    "position",
+    "profileLink",
+  ],
   postLength: ["title", "body"],
   fields: ["category", "industry", "product", "intent"],
   markets: ["markets"],

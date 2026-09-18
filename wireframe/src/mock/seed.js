@@ -72,6 +72,16 @@ export function makeSeed() {
     markets: i % 2 ? ["CN", "SG"] : ["SG", "MY"],
     intro: pair(topics[i][2], topics[i][3]),
     verified: i % 2 === 0,
+    tier: [
+      "platinum",
+      "silver",
+      "gold",
+      "diamond",
+      "black",
+      "silver",
+      "gold",
+      "silver",
+    ][i],
     email: `member${i + 1}@cys.example`,
   }));
   const revisions = [];

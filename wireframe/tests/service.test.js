@@ -211,6 +211,13 @@ test("enquiries validate synthetic contact details and never retain them", () =>
 test("registration does not store passwords; duplicates and invalid values rejected", () => {
   const data = {
     email: "new@brand.example",
+    track: "company",
+    firstName: "Demo",
+    lastName: "User",
+    countryCode: "+65",
+    phone: "80000000",
+    company: "Demo Co",
+    position: "owner",
     password: "Synthetic123",
     confirm: "Synthetic123",
     consent: true,

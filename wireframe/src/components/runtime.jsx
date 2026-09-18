@@ -8,6 +8,26 @@ import {
 } from "../mock/service.js";
 const Context = createContext(null);
 const errors = {
+  registrationFields: [
+    "请填写姓名、有效电话、企业名称及职位，并检查链接。",
+    "Enter your name, valid phone, company and position where required, and check the profile URL.",
+  ],
+  duplicateConnection: [
+    "已有连接申请，请查看进度。",
+    "A connection request already exists. Check its progress.",
+  ],
+  adDate: [
+    "请选择今天起90天内的日期。",
+    "Choose a date within the next 90 days.",
+  ],
+  adCapacity: [
+    "该日期的广告位已满，请选择其他日期。",
+    "This date is fully booked. Choose another date.",
+  ],
+  adBenefit: [
+    "本月免费权益不足。",
+    "No free featured days remain for this month.",
+  ],
   login: ["请先登录演示账户。", "Please sign in to a demo account."],
   forbidden: [
     "您无法执行此操作。",

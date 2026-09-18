@@ -19,6 +19,7 @@ export function Shell({ children }) {
     return () => window.removeEventListener("scroll", scroll);
   }, []);
   const items = [
+    ["/home", t("首页", "Home")],
     [
       "/about",
       t("关于我们", "About"),
@@ -63,6 +64,14 @@ export function Shell({ children }) {
           <details
             key={path}
             className={location.pathname.startsWith(path) ? "active" : ""}
+            onMouseEnter={(e) => {
+              if (!mobile && matchMedia("(hover: hover)").matches)
+                e.currentTarget.open = true;
+            }}
+            onMouseLeave={(e) => {
+              if (!mobile && !e.currentTarget.contains(document.activeElement))
+                e.currentTarget.open = false;
+            }}
             onKeyDown={(e) => {
               if (e.key === "Escape") {
                 e.currentTarget.removeAttribute("open");
@@ -145,6 +154,11 @@ export function Shell({ children }) {
             >
               {session.id ? t("我的账户", "My account") : t("登录", "Sign in")}
             </Link>
+            {!session.id && (
+              <Link className="register-link" to="/auth?mode=register">
+                {t("注册", "Reg")}
+              </Link>
+            )}
             <button
               ref={trigger}
               className="menu-toggle"
@@ -216,7 +230,7 @@ export function Shell({ children }) {
           </div>
           <div>
             <h3>{t("探索 CYS", "Explore CYS")}</h3>
-            {items.slice(0, 4).map(([path, text]) => (
+            {items.slice(0, 5).map(([path, text]) => (
               <Link key={path} to={path}>
                 {text}
               </Link>

@@ -15,12 +15,19 @@ try {
       ),
   );
 }
-const browser = await playwright.chromium.launch({ headless: true });
+const browser = await playwright.chromium.launch({
+  headless: true,
+  ...(process.env.CYS_BROWSER_CHANNEL
+    ? { channel: process.env.CYS_BROWSER_CHANNEL }
+    : {}),
+});
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const root = "http://127.0.0.1:5173";
-const out = path.resolve("../docs/verification/screenshots");
+const evidenceRoot =
+  process.env.CYS_QA_OUTPUT || path.join(os.tmpdir(), "cys-qa");
+const out = path.join(evidenceRoot, "screenshots");
 await fs.mkdir(out, { recursive: true });
 const checks = [];
 function check(condition, label) {
@@ -313,7 +320,7 @@ try {
   );
   check(errors.length === 0, "No uncaught browser errors");
   await fs.writeFile(
-    "../docs/verification/browser-workflows.json",
+    path.join(evidenceRoot, "browser-workflows.json"),
     JSON.stringify({ checks, errors }, null, 2),
   );
 } catch (error) {

@@ -1,3 +1,4 @@
+import { Connections, Advertising, TierBadge } from "./Community.jsx";
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import {
@@ -44,6 +45,8 @@ export function Member({ section = "forum" }) {
     ["replies", "我的评论", "My replies"],
     ["saved", "我的收藏", "Saved"],
     ["notifications", "回执记录", "Receipts"],
+    ["connections", "连接申请", "Connections"],
+    ["ads", "推广与成效", "Promotions"],
     ["settings", "资料设置", "Profile settings"],
   ];
   const own = state.posts
@@ -87,6 +90,35 @@ export function Member({ section = "forum" }) {
           </nav>
           <div>
             {error && <Notice error>{errorText(error)}</Notice>}
+            {section === "posts" && (
+              <div className="refresh-list">
+                <p>
+                  {t(
+                    "刷新可更新活跃时间，不会重置新帖奖励。",
+                    "Refresh updates activity without restarting the new-post bonus.",
+                  )}
+                </p>
+                {own
+                  .filter((p) => p.publishedRevisionId && !p.removed)
+                  .map((p) => (
+                    <div className="request-row" key={p.id}>
+                      <span>{txt(p.title)}</span>
+                      <Button
+                        secondary
+                        disabled={busy}
+                        onClick={() => run("refreshPost", { id: p.id })}
+                      >
+                        {t("刷新帖子", "Refresh listing")}
+                      </Button>
+                      {p.refreshedAt && (
+                        <small role="status">{t("已刷新", "Refreshed")}</small>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            )}
+            {section === "connections" && <Connections />}
+            {section === "ads" && <Advertising />}
             {section === "forum" && (
               <>
                 <h2>
@@ -96,6 +128,9 @@ export function Member({ section = "forum" }) {
                       ?.displayName,
                   )}
                 </h2>
+                <TierBadge
+                  profile={state.profiles.find((p) => p.id === session.id)}
+                />
                 <div className="stat-grid">
                   {[
                     ["posts", own.length, "合作需求", "Listings"],

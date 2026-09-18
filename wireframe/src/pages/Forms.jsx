@@ -1,3 +1,7 @@
+import {
+  RegistrationFields,
+  registrationDefaults,
+} from "../components/RegistrationFields.jsx";
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import {
@@ -478,6 +482,7 @@ export function Legal() {
   );
 }
 export function Auth() {
+  const [registration, setRegistration] = useState(registrationDefaults);
   const { t, location, query, state, act, busy, login, errorText, go } =
     useApp();
   const mode = ["register", "forgot", "verify", "reset"].includes(
@@ -504,6 +509,7 @@ export function Auth() {
     try {
       if (mode === "register") {
         const result = await act("register", {
+          ...registration,
           email,
           password,
           confirm,
@@ -665,9 +671,16 @@ export function Auth() {
             </>
           ) : (
             <Form error={error} onSubmit={submit} noValidate>
+              {mode === "register" && (
+                <RegistrationFields
+                  data={registration}
+                  setData={setRegistration}
+                />
+              )}
               {mode !== "reset" && (
                 <Field
                   label={t("示例邮箱", "Demo email")}
+                  required={mode === "register"}
                   name="email"
                   value={email}
                   type="email"

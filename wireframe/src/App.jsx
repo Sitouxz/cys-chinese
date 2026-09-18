@@ -1,3 +1,4 @@
+import { Membership } from "./pages/Community.jsx";
 import { useEffect } from "react";
 import { AppProvider, useApp } from "./components/runtime.jsx";
 import { Shell } from "./components/Shell.jsx";
@@ -69,6 +70,7 @@ function Router() {
         legal: t("帮助与条款", "Help & legal"),
         auth: t("演示账户", "Demo account"),
         forum: t("华商论坛", "Chinese Forum"),
+        membership: t("会员权益", "Membership"),
         me: t("我的社群", "My community"),
         moderation: t("审核工作台", "Moderation"),
         preview: t("预览控制台", "Preview controls"),
@@ -107,6 +109,7 @@ function Router() {
   else if (path === "/corridor") page = <Corridor />;
   else if (/^\/corridor\/stories\/[^/]+$/.test(path)) page = <Story id={id} />;
   else if (path === "/business") page = <Business />;
+  else if (path === "/membership") page = <Membership />;
   else if (path === "/individual") page = <Individual />;
   else if (path === "/contact")
     page = <Contact postId={location.searchParams.get("post")} />;
@@ -135,7 +138,9 @@ function Router() {
   else if (/^\/forum\/member\/[^/]+$/.test(path)) page = <Members id={id} />;
   else if (path === "/forum/rules") page = <Rules />;
   else if (
-    /^\/me\/(forum|posts|replies|saved|notifications|settings)$/.test(path)
+    /^\/me\/(forum|posts|replies|saved|notifications|settings|connections|ads)$/.test(
+      path,
+    )
   )
     page = <Member section={id} />;
   else if (path === "/moderation") page = <Moderation />;
