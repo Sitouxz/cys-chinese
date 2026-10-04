@@ -186,15 +186,21 @@ export function Membership() {
       "完成网站注册，可点赞、评论、发帖及申请连接",
       "Site registration unlocks likes, comments, posts and connections",
     ],
-    ["成功开立 CYS 账户", "Complete CYS account opening and KYC"],
-    ["完成首笔真实交易", "Complete the first real transaction"],
     [
-      "达到交易量门槛（待确认）",
-      "Reach the transaction-volume threshold (to be confirmed)",
+      "演示等级；正式资格条件待客户确认",
+      "Demo tier; final eligibility awaits client confirmation",
     ],
     [
-      "达到最高交易量门槛（待确认）",
-      "Reach the top transaction-volume threshold (to be confirmed)",
+      "演示等级；正式资格条件待客户确认",
+      "Demo tier; final eligibility awaits client confirmation",
+    ],
+    [
+      "演示等级；正式资格条件待客户确认",
+      "Demo tier; final eligibility awaits client confirmation",
+    ],
+    [
+      "演示等级；正式资格条件待客户确认",
+      "Demo tier; final eligibility awaits client confirmation",
     ],
   ];
   return (
@@ -214,17 +220,17 @@ export function Membership() {
               {tier.days > 0 && (
                 <p>
                   {t(
-                    `第一阶段每月 ${tier.days} 天免费推广。`,
-                    `Phase 1: ${tier.days} free featured day${tier.days > 1 ? "s" : ""} per month.`,
+                    `第一阶段演示：每月 ${tier.days} 天免费推广；正式权益待确认。`,
+                    `Phase 1 demo: ${tier.days} free featured day${tier.days > 1 ? "s" : ""} per month; final benefits await confirmation.`,
                   )}{" "}
                   {tier.id === "platinum"
                     ? t(
-                        "日期随机分配，确认后显示。第二阶段改用交易积分兑换。",
-                        "Date assigned randomly and shown after confirmation. Phase 2 replaces this with transaction-point redemption.",
+                        "演示日期随机分配，确认后显示。后续权益方案待客户确认。",
+                        "Demo dates are randomly assigned and shown after confirmation. Future benefits await client confirmation.",
                       )
                     : t(
-                        "可自选日期。第二阶段可额外使用交易积分兑换。",
-                        "Choose your dates. In Phase 2, redeem transaction points for additional days.",
+                        "演示可自选日期。后续权益方案待客户确认。",
+                        "Choose demo dates. Future benefits await client confirmation.",
                       )}
                 </p>
               )}
@@ -233,12 +239,12 @@ export function Membership() {
         </div>
         <p>
           {t(
-            "交易量门槛和积分兑换比例待确认。演示徽章不代表真实认证。",
-            "Volume thresholds and point conversion rates await confirmation. Demo badges do not represent real verification.",
+            "会员资格、权益与升级规则待客户确认。六级徽章仅演示，不代表真实认证。",
+            "Membership eligibility, benefits and upgrade rules await client confirmation. The six tiers are illustrative; demo badges do not represent real verification.",
           )}
         </p>
         <Link className="button" to="/auth?mode=register">
-          {t("注册银级会员", "Register for Silver")}
+          {t("注册演示会员", "Register a demo member")}
         </Link>
       </section>
     </>
@@ -428,8 +434,8 @@ export function Advertising({ moderator = false }) {
           </Button>
           <p className="small">
             {t(
-              "交易积分兑换将在比例确认后开放。",
-              "Transaction-point redemption will be available once conversion rates are confirmed.",
+              "后续推广权益方案待客户确认；此处仅演示。",
+              "Future promotion benefits await client confirmation; this is a demonstration only.",
             )}
           </p>
         </form>

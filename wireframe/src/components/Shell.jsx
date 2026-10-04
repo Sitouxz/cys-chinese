@@ -25,7 +25,7 @@ export function Shell({ children }) {
       t("关于我们", "About"),
       [
         ["#intro", t("公司简介", "Introduction")],
-        ["#history", t("星威历史", "History")],
+        ["#history", t("发展历程", "History")],
         ["#culture", t("企业文化", "Culture")],
       ],
     ],
@@ -40,10 +40,7 @@ export function Shell({ children }) {
     [
       "/business",
       t("企业合作", "Business"),
-      [
-        ["?audience=financial", t("金融机构", "Financial institutions")],
-        ["?audience=business", t("跨境企业", "Cross-border corporates")],
-      ],
+      [["?audience=business", t("跨境企业", "Cross-border corporates")]],
     ],
     ["/individual", t("个人用户", "Individual")],
     ["/forum", t("华商论坛", "Chinese Forum")],
@@ -125,7 +122,7 @@ export function Shell({ children }) {
           <Link
             className="wordmark"
             to="/home"
-            aria-label={t("CYS 星威环球 · 首页", "CYS Global Remit · Home")}
+            aria-label={t("CYS · 首页", "CYS · Home")}
           >
             <img
               src="/assets/cys-logo-white.png"
@@ -220,13 +217,18 @@ export function Shell({ children }) {
             <Link className="wordmark" to="/home">
               <img
                 src="/assets/cys-logo-white.png"
-                alt={t("CYS 星威环球", "CYS Global Remit")}
+                alt={t("CYS", "CYS")}
                 width="440"
                 height="200"
               />
             </Link>
             <p>{t("1981年启航于新加坡", "Founded in Singapore, 1981")}</p>
-            <p className="muted">CYS Global Remit Pte Ltd</p>
+            <p className="muted">
+              {t(
+                "品牌、经营主体及条款待客户确认",
+                "Brand, operator and terms await client confirmation",
+              )}
+            </p>
           </div>
           <div>
             <h3>{t("探索 CYS", "Explore CYS")}</h3>
@@ -258,9 +260,7 @@ export function Shell({ children }) {
           </div>
         </div>
         <div className="shell footer-bottom">
-          <span>
-            © 2026 CYS Global Remit · {t("演示预览", "Demo preview")}
-          </span>
+          <span>© 2026 CYS · {t("演示预览", "Demo preview")}</span>
           <Link to="/preview">{t("预览控制台", "Preview controls")}</Link>
           {session.id && (
             <button
@@ -273,7 +273,10 @@ export function Shell({ children }) {
         </div>
       </footer>
       <Link className="demo-badge" to="/preview">
-        {t("演示预览 · 示例数据", "Demo preview · Sample data")}
+        {t(
+          "审阅演示 · 品牌及条款待确认",
+          "Review demo · Brand & terms pending",
+        )}
       </Link>
       {contact && (
         <Modal

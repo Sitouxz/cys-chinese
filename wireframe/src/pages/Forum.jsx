@@ -141,13 +141,16 @@ export function Forum({ categoryId = "" }) {
   return (
     <>
       <PageTitle compact dark title={t("华商论坛", "Chinese Business Forum")}>
-        {t(
-          "清晰的需求，合适的伙伴。连接中国与东南亚的商业对话。",
-          "Clear needs. The right partners. Business conversations connecting China and Southeast Asia.",
-        )}
+        {t("相识于此，成事于此。", "Meet here. Build partnerships here.")}
       </PageTitle>
       <section className="section forum-section">
         <div className="shell">
+          <p className="lead">
+            {t(
+              "在这里，您可以认识同行、分享行业洞察，让真实的合作需求，遇见合适的伙伴——无论是在寻找上下游资源，还是希望拓展新的市场机会，这里都欢迎您留下自己的声音。",
+              "Meet peers and share industry insights, connecting real collaboration needs with suitable partners. Whether you seek supply-chain resources or new market opportunities, your voice is welcome here.",
+            )}
+          </p>
           <ForumNav />
           <div className="forum-toolbar">
             <form

@@ -26,9 +26,7 @@ export function Contact({ postId = null }) {
     company: "",
     phone: "",
     message: "",
-    audience: ["individual", "financial"].includes(
-      location.searchParams.get("audience"),
-    )
+    audience: ["individual"].includes(location.searchParams.get("audience"))
       ? location.searchParams.get("audience")
       : "business",
     reason: "suggestion",
@@ -142,8 +140,8 @@ export function Contact({ postId = null }) {
                   <h2>{t("我们如何帮助您？", "How can we help?")}</h2>
                   <p>
                     {t(
-                      "企业方案、个人支付需求或网站反馈，都可以从演示表单开始。预览不会拨打电话或发送邮件。",
-                      "Explore business solutions, personal payment needs or website feedback using the demo form. The preview does not call or send email.",
+                      "企业方案、个人与家庭服务需求或网站反馈，都可以从演示表单开始。预览不会拨打电话或发送邮件。",
+                      "Explore business solutions, personal and family support needs or website feedback using the demo form. The preview does not call or send email.",
                     )}
                   </p>
                   <Button onClick={() => query("tab", "enquiry")}>
@@ -207,9 +205,6 @@ export function Contact({ postId = null }) {
                         >
                           <option value="business">
                             {t("跨境企业", "Cross-border business")}
-                          </option>
-                          <option value="financial">
-                            {t("金融机构", "Financial institution")}
                           </option>
                           <option value="individual">
                             {t("个人用户", "Individual")}
@@ -347,6 +342,12 @@ export function Legal() {
       </PageTitle>
       <section className="section">
         <div className="shell article-body">
+          <p className="small muted">
+            {t(
+              "原有法律页面仅供演示；新经营主体的条款与条件待客户提供，尚未获批准。",
+              "Existing legal pages are illustrative. New operator Terms & Conditions await client supply and approval.",
+            )}
+          </p>
           <Tabs
             panelId="help-panel"
             label={t("帮助与条款", "Help & terms")}
@@ -566,7 +567,7 @@ export function Auth() {
     <section className="section auth-section">
       <div className="shell auth-layout">
         <aside className="dark">
-          <p className="origin">CYS GLOBAL REMIT</p>
+          <p className="origin">CYS / REVIEW PREVIEW</p>
           <h1>
             {t(
               "好的合作，\n始于彼此了解。",
