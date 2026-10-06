@@ -1,216 +1,272 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useApp } from "./runtime.jsx";
-// Local equirectangular Earth imagery, projected onto a sphere without a WebGL dependency.
+import {
+  AUTO_ROTATE_MS,
+  EARTH_TILT,
+  clampZoom,
+  projectEarth,
+} from "./earth.js";
+
 export function Globe() {
   const ref = useRef(null),
-    control = useRef({ longitude: 105, zoom: 1, paused: false, dirty: true });
+    chinaRef = useRef(null),
+    singaporeRef = useRef(null);
+  const helpId = useId();
   const { t } = useApp();
-  const [paused, setPaused] = useState(
-      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
-    ),
-    [failed, setFailed] = useState(false);
-  useEffect(() => {
-    control.current.paused = paused;
-    control.current.dirty = true;
-  }, [paused]);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     const canvas = ref.current,
       ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    const size = 360;
-    canvas.width = size;
-    canvas.height = size;
-    let frame,
-      texture,
-      visible = true,
-      previous = 0,
-      drag = null,
-      disposed = false;
+    if (!ctx) {
+      setFailed(true);
+      return;
+    }
     const media = matchMedia("(prefers-reduced-motion: reduce)");
-    const motion = () => setPaused(media.matches);
-    media.addEventListener("change", motion);
+    let size = 0,
+      texture,
+      geometry,
+      output,
+      frame,
+      previous = 0;
+    let visible = false,
+      disposed = false,
+      dirty = true,
+      activeMs = 0;
+    let longitude = 105,
+      zoom = 1,
+      interactive = false;
+    const pointers = new Map();
+    let pinchDistance = null;
+    const buildGeometry = () => {
+      if (!size) return;
+      output = ctx.createImageData(size, size);
+      const pixels = [],
+        radius = size * 0.43 * zoom;
+      for (let y = 0; y < size; y++)
+        for (let x = 0; x < size; x++) {
+          const nx = (x - size / 2) / radius,
+            ny = (size / 2 - y) / radius;
+          const r2 = nx * nx + ny * ny;
+          if (r2 > 1) continue;
+          const z = Math.sqrt(1 - r2);
+          const worldY = ny * Math.cos(EARTH_TILT) + z * Math.sin(EARTH_TILT);
+          const worldZ = z * Math.cos(EARTH_TILT) - ny * Math.sin(EARTH_TILT);
+          pixels.push(
+            (y * size + x) * 4,
+            Math.atan2(nx, worldZ) / (2 * Math.PI) + 0.5,
+            0.5 - Math.asin(Math.max(-1, Math.min(1, worldY))) / Math.PI,
+            0.35 + 0.65 * Math.max(0, z * 0.85 - nx * 0.35 + ny * 0.2),
+          );
+          output.data[(y * size + x) * 4 + 3] = Math.min(
+            255,
+            (1 - r2) * radius * 255,
+          );
+        }
+      geometry = new Float32Array(pixels);
+      dirty = true;
+    };
+    const resize = () => {
+      const next = Math.min(
+        1024,
+        Math.max(
+          1,
+          Math.round(canvas.clientWidth * Math.min(devicePixelRatio || 1, 2)),
+        ),
+      );
+      if (size === next) return;
+      size = next;
+      canvas.width = size;
+      canvas.height = size;
+      buildGeometry();
+    };
+    const labels = () => {
+      for (const [element, lat, lon] of [
+        [chinaRef.current, 31.2, 121.5],
+        [singaporeRef.current, 1.3, 103.8],
+      ]) {
+        const p = projectEarth(lat, lon, longitude, zoom);
+        element.hidden = !p.front;
+        element.style.left = `${p.x * 100}%`;
+        element.style.top = `${p.y * 100}%`;
+      }
+    };
+    const draw = (time) => {
+      frame = requestAnimationFrame(draw);
+      if (!texture || !visible || document.hidden) {
+        previous = time;
+        return;
+      }
+      if (time - previous < 32) return;
+      const elapsed = previous ? Math.min(100, time - previous) : 0;
+      previous = time;
+      if (!media.matches && !interactive && activeMs < AUTO_ROTATE_MS) {
+        const step = Math.min(elapsed, AUTO_ROTATE_MS - activeMs);
+        activeMs += step;
+        longitude += step * 0.004;
+        dirty = true;
+      }
+      if (!dirty) return;
+      dirty = false;
+      const offset = longitude / 360,
+        data = output.data;
+      for (let i = 0; i < geometry.length; i += 4) {
+        const di = geometry[i],
+          u = (((geometry[i + 1] + offset) % 1) + 1) % 1;
+        const ti =
+          (Math.min(
+            texture.height - 1,
+            Math.floor(geometry[i + 2] * texture.height),
+          ) *
+            texture.width +
+            Math.floor(u * texture.width)) *
+          4;
+        for (let channel = 0; channel < 3; channel++)
+          data[di + channel] = texture.data[ti + channel] * geometry[i + 3];
+      }
+      ctx.putImageData(output, 0, 0);
+      labels();
+    };
     const img = new Image();
     img.onload = () => {
       if (disposed) return;
       const map = document.createElement("canvas");
       map.width = img.width;
       map.height = img.height;
-      const c = map.getContext("2d", { willReadFrequently: true });
-      c.drawImage(img, 0, 0);
-      texture = c.getImageData(0, 0, img.width, img.height);
-      control.current.dirty = true;
+      const context = map.getContext("2d", { willReadFrequently: true });
+      if (!context) {
+        setFailed(true);
+        return;
+      }
+      context.drawImage(img, 0, 0);
+      texture = context.getImageData(0, 0, img.width, img.height);
+      dirty = true;
     };
     img.onerror = () => {
       if (!disposed) setFailed(true);
     };
     img.src = "/assets/earth-day.jpg";
-    const render = (time) => {
-      frame = requestAnimationFrame(render);
-      if (!texture || !visible || document.hidden || time - previous < 60)
+    const distance = () => {
+      const [a, b] = [...pointers.values()];
+      return a && b ? Math.hypot(a.x - b.x, a.y - b.y) : null;
+    };
+    const down = (event) => {
+      interactive = true;
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      canvas.setPointerCapture(event.pointerId);
+      pinchDistance = distance();
+    };
+    const move = (event) => {
+      const prior = pointers.get(event.pointerId);
+      if (!prior) return;
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      const nextDistance = distance();
+      if (nextDistance && pinchDistance) {
+        zoom = clampZoom((zoom * nextDistance) / pinchDistance);
+        buildGeometry();
+      } else
+        longitude -=
+          ((event.clientX - prior.x) * 180) / Math.max(1, canvas.clientWidth);
+      pinchDistance = nextDistance;
+      dirty = true;
+    };
+    const up = (event) => {
+      pointers.delete(event.pointerId);
+      pinchDistance = distance();
+    };
+    const wheel = (event) => {
+      // Zoom is deliberate: ordinary wheel scrolling continues through the page.
+      if (document.activeElement !== canvas) return;
+      event.preventDefault();
+      interactive = true;
+      zoom = clampZoom(zoom - Math.sign(event.deltaY) * 0.05);
+      buildGeometry();
+    };
+    const key = (event) => {
+      if (
+        !["ArrowLeft", "ArrowRight", "+", "=", "-", "Home", "Escape"].includes(
+          event.key,
+        )
+      )
         return;
-      const elapsed = Math.min(100, time - previous);
-      previous = time;
-      const c = control.current;
-      if (!c.paused && !drag) {
-        c.longitude += elapsed * 0.0015;
-        c.dirty = true;
+      event.preventDefault();
+      interactive = true;
+      if (event.key === "ArrowLeft") longitude -= 15;
+      if (event.key === "ArrowRight") longitude += 15;
+      if (["+", "=", "-"].includes(event.key))
+        zoom = clampZoom(zoom + (event.key === "-" ? -0.05 : 0.05));
+      if (event.key === "Home") {
+        longitude = 105;
+        zoom = 1;
       }
-      if (!c.dirty) return;
-      c.dirty = false;
-      const image = ctx.createImageData(size, size),
-        radius = 158 * c.zoom;
-      for (let y = 0; y < size; y++)
-        for (let x = 0; x < size; x++) {
-          const nx = (x - size / 2) / radius,
-            ny = (size / 2 - y) / radius,
-            r2 = nx * nx + ny * ny;
-          if (r2 > 1) continue;
-          const z = Math.sqrt(1 - r2),
-            tilt = (18 * Math.PI) / 180;
-          const worldY = ny * Math.cos(tilt) + z * Math.sin(tilt),
-            worldZ = z * Math.cos(tilt) - ny * Math.sin(tilt);
-          const lat = Math.asin(worldY),
-            lon = Math.atan2(nx, worldZ) + (c.longitude * Math.PI) / 180;
-          const u = (((lon / (2 * Math.PI) + 0.5) % 1) + 1) % 1,
-            v = 0.5 - lat / Math.PI;
-          const ti =
-              (Math.min(texture.height - 1, Math.floor(v * texture.height)) *
-                texture.width +
-                Math.floor(u * texture.width)) *
-              4,
-            di = (y * size + x) * 4;
-          const light =
-            0.35 + 0.65 * Math.max(0, z * 0.85 - nx * 0.35 + ny * 0.2);
-          for (let channel = 0; channel < 3; channel++)
-            image.data[di + channel] = texture.data[ti + channel] * light;
-          image.data[di + 3] = Math.min(255, (1 - r2) * radius * 255);
-        }
-      ctx.putImageData(image, 0, 0);
-      const project = (lat, lon) => {
-        const a = (lat * Math.PI) / 180,
-          b = ((lon - c.longitude) * Math.PI) / 180,
-          tilt = (18 * Math.PI) / 180;
-        const yy = Math.sin(a),
-          zz = Math.cos(a) * Math.cos(b);
-        return {
-          x: size / 2 + Math.cos(a) * Math.sin(b) * radius,
-          y: size / 2 - (yy * Math.cos(tilt) - zz * Math.sin(tilt)) * radius,
-          front: zz * Math.cos(tilt) + yy * Math.sin(tilt) > 0,
-        };
-      };
-      for (const [lat, lon, name] of [
-        [31.2, 121.5, t("中国", "CHINA")],
-        [1.3, 103.8, t("新加坡", "SINGAPORE")],
-      ]) {
-        const p = project(lat, lon);
-        if (!p.front) continue;
-        ctx.fillStyle = "#f2d697";
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.font = "11px system-ui";
-        ctx.fillText(name, p.x + 8, p.y - 7);
-      }
+      buildGeometry();
     };
-    const down = (e) => {
-      drag = { x: e.clientX };
-      canvas.setPointerCapture(e.pointerId);
+    const motion = () => {
+      if (media.matches) activeMs = AUTO_ROTATE_MS;
+      dirty = true;
     };
-    const move = (e) => {
-      if (!drag) return;
-      control.current.longitude -= (e.clientX - drag.x) * 0.4;
-      drag.x = e.clientX;
-      control.current.dirty = true;
+    const events = {
+      pointerdown: down,
+      pointermove: move,
+      pointerup: up,
+      pointercancel: up,
+      lostpointercapture: up,
+      keydown: key,
     };
-    const up = () => {
-      drag = null;
-    };
-    canvas.addEventListener("pointerdown", down);
-    canvas.addEventListener("pointermove", move);
-    canvas.addEventListener("pointerup", up);
-    canvas.addEventListener("pointercancel", up);
+    for (const [name, handler] of Object.entries(events))
+      canvas.addEventListener(name, handler);
+    canvas.addEventListener("wheel", wheel, { passive: false });
+    media.addEventListener("change", motion);
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
     });
     observer.observe(canvas);
-    frame = requestAnimationFrame(render);
+    const sizing = new ResizeObserver(resize);
+    sizing.observe(canvas);
+    resize();
+    labels();
+    frame = requestAnimationFrame(draw);
     return () => {
       disposed = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
+      sizing.disconnect();
       media.removeEventListener("change", motion);
-      canvas.removeEventListener("pointerdown", down);
-      canvas.removeEventListener("pointermove", move);
-      canvas.removeEventListener("pointerup", up);
-      canvas.removeEventListener("pointercancel", up);
+      canvas.removeEventListener("wheel", wheel);
+      for (const [name, handler] of Object.entries(events))
+        canvas.removeEventListener(name, handler);
     };
-  }, [t("中国", "CHINA")]);
-  const change = (key, amount) => {
-    control.current[key] += amount;
-    control.current.zoom = Math.max(0.8, Math.min(1.1, control.current.zoom));
-    control.current.dirty = true;
-  };
+  }, []);
   return (
     <div className="earth-interactive">
       <canvas
         className="globe"
         ref={ref}
+        tabIndex={0}
         role="img"
-        aria-label={t(
-          "真实地球：中国与新加坡。拖动旋转，或使用下方按钮。",
-          "Earth showing China and Singapore. Drag to rotate, or use the controls below.",
-        )}
+        aria-label={t("地球：中国与新加坡", "Earth: China and Singapore")}
+        aria-describedby={helpId}
       />
+      <div className="earth-label" ref={chinaRef} aria-hidden="true">
+        {t("中国", "CHINA")}
+      </div>
+      <div className="earth-label" ref={singaporeRef} aria-hidden="true">
+        {t("新加坡", "SINGAPORE")}
+      </div>
+      <span className="sr-only" id={helpId}>
+        {t(
+          "自动旋转五秒后停止。拖动旋转，双指缩放。聚焦后可使用左右方向键旋转，加减键缩放，Home 键重置，Escape 键停止。",
+          "Rotation stops after five seconds. Drag to rotate, pinch to zoom. When focused, use left/right arrows to rotate, plus/minus or the mouse wheel to zoom, Home to reset and Escape to stop.",
+        )}
+      </span>
       {failed && (
         <p role="status">
           {t("地球图像暂时无法加载", "Earth image could not load")}
         </p>
       )}
-      <div className="globe-controls">
-        <button
-          aria-label={t("向左旋转", "Rotate left")}
-          onClick={() => change("longitude", -15)}
-        >
-          ←
-        </button>
-        <button
-          aria-label={t("向右旋转", "Rotate right")}
-          onClick={() => change("longitude", 15)}
-        >
-          →
-        </button>
-        <button
-          aria-label={t("放大地球", "Zoom in")}
-          onClick={() => change("zoom", 0.1)}
-        >
-          +
-        </button>
-        <button
-          aria-label={t("缩小地球", "Zoom out")}
-          onClick={() => change("zoom", -0.1)}
-        >
-          −
-        </button>
-        <button onClick={() => setPaused(!paused)}>
-          {paused
-            ? t("自动旋转", "Auto-rotate")
-            : t("暂停旋转", "Pause rotation")}
-        </button>
-        <button
-          onClick={() => {
-            Object.assign(control.current, {
-              longitude: 105,
-              zoom: 1,
-              dirty: true,
-            });
-          }}
-        >
-          {t("重置", "Reset")}
-        </button>
-      </div>
     </div>
   );
 }
+
 export function Counter({ value, suffix = "" }) {
   const ref = useRef(null);
   useEffect(() => {

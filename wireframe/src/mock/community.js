@@ -8,6 +8,8 @@ export const tiers = [
 ];
 export const tierOf = (profile) =>
   tiers.find((t) => t.id === profile?.tier) || tiers[profile ? 1 : 0];
+export const featuredDays = (tier, phase) =>
+  phase === 3 || (phase === 2 && tier.id === "platinum") ? 0 : tier.days;
 export function rankingScore(post, state, now = Date.now()) {
   const likes = state.reactions.filter((r) => r.targetId === post.id).length;
   const comments = state.comments.filter(
@@ -68,6 +70,29 @@ export function communityAction(state, session, action, data, fail) {
   state.ads ||= [];
   state.adEvents ||= [];
   state.outbox ||= [];
+  if (action === "configureCommunity") {
+    moderator();
+    if (
+      ![120, 300, 1000, 1800, 2500].includes(data.dau) ||
+      ![0, 2, 3].includes(data.bidders)
+    )
+      fail("fields");
+    state.dau = data.dau;
+    state.bidders = data.bidders;
+    return { success: true };
+  }
+  if (action === "setDemoTier") {
+    moderator();
+    const profile = state.profiles.find((p) => p.id === data.id);
+    if (
+      !profile ||
+      !tiers.some((tier) => tier.id === data.tier) ||
+      data.tier === "bronze"
+    )
+      fail("fields");
+    profile.tier = data.tier;
+    return { success: true };
+  }
   if (action === "connect") {
     member();
     const target = state.profiles.find((p) => p.id === data.targetId);
@@ -185,7 +210,7 @@ export function communityAction(state, session, action, data, fail) {
     let date = data.date;
     const tier = tierOf(state.profiles.find((p) => p.id === session.id));
     if (data.benefit) {
-      const days = plan.phase === 2 && tier.id === "platinum" ? 0 : tier.days;
+      const days = featuredDays(tier, plan.phase);
       const used = state.ads.filter(
         (a) =>
           a.authorId === session.id &&
@@ -247,6 +272,8 @@ export function communityAction(state, session, action, data, fail) {
   fail("fields");
 }
 export const communityActions = [
+  "configureCommunity",
+  "setDemoTier",
   "connect",
   "connectionDecision",
   "connectionComplete",

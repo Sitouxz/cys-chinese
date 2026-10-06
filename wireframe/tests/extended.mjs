@@ -54,7 +54,7 @@ try {
   await page.getByLabel("Phone *", { exact: true }).fill("80000000");
   await page.getByLabel("Company name *", { exact: true }).fill("Demo Co");
   await page.getByLabel("Position *", { exact: true }).selectOption("owner");
-  await page.locator("input[type=email]").fill("journey@cys.example");
+  await page.locator("input[type=email]").fill("journey@member.example");
   await page.locator("input[type=password]").nth(0).fill("TemporaryPass123");
   await page.locator("input[type=password]").nth(1).fill("TemporaryPass123");
   await page.getByRole("checkbox", { name: /I have read/ }).check();
@@ -71,7 +71,7 @@ try {
   );
   await click("Simulate email verification");
   await page.locator("input[type=email]").waitFor();
-  await page.locator("input[type=email]").fill("journey@cys.example");
+  await page.locator("input[type=email]").fill("journey@member.example");
   await page.locator("input[type=password]").fill("DemoPass123");
   await click("Sign in to demo");
   await page.waitForURL("**/me/forum*");
@@ -192,20 +192,15 @@ try {
   check(true, "Explicit review restores published content");
   await role("guest");
   await goto("/business?audience=financial&lang=en");
-  await page
-    .getByRole("tab", { name: "Financial institutions", exact: true })
-    .focus();
-  await page.keyboard.press("ArrowRight");
   check(
     (await page
-      .getByRole("tab", { name: "Cross-border corporates", exact: true })
-      .getAttribute("aria-selected")) === "true",
-    "Tabs support arrow navigation",
+      .getByRole("tab", { name: "Financial institutions", exact: true })
+      .count()) === 0,
+    "Legacy financial audience does not restore removed financial positioning",
   );
   check(
-    (await page.getByRole("tabpanel").getAttribute("aria-labelledby")) ===
-      "business-panel-business",
-    "Selected tab labels its content panel",
+    await page.locator("h1").isVisible(),
+    "Legacy audience URL resolves to the neutral business page",
   );
   await goto("/about#history");
   const years = page.locator(".timeline [role=tab]");

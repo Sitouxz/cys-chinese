@@ -119,17 +119,8 @@ export function Shell({ children }) {
       </a>
       <header className={scrolled ? "site-header compact" : "site-header"}>
         <div className="shell header-inner">
-          <Link
-            className="wordmark"
-            to="/home"
-            aria-label={t("CYS · 首页", "CYS · Home")}
-          >
-            <img
-              src="/assets/cys-logo-white.png"
-              alt=""
-              width="440"
-              height="200"
-            />
+          <Link className="wordmark" to="/home" aria-label={t("首页", "Home")}>
+            {t("首页", "Home")}
           </Link>
           <nav
             className="desktop-nav"
@@ -215,12 +206,7 @@ export function Shell({ children }) {
         <div className="shell footer-grid">
           <div>
             <Link className="wordmark" to="/home">
-              <img
-                src="/assets/cys-logo-white.png"
-                alt={t("CYS", "CYS")}
-                width="440"
-                height="200"
-              />
+              {t("首页", "Home")}
             </Link>
             <p>{t("1981年启航于新加坡", "Founded in Singapore, 1981")}</p>
             <p className="muted">
@@ -231,7 +217,7 @@ export function Shell({ children }) {
             </p>
           </div>
           <div>
-            <h3>{t("探索 CYS", "Explore CYS")}</h3>
+            <h3>{t("探索合作", "Explore")}</h3>
             {items.slice(0, 5).map(([path, text]) => (
               <Link key={path} to={path}>
                 {text}
@@ -260,7 +246,7 @@ export function Shell({ children }) {
           </div>
         </div>
         <div className="shell footer-bottom">
-          <span>© 2026 CYS · {t("演示预览", "Demo preview")}</span>
+          <span>© 2026 · {t("演示预览", "Demo preview")}</span>
           <Link to="/preview">{t("预览控制台", "Preview controls")}</Link>
           {session.id && (
             <button
@@ -280,11 +266,16 @@ export function Shell({ children }) {
       </Link>
       {contact && (
         <Modal
-          title={t("联系 CYS", "Contact CYS")}
+          title={t("联系我们", "Contact our team")}
           onClose={() => setContact(false)}
         >
           <p>143 Cecil Street, #26-01, Singapore 069542</p>
-          <p>+65 6226 2088 · enquiry@cys.com.sg</p>
+          <p>
+            {t(
+              "新主体的联络渠道待确认",
+              "Contact channels for the new operator await confirmation",
+            )}
+          </p>
           <p>
             {t(
               "以上来自所提供资料，正式联系渠道待确认。微信与 WhatsApp 详情待确认。",

@@ -20,6 +20,38 @@
   font-size: 16px;
   line-height: 1.8;
 }
+
+.wordmark {
+  font-family: inherit;
+}
+.earth-label {
+  position: absolute;
+  padding: 0 0 0 12px;
+  transform: translate(0, -100%);
+  pointer-events: none;
+  color: #f2d697;
+  font:
+    600 12px/1.4 system-ui,
+    "Microsoft YaHei",
+    sans-serif;
+  text-shadow:
+    0 1px 4px #0c1626,
+    0 0 8px #0c1626;
+}
+.earth-label::before {
+  content: "";
+  position: absolute;
+  left: -3px;
+  bottom: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f2d697;
+  box-shadow: 0 0 8px #d9b877;
+}
+.earth-label[hidden] {
+  display: none;
+}
 * {
   box-sizing: border-box;
 }
@@ -700,10 +732,12 @@ summary::marker {
 }
 .industry-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 .industry-grid a {
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 18px 16px;
   border: 1px solid var(--line);
   display: flex;
@@ -2003,7 +2037,7 @@ dialog::backdrop {
     gap: 35px;
   }
   .industry-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .industry-grid a {
     padding: 12px 10px;
@@ -3076,27 +3110,7 @@ dialog::backdrop {
 .globe:active {
   cursor: grabbing;
 }
-.globe-controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  position: relative;
-  z-index: 3;
-}
-.globe-controls button {
-  background: #172b43;
-  border: 1px solid #55708a;
-  color: #f8f5ec;
-  min-height: 44px;
-  min-width: 44px;
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 4px;
-}
-.globe-controls button:hover {
-  background: #2c4665;
-}
+
 .hero-visual .globe-label,
 .hero-visual .visual-caption {
   display: none;
@@ -3117,13 +3131,7 @@ dialog::backdrop {
   animation-duration: 1.15s;
   animation-timing-function: cubic-bezier(0.2, 0.65, 0.3, 1);
 }
-.text-reveal.revealed .lead {
-  animation: soft-reveal 1.8s ease-out both;
-}
-.text-reveal.revealed .reveal-copy > span {
-  animation: soft-reveal 1.2s ease-out both;
-  animation-delay: var(--reveal-delay);
-}
+
 .desktop-nav {
   gap: 18px;
   font-size: 13px;
@@ -3367,23 +3375,79 @@ dialog::backdrop {
   .header-inner {
     gap: 8px;
   }
-  .globe-controls {
-    gap: 4px;
-  }
-  .globe-controls button {
-    padding: 6px;
-    font-size: 11px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .section.revealed > .shell,
   .text-reveal.revealed .lead,
-  .text-reveal.revealed .reveal-copy > span,
   .desktop-nav details[open] .dropdown {
     animation: none;
   }
   .desktop-nav > a:after,
   .desktop-nav summary:after {
+    transition: none;
+  }
+}
+
+/* Phrase boundaries preserve Chinese place names at every viewport. */
+.hero h1 {
+  font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.hero-phrase {
+  display: block;
+  animation: phrase-reveal 0.9s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+.hero-phrase:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.keep-phrase {
+  display: inline-block;
+  white-space: nowrap;
+}
+.hero h1.hero-title-zh {
+  font-size: clamp(30px, 3.4vw, 49px);
+  line-height: 1.5;
+}
+.hero-copy {
+  animation: none;
+}
+.wordmark {
+  min-width: 64px;
+  font:
+    600 16px/1.5 system-ui,
+    "Microsoft YaHei",
+    sans-serif;
+  padding-block: 10px;
+}
+.footer-grid .wordmark {
+  font-size: 18px;
+}
+.reveal-segment {
+  transition: opacity 0.18s linear;
+}
+@keyframes phrase-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 767px) {
+  .hero h1.hero-title-zh {
+    font-size: clamp(28px, 7vw, 38px);
+  }
+  .earth-label {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-phrase {
+    animation: none;
+  }
+  .reveal-segment {
+    opacity: 1 !important;
     transition: none;
   }
 }

@@ -75,14 +75,14 @@ function Router() {
         moderation: t("审核工作台", "Moderation"),
         preview: t("预览控制台", "Preview controls"),
       }[path.split("/")[1]] || t("页面不存在", "Page not found");
-    document.title = name + " | CYS " + t("审阅预览", "Review preview");
+    document.title = name + " | " + t("审阅预览", "Review preview");
     document
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
         t(
-          "CYS 审阅预览双语交互演示，连接中国与东南亚的商业合作。仅使用示例数据。",
-          "CYS business consulting and matchmaking review preview, connecting China and Southeast Asia. Sample data only.",
+          "商业合作审阅预览双语交互演示，连接中国与东南亚的商业合作。仅使用示例数据。",
+          "Business consulting and matchmaking review preview, connecting China and Southeast Asia. Sample data only.",
         ),
       );
     if (location.hash)

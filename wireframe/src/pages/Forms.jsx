@@ -120,9 +120,9 @@ export function Contact({ postId = null }) {
                   Singapore 069542
                 </dd>
                 <dt>{t("电话", "Phone")}</dt>
-                <dd>+65 6226 2088</dd>
+                <dd>{t("待客户确认", "Awaiting client confirmation")}</dd>
                 <dt>{t("邮箱", "Email")}</dt>
-                <dd>enquiry@cys.com.sg</dd>
+                <dd>{t("待客户确认", "Awaiting client confirmation")}</dd>
               </dl>
               <p className="small muted">
                 {t(
@@ -441,8 +441,8 @@ export function Legal() {
                       [
                         "预览的用途",
                         "Purpose of this preview",
-                        "本网站用于展示 CYS 网站的拟定体验，所有账户、合作伙伴、故事与社群活动均为本地示例。它不构成金融服务、报价或合作承诺。",
-                        "This site demonstrates a proposed CYS experience. Accounts, partners, stories and community activity are local examples. It is not a financial service, quotation or partnership commitment.",
+                        "本网站用于展示 本网站的拟定体验，所有账户、合作伙伴、故事与社群活动均为本地示例。它不构成金融服务、报价或合作承诺。",
+                        "This site demonstrates the proposed website experience. Accounts, partners, stories and community activity are local examples. It is not a financial service, quotation or partnership commitment.",
                       ],
                       [
                         "负责任的参与",
@@ -491,7 +491,7 @@ export function Auth() {
   )
     ? location.searchParams.get("mode")
     : "login";
-  const [email, setEmail] = useState("member1@cys.example"),
+  const [email, setEmail] = useState("member1@member.example"),
     [password, setPassword] = useState("DemoPass123"),
     [confirm, setConfirm] = useState(""),
     [consent, setConsent] = useState(false),
@@ -567,7 +567,7 @@ export function Auth() {
     <section className="section auth-section">
       <div className="shell auth-layout">
         <aside className="dark">
-          <p className="origin">CYS / REVIEW PREVIEW</p>
+          <p className="origin">REVIEW PREVIEW</p>
           <h1>
             {t(
               "好的合作，\n始于彼此了解。",
@@ -751,7 +751,7 @@ export function Auth() {
           {mode === "login" && (
             <>
               <p className="demo-credentials">
-                member1@cys.example
+                member1@member.example
                 <br />
                 {t("演示密码", "Demo password")}: DemoPass123
               </p>

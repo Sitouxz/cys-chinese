@@ -108,7 +108,7 @@ try {
     ["/about/culture", "/about#culture"],
     ["/corridor/partners", "/corridor#partners"],
     ["/corridor/stories", "/corridor#stories"],
-    ["/business/financial-institutions", "/business?audience=financial"],
+    ["/business/financial-institutions", "/business?audience=business"],
     ["/business/cross-border", "/business?audience=business"],
     ["/contact/details", "/contact?tab=details"],
     ["/contact/enquiry", "/contact?tab=enquiry"],

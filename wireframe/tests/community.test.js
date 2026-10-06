@@ -129,7 +129,7 @@ test("both registration tracks require core fields; individual never requires a 
     lastName: "User",
     countryCode: "+86",
     phone: "13800000000",
-    email: "new@cys.example",
+    email: "new@member.example",
     password: "DemoPass123",
     confirm: "DemoPass123",
     consent: true,

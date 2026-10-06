@@ -454,6 +454,18 @@ export function mutate(
       !/^[0-9 ()-]{5,20}$/.test(data.phone || "") ||
       (data.phone || "").replace(/\D/g, "").length < 5 ||
       !/^\+[1-9]\d{0,3}$/.test(data.countryCode || "") ||
+      [
+        "profileLink",
+        "industry",
+        "region",
+        "intent",
+        "occupation",
+        "inquiry",
+      ].some(
+        (key) =>
+          data[key] !== undefined &&
+          !bounded(data[key], 0, key === "inquiry" ? 1000 : 120),
+      ) ||
       (data.track === "company" &&
         (!bounded(data.company, 2, 120) ||
           !["owner", "partner", "director", "staff", "other"].includes(
@@ -480,6 +492,21 @@ export function mutate(
       id: accountId,
       email: data.email.toLowerCase(),
       verified: false,
+      registration: {
+        track: data.track,
+        ...(data.track === "company"
+          ? {
+              position: data.position,
+              profileLink: data.profileLink?.trim() || "",
+              industry: data.industry?.trim() || "",
+              region: data.region?.trim() || "",
+              intent: data.intent?.trim() || "",
+            }
+          : {
+              occupation: data.occupation?.trim() || "",
+              inquiry: data.inquiry?.trim() || "",
+            }),
+      },
     });
     state.profiles.push({
       id: accountId,
@@ -508,3 +535,33 @@ export function mutate(
   return { state, result };
 }
 export const freshState = makeSeed;
+export function restoreDemo(value) {
+  const seed = freshState();
+  if (
+    !value ||
+    value.version !== 1 ||
+    !["posts", "revisions", "profiles", "accounts"].every((key) =>
+      Array.isArray(value[key]),
+    )
+  )
+    return seed;
+  const restored = { ...seed, ...value };
+  for (const [key, fallback] of Object.entries(seed)) {
+    if (Array.isArray(fallback) && !Array.isArray(restored[key]))
+      restored[key] = fallback;
+  }
+  // Migrate only known fixture addresses; saved member-generated content is preserved.
+  for (const key of ["profiles", "partners", "accounts"])
+    restored[key] = restored[key].map((record) => ({
+      ...record,
+      ...(typeof record.email === "string" &&
+      /^member\d+@cys\.example$/.test(record.email)
+        ? { email: record.email.replace("@cys.example", "@member.example") }
+        : {}),
+    }));
+  restored.stories = restored.stories.map((story) => {
+    const current = seed.stories.find((entry) => entry.id === story.id);
+    return current ? { ...story, body: current.body } : story;
+  });
+  return restored;
+}

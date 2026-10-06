@@ -25,7 +25,7 @@ export function RegistrationFields({ data, setData }) {
       label={t(zh, en) + (required ? " *" : t("（选填）", " (optional)"))}
       value={data[key]}
       required={required}
-      maxLength={key === "inquiry" ? 1000 : 120}
+      maxLength={["firstName", "lastName"].includes(key) ? 80 : 120}
       onChange={(e) => set(key, e.target.value)}
     />
   );

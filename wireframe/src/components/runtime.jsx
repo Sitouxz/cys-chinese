@@ -5,6 +5,7 @@ import {
   STORAGE_KEY,
   SESSION_KEY,
   localText,
+  restoreDemo,
 } from "../mock/service.js";
 const Context = createContext(null);
 const errors = {
@@ -106,12 +107,7 @@ function read(storage, key, fallback) {
 export function AppProvider({ children }) {
   const [state, setState] = useState(() => {
     const value = read("localStorage", STORAGE_KEY, null);
-    return value?.version === 1 &&
-      Object.keys(freshState()).every((k) => k in value) &&
-      Array.isArray(value.posts) &&
-      Array.isArray(value.revisions)
-      ? value
-      : freshState();
+    return restoreDemo(value);
   });
   const stateRef = useRef(state);
   const [session, setSessionState] = useState(() =>

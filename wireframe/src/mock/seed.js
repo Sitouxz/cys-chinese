@@ -82,7 +82,7 @@ export function makeSeed() {
       "gold",
       "silver",
     ][i],
-    email: `member${i + 1}@cys.example`,
+    email: `member${i + 1}@member.example`,
   }));
   const revisions = [];
   const posts = Array.from({ length: 32 }, (_, i) => {
@@ -212,13 +212,19 @@ export function makeSeed() {
       ),
       pair("下一步", "The next step"),
       pair(
-        "试点帮助双方发现需要进一步讨论的问题。他们决定定期回顾资料、记录反馈，并在条件成熟时再讨论扩大合作。此故事仅展示合作思路，不代表真实 CYS 客户成果。",
-        "The pilot helped both teams identify questions for further discussion. They agreed to review documents and record feedback before considering wider cooperation. This story illustrates an approach, not an actual CYS client outcome.",
+        "试点帮助双方发现需要进一步讨论的问题。他们决定定期回顾资料、记录反馈，并在条件成熟时再讨论扩大合作。此故事仅展示合作思路，不代表真实客户成果。",
+        "The pilot helped both teams identify questions for further discussion. They agreed to review documents and record feedback before considering wider cooperation. This story illustrates an approach, not an actual client outcome.",
       ),
     ],
   }));
   return {
     version: 1,
+    dau: 120,
+    bidders: 0,
+    connections: [],
+    ads: [],
+    adEvents: [],
+    outbox: [],
     sequence: 100,
     profiles,
     partners: profiles.map((p) => ({ ...p, profileId: p.id })),

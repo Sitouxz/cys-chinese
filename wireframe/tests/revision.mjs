@@ -116,7 +116,9 @@ try {
   await page
     .getByRole("button", { name: "Accept connection", exact: true })
     .click();
-  await page.getByText("Both agreed · Awaiting CYS", { exact: true }).waitFor();
+  await page
+    .getByText("Both agreed · Awaiting our team", { exact: true })
+    .waitFor();
   await capture("connection-accepted");
   check(true, "Recipient acceptance changes state for both parties");
   await role("moderator");
@@ -125,7 +127,7 @@ try {
     .getByRole("button", { name: "Mark introduction arranged", exact: true })
     .click();
   await page.getByText("Introduction arranged", { exact: true }).waitFor();
-  check(true, "CYS follows up only after mutual consent");
+  check(true, "Staff follows up only after mutual consent");
   await role("member");
   await goto("/me/ads");
   const text = await page.locator("main").innerText();
@@ -153,7 +155,7 @@ try {
   await page.getByLabel("Phone *", { exact: true }).fill("80000000");
   await page
     .getByLabel("Demo email", { exact: true })
-    .fill("individual@cys.example");
+    .fill("individual@member.example");
   await page
     .getByLabel("Confirm demo password", { exact: true })
     .fill("DemoPass123");
@@ -177,20 +179,21 @@ try {
   await page.waitForTimeout(700);
   const canvas = page.locator(".hero canvas");
   const before = await canvas.evaluate((c) => c.toDataURL());
-  await page.getByRole("button", { name: "Rotate left", exact: true }).click();
+  await canvas.focus();
+  await canvas.press("ArrowLeft");
   await page.waitForTimeout(200);
   check(
     before !== (await canvas.evaluate((c) => c.toDataURL())),
-    "Earth rotation controls change the rendered geography",
+    "Earth keyboard rotation changes the rendered geography",
   );
   const rotated = await canvas.evaluate((c) => c.toDataURL());
-  await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+  await canvas.press("+");
   await page.waitForTimeout(200);
   check(
     rotated !== (await canvas.evaluate((c) => c.toDataURL())),
     "Earth zoom changes the rendered size",
   );
-  await page.getByRole("button", { name: "Reset", exact: true }).click();
+  await canvas.press("Home");
   await page.getByRole("tab", { name: /2011/ }).click();
   check(
     (await page.locator("#milestone-detail").innerText()).includes("2011"),

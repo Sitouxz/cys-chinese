@@ -70,6 +70,7 @@ for (const size of [
   { width: 1024, height: 768 },
   { width: 768, height: 1024 },
   { width: 390, height: 844 },
+  { width: 360, height: 800 },
   { width: 320, height: 844 },
 ]) {
   const context = await browser.newContext({
@@ -79,6 +80,9 @@ for (const size of [
   const page = await context.newPage();
   let activeRole;
   page.on("pageerror", (e) => failures.push({ size, error: e.message }));
+  page.on("console", (e) => {
+    if (e.type() === "error") failures.push({ size, error: e.text() });
+  });
   for (const lang of ["zh", "en"])
     for (const [name, route, role] of routes) {
       if (activeRole !== (role || "guest")) {
@@ -105,11 +109,20 @@ for (const size of [
           .filter((i) => i.complete && !i.naturalWidth)
           .map((i) => i.src),
         lang: document.documentElement.lang,
+        oldBrand: /CYS|星威|Global Remit|cys\.com\.sg/i.test(
+          document.body.innerText +
+            document.title +
+            document.querySelector('meta[name="description"]').content +
+            [...document.querySelectorAll("[aria-label],img[alt]")]
+              .map((el) => el.getAttribute("aria-label") || el.alt)
+              .join(" "),
+        ),
       }));
       if (
         result.scroll > result.width + 1 ||
         result.main < 10 ||
-        result.badImages.length
+        result.badImages.length ||
+        result.oldBrand
       )
         failures.push({ name, lang, size, result });
       if (size.width === 1440 || size.width === 390) {

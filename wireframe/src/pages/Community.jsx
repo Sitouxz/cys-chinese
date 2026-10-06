@@ -8,7 +8,13 @@ import {
   Empty,
   PageTitle,
 } from "../components/ui.jsx";
-import { activeAds, adPlan, tierOf, tiers } from "../mock/community.js";
+import {
+  activeAds,
+  adPlan,
+  featuredDays,
+  tierOf,
+  tiers,
+} from "../mock/community.js";
 import { publicPosts } from "../mock/service.js";
 
 export function TierBadge({ profile }) {
@@ -49,8 +55,8 @@ export function ConnectButton({ targetId, postId }) {
         >
           <p>
             {t(
-              "发送申请即表示您同意建立联系。对方接受后，CYS 团队会安排人工介绍。双方的电话与邮箱始终不会公开。",
-              "Sending confirms your consent to connect. When the other member accepts, CYS will arrange a personal introduction. Phone numbers and emails stay private.",
+              "发送申请即表示您同意建立联系。对方接受后，服务团队会安排人工介绍。双方的电话与邮箱始终不会公开。",
+              "Sending confirms your consent to connect. When the other member accepts, our team will arrange a personal introduction. Phone numbers and emails stay private.",
             )}
           </p>
           <Notice>
@@ -80,9 +86,9 @@ export function ConnectButton({ targetId, postId }) {
 }
 const labels = {
   pending: ["等待对方接受", "Awaiting acceptance"],
-  accepted: ["双方已同意 · 等待 CYS", "Both agreed · Awaiting CYS"],
+  accepted: ["双方已同意 · 等待服务团队", "Both agreed · Awaiting our team"],
   declined: ["对方已婉拒", "Declined"],
-  introduced: ["CYS 已安排介绍", "Introduction arranged"],
+  introduced: ["服务团队已安排介绍", "Introduction arranged"],
 };
 export function Connections({ moderator = false }) {
   const { state, session, t, txt, act, busy, errorText } = useApp();
@@ -103,8 +109,8 @@ export function Connections({ moderator = false }) {
       <h2>{t("连接申请", "Connection requests")}</h2>
       <p>
         {t(
-          "1. 发起申请　2. 对方同意　3. CYS 人工介绍",
-          "1. Send request   2. Recipient accepts   3. CYS introduces you",
+          "1. 发起申请　2. 对方同意　3. 服务团队人工介绍",
+          "1. Send request   2. Recipient accepts   3. Our team introduces you",
         )}
       </p>
       <Notice>
@@ -225,12 +231,12 @@ export function Membership() {
                   )}{" "}
                   {tier.id === "platinum"
                     ? t(
-                        "演示日期随机分配，确认后显示。后续权益方案待客户确认。",
-                        "Demo dates are randomly assigned and shown after confirmation. Future benefits await client confirmation.",
+                        "第一阶段日期随机分配，确认后显示。第二阶段改为积分兑换，兑换规则待确认。",
+                        "Phase 1 dates are randomly assigned and shown after confirmation. Phase 2 uses points redemption; conversion rules await confirmation.",
                       )
                     : t(
-                        "演示可自选日期。后续权益方案待客户确认。",
-                        "Choose demo dates. Future benefits await client confirmation.",
+                        "两个阶段均可自选日期。第二阶段可通过积分增加天数，兑换规则待确认。",
+                        "Choose dates in both phases. Phase 2 adds points redemption for extra days; conversion rules await confirmation.",
                       )}
                 </p>
               )}
@@ -304,6 +310,8 @@ export function Advertising({ moderator = false }) {
     [receipt, setReceipt] = useState(null);
   const plan = adPlan(state.dau, state.bidders),
     tier = tierOf(state.profiles.find((p) => p.id === session.id));
+  const allowance = featuredDays(tier, plan.phase);
+  const useBenefit = benefit && allowance > 0;
   const records = (state.ads || []).filter(
     (a) => moderator || a.authorId === session.id,
   );
@@ -356,12 +364,34 @@ export function Advertising({ moderator = false }) {
           `Current preview: Phase ${plan.phase}, ${plan.slots} placement${plan.slots > 1 ? "s" : ""}. Payment and review are simulated.`,
         )}
       </Notice>
+      {plan.phase === 3 && (
+        <Notice>
+          {t(
+            "按点击竞价待开放：出价、结算及排序规则待客户确认。",
+            "CPC bidding is pending client confirmation of bid, billing and auction rules.",
+          )}
+        </Notice>
+      )}
+      {plan.phase === 2 && !moderator && tier.days > 0 && (
+        <Notice>
+          {t(
+            "积分兑换待开放：积分计算及兑换天数规则待客户确认。",
+            "Points redemption is pending client confirmation of points calculation and conversion to featured days.",
+          )}
+        </Notice>
+      )}
+      <p className="small">
+        {t(
+          "演示归因：会员点击推广后七天内发起连接申请，计为该推广的转化。",
+          "Demo attribution: a member connection request within seven days of a promotion click counts as a conversion.",
+        )}
+      </p>
       {!moderator && plan.phase !== 3 && (
         <form
           className="ad-booking"
           onSubmit={(e) => {
             e.preventDefault();
-            run("bookAd", { postId, date, benefit, payment });
+            run("bookAd", { postId, date, benefit: useBenefit, payment });
           }}
         >
           <div className="form-grid">
@@ -387,7 +417,7 @@ export function Advertising({ moderator = false }) {
               type="date"
               required
               label={
-                benefit && tier.id === "platinum"
+                useBenefit && tier.id === "platinum"
                   ? t(
                       "选择月份（日期随机分配）",
                       "Choose month (day randomly assigned)",
@@ -399,23 +429,23 @@ export function Advertising({ moderator = false }) {
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
-          {tier.days > 0 && (
+          {allowance > 0 && (
             <label className="check">
               <input
                 type="checkbox"
-                checked={benefit}
+                checked={useBenefit}
                 onChange={(e) => setBenefit(e.target.checked)}
               />
               {t(
-                `使用每月免费权益（${tier.days} 天）`,
-                `Use monthly allowance (${tier.days} days)`,
+                `使用每月免费权益（${allowance} 天）`,
+                `Use monthly allowance (${allowance} days)`,
               )}
             </label>
           )}
           <p>
-            {t("本次费用", "Total")}: S${benefit ? 0 : plan.price}
+            {t("本次费用", "Total")}: S${useBenefit ? 0 : plan.price}
           </p>
-          {!benefit && (
+          {!useBenefit && (
             <label className="check">
               <input
                 type="checkbox"

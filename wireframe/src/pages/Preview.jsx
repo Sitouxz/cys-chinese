@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
 import { Button, Field, Modal, Notice, PageTitle } from "../components/ui.jsx";
+import { tiers } from "../mock/community.js";
 export function Preview() {
   const {
     t,
@@ -11,8 +12,21 @@ export function Preview() {
     reset,
     switchLang,
     lang,
+    state,
+    act,
+    busy,
+    errorText,
   } = useApp();
-  const [confirm, setConfirm] = useState(false);
+  const [confirm, setConfirm] = useState(false),
+    [error, setError] = useState(null);
+  const configure = async (action, data) => {
+    try {
+      setError(null);
+      await act(action, data);
+    } catch (failure) {
+      setError(failure);
+    }
+  };
   const routes = [
     ["/home", "首页", "Home"],
     ["/about", "关于我们", "About"],
@@ -153,6 +167,84 @@ export function Preview() {
               </p>
             </div>
           </div>
+          {session.role === "moderator" && (
+            <div className="preview-controls">
+              <div>
+                <h2>{t("推广阶段演示", "Promotion phase demo")}</h2>
+                <Field label={t("日活跃用户数", "Daily active users")}>
+                  <select
+                    disabled={busy}
+                    value={state.dau}
+                    onChange={(e) =>
+                      configure("configureCommunity", {
+                        dau: Number(e.target.value),
+                        bidders: state.bidders,
+                      })
+                    }
+                  >
+                    {[120, 300, 1000, 1800, 2500].map((dau) => (
+                      <option key={dau} value={dau}>
+                        {dau}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label={t("竞价商家数", "Bidders")}>
+                  <select
+                    disabled={busy}
+                    value={state.bidders}
+                    onChange={(e) =>
+                      configure("configureCommunity", {
+                        dau: state.dau,
+                        bidders: Number(e.target.value),
+                      })
+                    }
+                  >
+                    {[0, 2, 3].map((bidders) => (
+                      <option key={bidders} value={bidders}>
+                        {bidders}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </div>
+              <div>
+                <h2>{t("员工分配演示等级", "Staff-assigned demo tiers")}</h2>
+                <p>
+                  {t(
+                    "仅更改示例徽章和权益；正式升级条件待确认。",
+                    "Changes sample badges and benefits only; final eligibility is pending.",
+                  )}
+                </p>
+                {state.profiles.slice(0, 2).map((profile) => (
+                  <Field
+                    key={profile.id}
+                    label={t("会员", "Member") + " " + profile.id}
+                  >
+                    <select
+                      disabled={busy}
+                      value={profile.tier || "silver"}
+                      onChange={(e) =>
+                        configure("setDemoTier", {
+                          id: profile.id,
+                          tier: e.target.value,
+                        })
+                      }
+                    >
+                      {tiers
+                        .filter((tier) => tier.id !== "bronze")
+                        .map((tier) => (
+                          <option key={tier.id} value={tier.id}>
+                            {t(tier.zh, tier.en)}
+                          </option>
+                        ))}
+                    </select>
+                  </Field>
+                ))}
+              </div>
+            </div>
+          )}
+          {error && <Notice error>{errorText(error)}</Notice>}
           <h2>{t("完整演示路线", "A complete walkthrough")}</h2>
           <ol className="walkthrough">
             {[
@@ -206,8 +298,8 @@ export function Preview() {
           <h2>{t("正式上线前的确认事项", "Decisions before production")}</h2>
           <p>
             {t(
-              "CYS 内容负责人：正式标志、联络渠道、伙伴与故事。合规负责人：牌照及服务表述、法律文本、审核政策。Neu Entity：真实身份、数据库与服务集成。公开 Dislike、认证及通知产品仍是待确认政策。",
-              "CYS content owner: final logo, contact channels, partners and stories. Compliance owner: licence and service wording, legal copy and moderation policy. Neu Entity: real identity, database and service integrations. Public Dislike, verification and notifications remain open policy decisions.",
+              "客户内容负责人：正式标志、联络渠道、伙伴与故事。合规负责人：牌照及服务表述、法律文本、审核政策。Neu Entity：真实身份、数据库与服务集成。公开 Dislike、认证及通知产品仍是待确认政策。",
+              "Client content owner: final logo, contact channels, partners and stories. Compliance owner: licence and service wording, legal copy and moderation policy. Neu Entity: real identity, database and service integrations. Public Dislike, verification and notifications remain open policy decisions.",
             )}
           </p>
         </div>

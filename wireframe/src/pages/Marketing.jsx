@@ -13,22 +13,7 @@ import {
   values,
 } from "../content/catalog.js";
 import { publicPosts } from "../mock/service.js";
-function RevealText({ children }) {
-  const segments = children.match(/\S+\s*/g) || [children];
-  return (
-    <span className="reveal-copy" aria-label={children}>
-      {segments.map((word, i) => (
-        <span
-          aria-hidden="true"
-          key={i}
-          style={{ "--reveal-delay": `${Math.min(i * 65, 1200)}ms` }}
-        >
-          {word}{" "}
-        </span>
-      ))}
-    </span>
-  );
-}
+import { RevealText } from "../components/RevealText.jsx";
 export function Values() {
   const { txt } = useApp();
   return (
@@ -95,7 +80,7 @@ export function PostRows({ posts, compact = false }) {
   );
 }
 export function Home() {
-  const { state, txt, t, location, query, go } = useApp();
+  const { state, txt, t, lang, location, query, go } = useApp();
   const [feed, setFeed] = useState("recommended"),
     [search, setSearch] = useState("");
   const published = publicPosts(state);
@@ -156,12 +141,18 @@ export function Home() {
             <p className="origin">
               {t("1981年启航于新加坡", "Founded in Singapore, 1981")}
             </p>
-            <h1>
-              {t(
-                "连接中国与东南亚的可信桥梁，",
-                "A trusted bridge connecting China and Southeast Asia.",
-              )}
-              <em>
+            <h1 className={"hero-title-" + lang}>
+              <span className="hero-phrase">
+                {lang === "zh" ? (
+                  <>
+                    <span className="keep-phrase">连接中国与东南亚</span>
+                    <span className="keep-phrase">的可信桥梁，</span>
+                  </>
+                ) : (
+                  "A trusted bridge connecting China and Southeast Asia."
+                )}
+              </span>
+              <em className="hero-phrase">
                 {t(
                   "启迪跨境商业的新可能。",
                   "Opening new possibilities for cross-border business.",
@@ -465,18 +456,6 @@ export function About() {
       <HistoryTimeline />
       <div id="culture">
         <Values />
-        <div className="shell film-preview">
-          <div>
-            <span className="eyebrow">CYS / FILM</span>
-            <h2>
-              {t("看见连接的力量。", "The people behind every connection.")}
-            </h2>
-            <p>{t("品牌影片即将呈现。", "Our brand film is coming soon.")}</p>
-          </div>
-          <span className="film-placeholder">
-            {t("影片待提供", "Film awaiting client supply")}
-          </span>
-        </div>
         <p className="shell small muted">
           {t(
             "文化预览：采用所提供的核心价值，正式内容待确认。",

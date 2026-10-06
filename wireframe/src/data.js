@@ -6,8 +6,8 @@ export const milestones = [
   },
   {
     year: "2011",
-    zh: "更名为 CYS Global Remit",
-    en: "Rebranded as CYS Global Remit",
+    zh: "迈向更广阔的世界",
+    en: "Reaching a wider world",
   },
   { year: "2020", zh: "开启无现金交易时代", en: "Entered the cashless era" },
   {
@@ -30,8 +30,8 @@ export const seedPosts = [
   {
     id: 1,
     category: "matching",
-    authorZh: "CYS 茶餐厅",
-    authorEn: "CYS Teahouse",
+    authorZh: "华商茶餐厅",
+    authorEn: "Community Teahouse",
     industryZh: "餐饮 · 经销合作",
     industryEn: "F&B · Distribution",
     marketZh: "新加坡",
