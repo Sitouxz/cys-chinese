@@ -34,16 +34,7 @@ export function Globe() {
   pausedRef.current = paused;
   useEffect(() => {
     const canvas = ref.current;
-    let renderer;
-    try {
-      renderer = createEarthRenderer(canvas);
-    } catch {
-      renderer = null;
-    }
-    if (!renderer) {
-      setFailed(true);
-      return;
-    }
+    let renderer = null;
     const view = {
       longitude: HOME_LONGITUDE,
       tilt: EARTH_TILT,
@@ -111,8 +102,19 @@ export function Globe() {
       renderer.render(view);
       labels();
     };
+    // The context and textures are created on first view, so a globe that is
+    // never shown (the hidden timeline copy) costs no GPU resources.
     const load = async () => {
       requested = true;
+      try {
+        renderer = createEarthRenderer(canvas);
+      } catch {
+        renderer = null;
+      }
+      if (!renderer) {
+        setFailed(true);
+        return;
+      }
       const tier = canvas.clientWidth > 520 ? 4096 : 2048;
       try {
         const images = await Promise.all(
@@ -205,7 +207,13 @@ export function Globe() {
         view.zoom = 1;
       }
     };
+    const lost = (event) => {
+      event.preventDefault();
+      ready = false;
+      setFailed(true);
+    };
     const events = {
+      webglcontextlost: lost,
       pointerdown: down,
       pointermove: move,
       pointerup: up,
@@ -216,7 +224,6 @@ export function Globe() {
     for (const [name, handler] of Object.entries(events))
       canvas.addEventListener(name, handler);
     canvas.addEventListener("wheel", wheel, { passive: false });
-    // Textures load on first view, so the hidden timeline globe costs nothing.
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible && !requested) load();
@@ -236,7 +243,7 @@ export function Globe() {
       canvas.removeEventListener("wheel", wheel);
       for (const [name, handler] of Object.entries(events))
         canvas.removeEventListener(name, handler);
-      renderer.dispose();
+      renderer?.dispose();
     };
   }, []);
   useEffect(() => {
