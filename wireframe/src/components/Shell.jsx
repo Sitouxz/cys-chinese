@@ -247,6 +247,24 @@ export function Shell({ children }) {
         </div>
         <div className="shell footer-bottom">
           <span>© 2026 · {t("演示预览", "Demo preview")}</span>
+          <span className="image-credit">
+            {t("地球图像：", "Earth imagery: ")}
+            <a
+              href="https://www.solarsystemscope.com/textures/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Solar System Scope
+            </a>
+            {" · "}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              CC BY 4.0
+            </a>
+          </span>
           <Link to="/preview">{t("预览控制台", "Preview controls")}</Link>
           {session.id && (
             <button

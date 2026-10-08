@@ -3498,3 +3498,12 @@ dialog::backdrop {
     transition: none;
   }
 }
+.image-credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.image-credit a:hover,
+.image-credit a:focus-visible {
+  color: var(--brass-300);
+}
