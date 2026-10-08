@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { clampZoom, projectEarth } from "../src/components/earth.js";
+import { clampTilt, clampZoom, projectEarth } from "../src/components/earth.js";
 import { revealSegments } from "../src/components/reveal.js";
 import { featuredDays, tierOf } from "../src/mock/community.js";
 import { freshState, mutate, restoreDemo } from "../src/mock/service.js";
@@ -23,9 +23,13 @@ test("Earth projection shows China north-east of Singapore and hides rear marker
   assert.ok(china.front && sg.front);
   assert.ok(china.x > sg.x && china.y < sg.y);
   assert.equal(projectEarth(1.3, 103.8, 283.8).front, false);
-  assert.equal(clampZoom(5), 1.1);
+  assert.equal(clampZoom(5), 1.4);
   assert.equal(clampZoom(0), 0.8);
   assert.equal(clampZoom(1), 1);
+  assert.equal(clampTilt(10), (55 * Math.PI) / 180);
+  assert.equal(clampTilt(-10), (-25 * Math.PI) / 180);
+  const tilted = projectEarth(31.2, 121.5, 105, 1, (50 * Math.PI) / 180);
+  assert.ok(tilted.front && tilted.y > china.y);
 });
 test("older saved demos retain workflow records and gain missing community defaults", () => {
   const saved = freshState();

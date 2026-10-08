@@ -46,11 +46,19 @@ try {
   await goto("/home?lang=zh");
   const canvas = page.locator(".hero canvas");
   await page.waitForTimeout(6500);
+  const rotating = await canvas.evaluate((el) => el.toDataURL());
+  await page.waitForTimeout(500);
+  check(
+    rotating !== (await canvas.evaluate((el) => el.toDataURL())),
+    "Earth keeps auto-rotating after five seconds",
+  );
+  await page.locator(".hero .earth-pause").click();
+  await page.waitForTimeout(400);
   const stopped = await canvas.evaluate((el) => el.toDataURL());
   await page.waitForTimeout(500);
   check(
     stopped === (await canvas.evaluate((el) => el.toDataURL())),
-    "Automatic Earth motion stops after five seconds",
+    "Pause control stops Earth rotation",
   );
   check(
     (await page.locator(".globe-controls").count()) === 0,
@@ -58,7 +66,7 @@ try {
   );
   check(
     await canvas.evaluate(
-      (el) => el.width === Math.min(1024, Math.round(el.clientWidth * 2)),
+      (el) => el.width === Math.min(1536, Math.round(el.clientWidth * 2)),
     ),
     "Earth backing resolution follows display size and pixel ratio",
   );
@@ -275,7 +283,7 @@ try {
   );
   await touch.close();
   const failed = await browser.newPage({ reducedMotion: "reduce" });
-  await failed.route("**/assets/earth-day.jpg", (route) => route.abort());
+  await failed.route("**/assets/earth-day-*.jpg", (route) => route.abort());
   await failed.goto(root + "/home?lang=en");
   await failed
     .locator(".hero")
