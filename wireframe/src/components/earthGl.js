@@ -37,12 +37,10 @@ void main() {
     float side = 0.3 + 0.7 * smoothstep(-0.6, 0.8, dot(normalize(p), sunScreen));
     halo = pow(fall, 2.6) * side * 0.85;
   }
-  if (d > 1.0 + pixel) {
-    color = vec4(AIR * halo, halo);
-    return;
-  }
-
+  // No early return outside the disc: textureGrad needs derivatives from
+  // every pixel in a quad, so off-disc pixels shade the clamped limb instead.
   vec2 s = p / uRadius;
+  s *= min(1.0, 1.0 / max(length(s), 1e-4));
   float z = sqrt(max(0.0, 1.0 - dot(s, s)));
   vec3 n = vec3(s, z);
   float worldY = s.y * cos(uTilt) + z * sin(uTilt);
@@ -165,6 +163,9 @@ export function createEarthRenderer(canvas) {
       textures.forEach((texture) => gl.deleteTexture(texture));
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
+      // Frees the context now rather than at GC, so SPA navigation never
+      // hits the browser's live-context cap.
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
     },
   };
 }
