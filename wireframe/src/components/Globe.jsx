@@ -1,208 +1,209 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useApp } from "./runtime.jsx";
 import {
-  AUTO_ROTATE_MS,
+  AUTO_ROTATE_SPEED,
   EARTH_TILT,
+  HOME_LONGITUDE,
+  RESUME_AFTER_MS,
+  clampTilt,
   clampZoom,
   projectEarth,
 } from "./earth.js";
+import { createEarthRenderer } from "./earthGl.js";
+
+const loadImage = (src) =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("Earth texture failed: " + src));
+    image.src = src;
+  });
 
 export function Globe() {
   const ref = useRef(null),
     chinaRef = useRef(null),
-    singaporeRef = useRef(null);
+    singaporeRef = useRef(null),
+    pausedRef = useRef(false);
   const helpId = useId();
   const { t } = useApp();
   const [failed, setFailed] = useState(false);
+  const [paused, setPaused] = useState(
+    () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  pausedRef.current = paused;
   useEffect(() => {
-    const canvas = ref.current,
-      ctx = canvas.getContext("2d");
-    if (!ctx) {
+    const canvas = ref.current;
+    let renderer;
+    try {
+      renderer = createEarthRenderer(canvas);
+    } catch {
+      renderer = null;
+    }
+    if (!renderer) {
       setFailed(true);
       return;
     }
-    const media = matchMedia("(prefers-reduced-motion: reduce)");
-    let size = 0,
-      texture,
-      geometry,
-      output,
-      frame,
-      previous = 0;
-    let visible = false,
+    const view = {
+      longitude: HOME_LONGITUDE,
+      tilt: EARTH_TILT,
+      zoom: 1,
+      cloudShift: 0,
+    };
+    let frame,
+      previous = 0,
+      ready = false,
+      requested = false,
+      visible = false,
       disposed = false,
       dirty = true,
-      activeMs = 0;
-    let longitude = 105,
-      zoom = 1,
-      interactive = false;
+      lastInteraction = -Infinity,
+      spin = 0;
     const pointers = new Map();
     let pinchDistance = null;
-    const buildGeometry = () => {
-      if (!size) return;
-      output = ctx.createImageData(size, size);
-      const pixels = [],
-        radius = size * 0.43 * zoom;
-      for (let y = 0; y < size; y++)
-        for (let x = 0; x < size; x++) {
-          const nx = (x - size / 2) / radius,
-            ny = (size / 2 - y) / radius;
-          const r2 = nx * nx + ny * ny;
-          if (r2 > 1) continue;
-          const z = Math.sqrt(1 - r2);
-          const worldY = ny * Math.cos(EARTH_TILT) + z * Math.sin(EARTH_TILT);
-          const worldZ = z * Math.cos(EARTH_TILT) - ny * Math.sin(EARTH_TILT);
-          pixels.push(
-            (y * size + x) * 4,
-            Math.atan2(nx, worldZ) / (2 * Math.PI) + 0.5,
-            0.5 - Math.asin(Math.max(-1, Math.min(1, worldY))) / Math.PI,
-            0.35 + 0.65 * Math.max(0, z * 0.85 - nx * 0.35 + ny * 0.2),
-          );
-          output.data[(y * size + x) * 4 + 3] = Math.min(
-            255,
-            (1 - r2) * radius * 255,
-          );
-        }
-      geometry = new Float32Array(pixels);
-      dirty = true;
-    };
     const resize = () => {
       const next = Math.min(
-        1024,
+        1536,
         Math.max(
           1,
           Math.round(canvas.clientWidth * Math.min(devicePixelRatio || 1, 2)),
         ),
       );
-      if (size === next) return;
-      size = next;
-      canvas.width = size;
-      canvas.height = size;
-      buildGeometry();
+      if (canvas.width === next) return;
+      canvas.width = next;
+      canvas.height = next;
+      dirty = true;
     };
     const labels = () => {
       for (const [element, lat, lon] of [
         [chinaRef.current, 31.2, 121.5],
         [singaporeRef.current, 1.3, 103.8],
       ]) {
-        const p = projectEarth(lat, lon, longitude, zoom);
+        const p = projectEarth(lat, lon, view.longitude, view.zoom, view.tilt);
         element.hidden = !p.front;
         element.style.left = `${p.x * 100}%`;
         element.style.top = `${p.y * 100}%`;
       }
     };
+    const interact = () => {
+      lastInteraction = performance.now();
+      dirty = true;
+    };
     const draw = (time) => {
       frame = requestAnimationFrame(draw);
-      if (!texture || !visible || document.hidden) {
-        previous = time;
-        return;
-      }
-      if (time - previous < 32) return;
-      const elapsed = previous ? Math.min(100, time - previous) : 0;
+      const elapsed = previous ? Math.min(64, time - previous) : 0;
       previous = time;
-      if (!media.matches && !interactive && activeMs < AUTO_ROTATE_MS) {
-        const step = Math.min(elapsed, AUTO_ROTATE_MS - activeMs);
-        activeMs += step;
-        longitude += step * 0.004;
+      if (!ready || !visible || document.hidden) return;
+      const idle = time - lastInteraction > RESUME_AFTER_MS;
+      if (!pausedRef.current && idle && !pointers.size) {
+        view.longitude += elapsed * AUTO_ROTATE_SPEED;
+        view.cloudShift += elapsed * 0.0000012;
+        dirty = true;
+      }
+      if (Math.abs(spin) > 0.0005 && !pointers.size) {
+        // Drag release keeps a little momentum before settling.
+        view.longitude += spin * elapsed;
+        spin *= Math.pow(0.9, elapsed / 16);
         dirty = true;
       }
       if (!dirty) return;
       dirty = false;
-      const offset = longitude / 360,
-        data = output.data;
-      for (let i = 0; i < geometry.length; i += 4) {
-        const di = geometry[i],
-          u = (((geometry[i + 1] + offset) % 1) + 1) % 1;
-        const ti =
-          (Math.min(
-            texture.height - 1,
-            Math.floor(geometry[i + 2] * texture.height),
-          ) *
-            texture.width +
-            Math.floor(u * texture.width)) *
-          4;
-        for (let channel = 0; channel < 3; channel++)
-          data[di + channel] = texture.data[ti + channel] * geometry[i + 3];
-      }
-      ctx.putImageData(output, 0, 0);
+      renderer.render(view);
       labels();
     };
-    const img = new Image();
-    img.onload = () => {
-      if (disposed) return;
-      const map = document.createElement("canvas");
-      map.width = img.width;
-      map.height = img.height;
-      const context = map.getContext("2d", { willReadFrequently: true });
-      if (!context) {
-        setFailed(true);
-        return;
+    const load = async () => {
+      requested = true;
+      const tier = canvas.clientWidth > 520 ? 4096 : 2048;
+      try {
+        const images = await Promise.all(
+          [
+            `/assets/earth-day-${tier}.jpg`,
+            `/assets/earth-night-${tier}.jpg`,
+            "/assets/earth-clouds.jpg",
+          ].map(loadImage),
+        );
+        if (disposed) return;
+        renderer.setTextures(images);
+        ready = true;
+        dirty = true;
+      } catch {
+        if (!disposed) setFailed(true);
       }
-      context.drawImage(img, 0, 0);
-      texture = context.getImageData(0, 0, img.width, img.height);
-      dirty = true;
     };
-    img.onerror = () => {
-      if (!disposed) setFailed(true);
-    };
-    img.src = "/assets/earth-day.jpg";
     const distance = () => {
       const [a, b] = [...pointers.values()];
       return a && b ? Math.hypot(a.x - b.x, a.y - b.y) : null;
     };
     const down = (event) => {
-      interactive = true;
-      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      interact();
+      spin = 0;
+      pointers.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+        time: event.timeStamp,
+      });
       canvas.setPointerCapture(event.pointerId);
       pinchDistance = distance();
     };
     const move = (event) => {
       const prior = pointers.get(event.pointerId);
       if (!prior) return;
-      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      interact();
+      pointers.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+        time: event.timeStamp,
+      });
       const nextDistance = distance();
       if (nextDistance && pinchDistance) {
-        zoom = clampZoom((zoom * nextDistance) / pinchDistance);
-        buildGeometry();
-      } else
-        longitude -=
-          ((event.clientX - prior.x) * 180) / Math.max(1, canvas.clientWidth);
+        view.zoom = clampZoom((view.zoom * nextDistance) / pinchDistance);
+      } else {
+        const width = Math.max(1, canvas.clientWidth);
+        const delta = -((event.clientX - prior.x) * 180) / width;
+        view.longitude += delta;
+        view.tilt = clampTilt(
+          view.tilt + ((event.clientY - prior.y) * Math.PI) / 2 / width,
+        );
+        spin = Math.max(
+          -0.2,
+          Math.min(0.2, delta / Math.max(16, event.timeStamp - prior.time)),
+        );
+      }
       pinchDistance = nextDistance;
-      dirty = true;
     };
     const up = (event) => {
-      pointers.delete(event.pointerId);
+      if (!pointers.delete(event.pointerId)) return;
+      interact();
       pinchDistance = distance();
     };
     const wheel = (event) => {
       // Zoom is deliberate: ordinary wheel scrolling continues through the page.
       if (document.activeElement !== canvas) return;
       event.preventDefault();
-      interactive = true;
-      zoom = clampZoom(zoom - Math.sign(event.deltaY) * 0.05);
-      buildGeometry();
+      interact();
+      view.zoom = clampZoom(view.zoom - Math.sign(event.deltaY) * 0.05);
     };
     const key = (event) => {
-      if (
-        !["ArrowLeft", "ArrowRight", "+", "=", "-", "Home", "Escape"].includes(
-          event.key,
-        )
-      )
+      const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+      if (event.key === "Escape") {
+        setPaused(true);
         return;
-      event.preventDefault();
-      interactive = true;
-      if (event.key === "ArrowLeft") longitude -= 15;
-      if (event.key === "ArrowRight") longitude += 15;
-      if (["+", "=", "-"].includes(event.key))
-        zoom = clampZoom(zoom + (event.key === "-" ? -0.05 : 0.05));
-      if (event.key === "Home") {
-        longitude = 105;
-        zoom = 1;
       }
-      buildGeometry();
-    };
-    const motion = () => {
-      if (media.matches) activeMs = AUTO_ROTATE_MS;
-      dirty = true;
+      if (![...keys, "+", "=", "-", "Home"].includes(event.key)) return;
+      event.preventDefault();
+      interact();
+      spin = 0;
+      if (event.key === "ArrowLeft") view.longitude -= 15;
+      if (event.key === "ArrowRight") view.longitude += 15;
+      if (event.key === "ArrowUp") view.tilt = clampTilt(view.tilt + 0.15);
+      if (event.key === "ArrowDown") view.tilt = clampTilt(view.tilt - 0.15);
+      if (["+", "=", "-"].includes(event.key))
+        view.zoom = clampZoom(view.zoom + (event.key === "-" ? -0.05 : 0.05));
+      if (event.key === "Home") {
+        view.longitude = HOME_LONGITUDE;
+        view.tilt = EARTH_TILT;
+        view.zoom = 1;
+      }
     };
     const events = {
       pointerdown: down,
@@ -215,9 +216,11 @@ export function Globe() {
     for (const [name, handler] of Object.entries(events))
       canvas.addEventListener(name, handler);
     canvas.addEventListener("wheel", wheel, { passive: false });
-    media.addEventListener("change", motion);
+    // Textures load on first view, so the hidden timeline globe costs nothing.
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (visible && !requested) load();
+      dirty = true;
     });
     observer.observe(canvas);
     const sizing = new ResizeObserver(resize);
@@ -230,11 +233,17 @@ export function Globe() {
       cancelAnimationFrame(frame);
       observer.disconnect();
       sizing.disconnect();
-      media.removeEventListener("change", motion);
       canvas.removeEventListener("wheel", wheel);
       for (const [name, handler] of Object.entries(events))
         canvas.removeEventListener(name, handler);
+      renderer.dispose();
     };
+  }, []);
+  useEffect(() => {
+    const media = matchMedia("(prefers-reduced-motion: reduce)");
+    const change = () => media.matches && setPaused(true);
+    media.addEventListener("change", change);
+    return () => media.removeEventListener("change", change);
   }, []);
   return (
     <div className="earth-interactive">
@@ -252,10 +261,23 @@ export function Globe() {
       <div className="earth-label" ref={singaporeRef} aria-hidden="true">
         {t("新加坡", "SINGAPORE")}
       </div>
+      <button
+        type="button"
+        className="earth-pause"
+        aria-pressed={paused}
+        aria-label={
+          paused
+            ? t("继续地球旋转", "Resume Earth rotation")
+            : t("暂停地球旋转", "Pause Earth rotation")
+        }
+        onClick={() => setPaused((value) => !value)}
+      >
+        <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
+      </button>
       <span className="sr-only" id={helpId}>
         {t(
-          "自动旋转五秒后停止。拖动旋转，双指缩放。聚焦后可使用左右方向键旋转，加减键缩放，Home 键重置，Escape 键停止。",
-          "Rotation stops after five seconds. Drag to rotate, pinch to zoom. When focused, use left/right arrows to rotate, plus/minus or the mouse wheel to zoom, Home to reset and Escape to stop.",
+          "地球缓慢自动旋转，可用按钮或 Escape 键暂停。拖动旋转与倾斜，双指缩放。聚焦后可使用方向键旋转，加减键或滚轮缩放，Home 键重置。",
+          "The Earth rotates slowly; pause it with the button or Escape. Drag to rotate and tilt, pinch to zoom. When focused, use the arrow keys to rotate, plus/minus or the mouse wheel to zoom, and Home to reset.",
         )}
       </span>
       {failed && (
