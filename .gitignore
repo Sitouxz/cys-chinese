@@ -1,0 +1,5 @@
+# Local scratch: browser profiles, PDF previews and generated exports
+tmp/
+output/
+# Personal Claude Code permissions
+.claude/settings.local.json
