@@ -3627,6 +3627,12 @@ dialog::backdrop {
   }
 }
 
+@media (min-width: 768px) {
+  .audience-photo {
+    aspect-ratio: auto;
+    height: clamp(240px, 24vw, 380px);
+  }
+}
 /* Registration: optional company details are always visible. */
 fieldset.registration-extra {
   border: 0;

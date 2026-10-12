@@ -124,15 +124,13 @@ export function Contact({ postId = null }) {
                 <dd>
                   <a href="tel:+6562262088">+65 6226 2088</a>
                 </dd>
-                <dt>{t("邮箱", "Email")}</dt>
-                <dd>{t("待客户确认", "Awaiting client confirmation")}</dd>
+                <dt>{t("在线咨询", "Online enquiry")}</dt>
+                <dd>
+                  <Link className="text-link" to="/contact?tab=enquiry">
+                    {t("填写咨询表单", "Send us an enquiry")}
+                  </Link>
+                </dd>
               </dl>
-              <p className="small muted">
-                {t(
-                  "邮箱、微信与 WhatsApp 详情待确认，请使用右侧演示咨询。",
-                  "Email, WeChat and WhatsApp details are pending; use the demo enquiry here.",
-                )}
-              </p>
               <Link className="text-link" to="/faq">
                 {t("浏览常见问题", "Browse frequently asked questions")}
               </Link>
