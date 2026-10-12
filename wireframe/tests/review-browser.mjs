@@ -163,7 +163,7 @@ try {
         await screenshot(`review-home-${width}-${lang}`);
     }
   await goto("/about?lang=zh");
-  const reveal = page.locator(".reveal-copy");
+  const reveal = page.locator(".reveal-copy").nth(1);
   check(
     (await reveal.locator(".reveal-segment").count()) > 20,
     "Chinese About text has meaningful reveal segments",
@@ -174,7 +174,7 @@ try {
   await page.emulateMedia({ reducedMotion: "reduce" });
   check(
     await reveal
-      .locator(".reveal-segment")
+      .locator(".reveal-word")
       .evaluateAll((els) =>
         els.every((el) => getComputedStyle(el).opacity === "1"),
       ),

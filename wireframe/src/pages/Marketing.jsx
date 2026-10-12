@@ -230,24 +230,12 @@ export function Home() {
       </section>
       <section className="section forum-preview">
         <div className="shell preview-grid">
-          <div>
-            <h2>
-              {t(
-                "生意的下一步，\n从对话开始。",
-                "Good business starts with a conversation.",
-              )}
-            </h2>
-            <p>
-              {t(
-                "认识同行，分享洞察。让真实的合作需求，遇见合适的伙伴。",
-                "Meet your peers. Share a perspective. Connect a clear business need with the right partner.",
-              )}
-            </p>
+          <div className="preview-promo">
+            <PromotedSlot />
             <Link className="text-link" to="/forum">
               {t("浏览华商论坛", "Browse the forum")}
               <Arrow />
             </Link>
-            <PromotedSlot />
           </div>
           <div>
             <Tabs
@@ -367,6 +355,17 @@ export function Home() {
       <section className="section">
         <div className="shell audience-grid">
           <article>
+            <img
+              className="audience-photo"
+              src="/assets/photo-business.jpg"
+              alt={t(
+                "两位商务人士在办公室握手",
+                "Two business people shaking hands in an office",
+              )}
+              width="1536"
+              height="1024"
+              loading="lazy"
+            />
             <span>01</span>
             <h2>
               {t(
@@ -386,6 +385,17 @@ export function Home() {
             </Link>
           </article>
           <article>
+            <img
+              className="audience-photo"
+              src="/assets/photo-individual.jpg"
+              alt={t(
+                "顾问与客户在办公室一对一交流",
+                "An adviser in a one-to-one conversation with a client",
+              )}
+              width="1600"
+              height="900"
+              loading="lazy"
+            />
             <span>02</span>
             <h2>
               {t(
@@ -424,10 +434,12 @@ export function About() {
       <section id="intro" className="section text-reveal">
         <div className="shell editorial-grid">
           <h2>
-            {t(
-              "衔接商业与人脉，建立良好发展关系，是我们始终坚持的事。",
-              "Connecting business and people and building relationships for growth is our enduring commitment.",
-            )}
+            <RevealText>
+              {t(
+                "衔接商业与人脉，建立良好发展关系，是我们始终坚持的事。",
+                "Connecting business and people and building relationships for growth is our enduring commitment.",
+              )}
+            </RevealText>
           </h2>
           <div>
             <p className="lead">
@@ -439,10 +451,12 @@ export function About() {
               </RevealText>
             </p>
             <p>
-              {t(
-                "坚持为每一个客户提供一对一的专业咨询和方案规划，我们希望为客户提供更多元的合作可能。我们以包容、创新和启迪为核心，连接各类企业服务提供商，促进合作与共赢。",
-                "We are committed to one-to-one professional consultation and solution planning, opening more possibilities for partnership. Inclusion, innovation and inspiration guide a community connecting business service providers.",
-              )}
+              <RevealText>
+                {t(
+                  "坚持为每一个客户提供一对一的专业咨询和方案规划，我们希望为客户提供更多元的合作可能。我们以包容、创新和启迪为核心，连接各类企业服务提供商，促进合作与共赢。",
+                  "We are committed to one-to-one professional consultation and solution planning, opening more possibilities for partnership. Inclusion, innovation and inspiration guide a community connecting business service providers.",
+                )}
+              </RevealText>
             </p>
             <p className="small muted">
               {t(
@@ -451,6 +465,19 @@ export function About() {
               )}
             </p>
           </div>
+        </div>
+        <div className="shell">
+          <img
+            className="about-photo"
+            src="/assets/photo-about.jpg"
+            alt={t(
+              "仰望新加坡商业区的高楼",
+              "Looking up at office towers in Singapore\u2019s business district",
+            )}
+            width="1600"
+            height="900"
+            loading="lazy"
+          />
         </div>
       </section>
       <HistoryTimeline />
@@ -670,6 +697,15 @@ export function Business() {
           "让跨境业务，从容向前。",
           "Move your cross-border business forward.",
         )}
+        image={{
+          src: "/assets/photo-business.jpg",
+          alt: t(
+            "两位商务人士在办公室握手",
+            "Two business people shaking hands in an office",
+          ),
+          width: 1536,
+          height: 1024,
+        }}
       >
         {t(
           "围绕您的业务，规划合适的方案，匹配合作伙伴。",
@@ -728,6 +764,15 @@ export function Individual() {
           "世界很大，生活的连接很近。",
           "A wider world. A more connected life.",
         )}
+        image={{
+          src: "/assets/photo-individual-life.jpg",
+          alt: t(
+            "在新加坡滨海湾景观前手持新居钥匙的女士",
+            "A woman holding new house keys with the Singapore skyline behind her",
+          ),
+          width: 1145,
+          height: 1374,
+        }}
       >
         {t(
           "服务于高净值人群的家庭服务。",

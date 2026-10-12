@@ -121,18 +121,18 @@ export function RegistrationFields({ data, setData }) {
                 ))}
               </select>
             </Field>
-            <details className="registration-extra">
-              <summary>
+            <fieldset className="registration-extra">
+              <legend>
                 {t(
                   "补充企业资料（选填）",
                   "Additional company details (optional)",
                 )}
-              </summary>
+              </legend>
               {field("profileLink", "企业主页链接", "Company profile URL")}
               {field("industry", "所属行业", "Industry")}
               {field("region", "目标地区", "Target region")}
               {field("intent", "合作意向类型", "Partnership intent")}
-            </details>
+            </fieldset>
           </>
         ) : (
           <>

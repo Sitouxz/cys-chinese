@@ -215,14 +215,31 @@ export function Empty({ title, children }) {
     </div>
   );
 }
-export function PageTitle({ title, children, dark = false, compact = false }) {
+export function PageTitle({
+  title,
+  children,
+  dark = false,
+  compact = false,
+  image = null,
+}) {
   return (
     <section
-      className={`page-title ${dark ? "dark" : ""} ${compact ? "community-title" : ""}`}
+      className={`page-title ${dark ? "dark" : ""} ${compact ? "community-title" : ""} ${image ? "with-photo" : ""}`}
     >
       <div className="shell">
-        <h1>{title}</h1>
-        {children && <p>{children}</p>}
+        <div className="page-title-copy">
+          <h1>{title}</h1>
+          {children && <p>{children}</p>}
+        </div>
+        {image && (
+          <img
+            className="page-title-photo"
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+          />
+        )}
       </div>
     </section>
   );
