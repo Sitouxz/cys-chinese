@@ -2,6 +2,13 @@ import { useEffect, useRef } from "react";
 import { useApp } from "./runtime.jsx";
 import { revealSegments } from "./reveal.js";
 
+// Segments revealing at once; a smaller window gives a sharper word-by-word sweep.
+const WINDOW = 6;
+const clamp = (value) => Math.max(0, Math.min(1, value));
+
+// Scroll-linked (not time-based) so the reveal plays forward on scroll down and
+// rewinds on scroll up. Each word first appears as a solid box, then the box
+// dissolves into the word.
 export function RevealText({ children }) {
   const { lang } = useApp();
   const ref = useRef(null);
@@ -16,23 +23,23 @@ export function RevealText({ children }) {
         const bounds = element.getBoundingClientRect();
         const progress = media.matches
           ? 1
-          : Math.max(
-              0,
-              Math.min(
-                1,
-                (innerHeight * 0.9 - bounds.top) /
-                  Math.max(1, innerHeight * 0.45 + bounds.height * 0.5),
-              ),
+          : clamp(
+              (innerHeight * 0.92 - bounds.top) /
+                Math.max(1, innerHeight * 0.5 + bounds.height * 0.6),
             );
-        element
-          .querySelectorAll(".reveal-segment")
-          .forEach((part, i, parts) => {
-            const reveal = Math.max(
-              0,
-              Math.min(1, (progress * (parts.length + 8)) / 8 - i / 8),
-            );
-            part.style.opacity = String(0.75 + reveal * 0.25);
-          });
+        const parts = element.querySelectorAll(".reveal-segment");
+        parts.forEach((part, i) => {
+          const local = clamp(
+            (progress * (parts.length + WINDOW)) / WINDOW - i / WINDOW,
+          );
+          const box =
+            local < 0.35 ? local / 0.35 : clamp(1 - (local - 0.35) / 0.45);
+          part.style.setProperty("--box", box.toFixed(3));
+          part.style.setProperty(
+            "--word",
+            clamp((local - 0.4) / 0.6).toFixed(3),
+          );
+        });
       });
     };
     addEventListener("scroll", update, { passive: true });
@@ -53,11 +60,16 @@ export function RevealText({ children }) {
     <span className="reveal-copy" ref={ref}>
       <span className="sr-only">{children}</span>
       <span aria-hidden="true">
-        {segments.map((segment, i) => (
-          <span className="reveal-segment" key={i}>
-            {segment}
-          </span>
-        ))}
+        {segments.map((segment, i) =>
+          segment.trim() ? (
+            <span className="reveal-segment" key={i}>
+              <span className="reveal-box" />
+              <span className="reveal-word">{segment}</span>
+            </span>
+          ) : (
+            segment
+          ),
+        )}
       </span>
     </span>
   );

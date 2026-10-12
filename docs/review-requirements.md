@@ -69,3 +69,30 @@ Browser evidence is written outside the repository through `CYS_QA_OUTPUT`. Play
 Final client inputs: new operator/name/logo/contact channels, legal text, confirmation of historical/licensing claims, film and photographs, higher-tier eligibility, points conversion and CPC auction rules. No production deployment, real payment/email/account service, client content publication or ClickUp comment submission is included.
 
 Verified 2026-10-06: lint, 30/30 unit tests, production build and diff whitespace checks passed. Browser workflow suites passed 18 basic + 46 extended + 28 built-runtime + 15 revision + 34 review checks (141 total), with zero recorded errors. The 420-route responsive matrix passed with zero failures, including rendered legacy-brand checks. Built routes passed with remote requests denied. Tests for obsolete financial tabs and aliases were updated to the current neutral business page. Chromium emulation does not replace physical-device or assistive-technology review.
+
+## Round 2 (12 Oct 2026)
+
+Source: [threaded comment 1100580000185601](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000097331&threadedComment=1100580000185601), `Round 2 Updates.zip` (`round2.pdf` 6 pages, three photos, an About photo and `Contact Us.docx`). The PDF was created on 23 Sep 2026, before the 30 Sep de-financialisation meeting and the 5 Oct rebranding instruction, so its screenshots show an older build. Where it conflicts with those newer decisions, the newer decision is kept and the item is listed as pending.
+
+| Source | Requirement | Result |
+| --- | --- | --- |
+| p1 | Page-to-page animation too fast | Fixed: each route change now settles over 0.95s (fade and 28px rise). Disabled under reduced motion. |
+| p1 | Layout does not stretch on wide screens | Fixed: content width grows to 1400px at 1500px+ and 1640px at 1800px+, with larger nav, hero and heading type. |
+| p1 | Move Forum before Corporate User | Fixed: 首页 · 关于我们 · 中新合作走廊 · 华商论坛 · 企业合作 · 个人用户 · 联系我们. |
+| p1 | Remove 查看全部 from dropdowns | Fixed on desktop and mobile navigation. |
+| p1 | Hero items ticked (CTA, forum, globe) | No change requested. |
+| p2 | Strike the forum preview heading and intro; promotion takes 1/3 | Fixed: heading and intro removed; promotion fills the left third at a larger size, list takes two thirds. Stacks on mobile. |
+| p2 | Change the typeface of "40+" | Fixed: counters, timeline years and milestone year use a display serif (Didot / Bodoni 72 on macOS, Georgia fallback). |
+| p2, Skiper70 | About text animation, both scroll directions | Fixed: About heading and paragraphs reveal word by word as solid boxes resolving into text, tied to scroll position so it rewinds on scroll up. |
+| p3 | Remove the video section | Already removed in round 1. |
+| p3 | Corporate page: show Financial and Cross-border users | Pending client decision: financial-institution content was removed by the 30 Sep de-financialisation list. Current page shows the cross-border audience without tabs. |
+| p4 | Do not hide 补充企业资料（选填） | Fixed: optional company fields are always visible. |
+| p4 | Home audience photos | Fixed: business and individual photos added to both cards. |
+| p5 | About page photo | Fixed: full-width city photo below the introduction. |
+| p5 | Business page photo | Fixed: photo beside the page title. |
+| p6 | Individual page photo | Fixed: photo beside the page title. |
+| Contact Us.docx | Address, phone, email, WhatsApp, WeChat | Address and phone added. Email `enquiry@cys.com.sg` held because it shows the old brand (5 Oct instruction). WhatsApp and WeChat had no values in the document. |
+
+Photos were resized to 1600px JPEGs. The handshake photo shows wall signage and the individual photo shows logo shirts and a mug from the old brand; they are used as supplied pending client confirmation.
+
+Verified 2026-10-12: lint, 30/30 unit tests and production build passed. Browser suites passed 18 basic + 46 extended + 28 built-runtime + 15 revision + 35 review checks (142 total) with zero recorded errors. The 420-route responsive matrix passed with zero failures, including rendered legacy-brand text checks. The review suite's reveal checks were updated for the new box-reveal markup.

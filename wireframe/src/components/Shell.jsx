@@ -37,13 +37,13 @@ export function Shell({ children }) {
         ["#stories", t("伙伴故事", "Partnership stories")],
       ],
     ],
+    ["/forum", t("华商论坛", "Chinese Forum")],
     [
       "/business",
       t("企业合作", "Business"),
       [["?audience=business", t("跨境企业", "Cross-border corporates")]],
     ],
     ["/individual", t("个人用户", "Individual")],
-    ["/forum", t("华商论坛", "Chinese Forum")],
     [
       "/contact",
       t("联系我们", "Contact"),
@@ -90,7 +90,6 @@ export function Shell({ children }) {
               </svg>
             </summary>
             <div className={mobile ? "" : "dropdown"}>
-              <Link to={path}>{t("查看全部", "Overview")}</Link>
               {sub.map(([suffix, text]) => (
                 <Link key={suffix} to={path + suffix}>
                   {text}
@@ -178,7 +177,9 @@ export function Shell({ children }) {
         </Modal>
       )}
       <main id="main" tabIndex={-1}>
-        {children}
+        <div className="page-transition" key={location.pathname}>
+          {children}
+        </div>
       </main>
       <section className="contact-band">
         <div className="shell row">
@@ -218,11 +219,13 @@ export function Shell({ children }) {
           </div>
           <div>
             <h3>{t("探索合作", "Explore")}</h3>
-            {items.slice(0, 5).map(([path, text]) => (
-              <Link key={path} to={path}>
-                {text}
-              </Link>
-            ))}
+            {items
+              .filter(([path]) => !["/forum", "/contact"].includes(path))
+              .map(([path, text]) => (
+                <Link key={path} to={path}>
+                  {text}
+                </Link>
+              ))}
           </div>
           <div>
             <h3>{t("华商社群", "Chinese community")}</h3>
@@ -287,17 +290,14 @@ export function Shell({ children }) {
           title={t("联系我们", "Contact our team")}
           onClose={() => setContact(false)}
         >
-          <p>143 Cecil Street, #26-01, Singapore 069542</p>
+          <p>143 Cecil Street, #26-01 GB Building, Singapore 069542</p>
           <p>
-            {t(
-              "新主体的联络渠道待确认",
-              "Contact channels for the new operator await confirmation",
-            )}
+            <a href="tel:+6562262088">+65 6226 2088</a>
           </p>
           <p>
             {t(
-              "以上来自所提供资料，正式联系渠道待确认。微信与 WhatsApp 详情待确认。",
-              "Details from supplied content; current channels need confirmation. WeChat and WhatsApp details are to be confirmed.",
+              "邮箱、微信与 WhatsApp 详情待确认。",
+              "Email, WeChat and WhatsApp details are to be confirmed.",
             )}
           </p>
           <Link

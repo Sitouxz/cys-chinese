@@ -111,23 +111,26 @@ export function Contact({ postId = null }) {
                 )}
               </p>
               <dl>
-                <dt>
-                  {t("地址 · 所提供资料", "Address · Supplied information")}
-                </dt>
+                <dt>{t("地址", "Address")}</dt>
                 <dd>
-                  143 Cecil Street, #26-01
-                  <br />
-                  Singapore 069542
+                  {t(
+                    "新加坡丝丝街143号 GB大厦 #26-01，邮编069542",
+                    "143 Cecil Street, #26-01 GB Building, Singapore 069542",
+                  )}
                 </dd>
+                <dt>{t("邮寄地址", "Mailing address")}</dt>
+                <dd>143 Cecil Street, #26-01 GB Building, Singapore 069542</dd>
                 <dt>{t("电话", "Phone")}</dt>
-                <dd>{t("待客户确认", "Awaiting client confirmation")}</dd>
+                <dd>
+                  <a href="tel:+6562262088">+65 6226 2088</a>
+                </dd>
                 <dt>{t("邮箱", "Email")}</dt>
                 <dd>{t("待客户确认", "Awaiting client confirmation")}</dd>
               </dl>
               <p className="small muted">
                 {t(
-                  "正式联系渠道待确认。微信与 WhatsApp 详情待确认，请使用右侧演示咨询。",
-                  "Current contact channels need confirmation. WeChat and WhatsApp details are pending; use the demo enquiry here.",
+                  "邮箱、微信与 WhatsApp 详情待确认，请使用右侧演示咨询。",
+                  "Email, WeChat and WhatsApp details are pending; use the demo enquiry here.",
                 )}
               </p>
               <Link className="text-link" to="/faq">
