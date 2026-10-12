@@ -85,14 +85,14 @@ Source: [threaded comment 1100580000185601](https://app.clickup.com/t/9018732219
 | p2 | Change the typeface of "40+" | Fixed: counters, timeline years and milestone year use a display serif (Didot / Bodoni 72 on macOS, Georgia fallback). |
 | p2, Skiper70 | About text animation, both scroll directions | Fixed: About heading and paragraphs reveal word by word as solid boxes resolving into text, tied to scroll position so it rewinds on scroll up. |
 | p3 | Remove the video section | Already removed in round 1. |
-| p3 | Corporate page: show Financial and Cross-border users | Pending client decision: financial-institution content was removed by the 30 Sep de-financialisation list. Current page shows the cross-border audience without tabs. |
+| p3 | Corporate page: show Financial and Cross-border users | Decided: not re-added. The 30 Sep brief removes 金融机构 from navigation (p2) and strikes the tab (p6) so a non-financial operator can run the site without the China blocking risk. The page shows the cross-border audience without tabs, and 企业合作 is now a direct link because its dropdown had a single item. |
 | p4 | Do not hide 补充企业资料（选填） | Fixed: optional company fields are always visible. |
 | p4 | Home audience photos | Fixed: business and individual photos added to both cards. |
 | p5 | About page photo | Fixed: full-width city photo below the introduction. |
 | p5 | Business page photo | Fixed: photo beside the page title. |
 | p6 | Individual page photo | Fixed: photo beside the page title. |
-| Contact Us.docx | Address, phone, email, WhatsApp, WeChat | Address and phone added. Email `enquiry@cys.com.sg` held because it shows the old brand (5 Oct instruction). WhatsApp and WeChat had no values in the document. |
+| Contact Us.docx | Address, phone, email, WhatsApp, WeChat | Address and phone added. Decided: `enquiry@cys.com.sg` not published, because the old remittance brand's domain would tie the new non-financial operator back to CYS Global Remit. The email row links to the online enquiry form instead. WhatsApp and WeChat had no values, so no placeholder rows are shown. |
 
-Photos were resized to 1600px JPEGs. The handshake photo shows wall signage and the individual photo shows logo shirts and a mug from the old brand; they are used as supplied pending client confirmation.
+Photos were resized to 1600px JPEGs. Decided: old-brand marks were retouched out locally (no third-party service): the CYS Global Remit wall sign behind the handshake was replaced with rebuilt wall (grooves and lighting continued), and the shirt and mug logos in the consultation photo were removed. Originals are unchanged in ClickUp.
 
 Verified 2026-10-12: lint, 30/30 unit tests and production build passed. Browser suites passed 18 basic + 46 extended + 28 built-runtime + 15 revision + 35 review checks (142 total) with zero recorded errors. The 420-route responsive matrix passed with zero failures, including rendered legacy-brand text checks. The review suite's reveal checks were updated for the new box-reveal markup.

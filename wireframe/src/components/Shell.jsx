@@ -38,11 +38,7 @@ export function Shell({ children }) {
       ],
     ],
     ["/forum", t("华商论坛", "Chinese Forum")],
-    [
-      "/business",
-      t("企业合作", "Business"),
-      [["?audience=business", t("跨境企业", "Cross-border corporates")]],
-    ],
+    ["/business", t("企业合作", "Business")],
     ["/individual", t("个人用户", "Individual")],
     [
       "/contact",
@@ -293,12 +289,6 @@ export function Shell({ children }) {
           <p>143 Cecil Street, #26-01 GB Building, Singapore 069542</p>
           <p>
             <a href="tel:+6562262088">+65 6226 2088</a>
-          </p>
-          <p>
-            {t(
-              "邮箱、微信与 WhatsApp 详情待确认。",
-              "Email, WeChat and WhatsApp details are to be confirmed.",
-            )}
           </p>
           <Link
             to="/contact"
