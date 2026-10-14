@@ -798,15 +798,15 @@ export function Individual() {
                     stroke="currentColor"
                     strokeWidth="1.2"
                   >
-                    {i === 0 ? (
+                    {use.id === "education" ? (
+                      <>
+                        <path d="M25 48l65-26 65 26-65 26-65-26Z" />
+                        <path d="M50 64v22c0 8 18 14 40 14s40-6 40-14V64M145 52v30m-5 12 5-12 5 12" />
+                      </>
+                    ) : use.id === "family" ? (
                       <>
                         <path d="M35 92V47l55-27 55 27v45H35ZM65 92V60h50v32M25 50l65-33 65 33" />
                         <path d="M80 70h20M90 60v32" />
-                      </>
-                    ) : i === 1 ? (
-                      <>
-                        <path d="M49 43h82l10 61H39l10-61Z" />
-                        <path d="M70 43V31a20 20 0 0 1 40 0v12M65 59v7m50-7v7" />
                       </>
                     ) : (
                       <>
@@ -816,7 +816,8 @@ export function Individual() {
                   </svg>
                 </span>
                 <small>
-                  0{i + 1} / {txt(use.label)}
+                  0{i + 1}
+                  {txt(use.label) !== txt(use.title) && " / " + txt(use.label)}
                 </small>
                 <h2>{txt(use.title)}</h2>
                 <Arrow />
