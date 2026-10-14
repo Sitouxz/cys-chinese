@@ -197,11 +197,15 @@ export function Status({ status }) {
     </span>
   );
 }
-export function Empty({ title, children }) {
+export function Empty({ title, children, level = 2, home = false }) {
   const { t } = useApp();
+  // Full-page states (404, sign-in gates) have no other heading, so they render an h1.
+  const Heading = level === 1 ? "h1" : "h2";
   return (
     <div className="empty">
-      <h2>{title || t("未找到符合条件的内容", "No matching results")}</h2>
+      <Heading>
+        {title || t("未找到符合条件的内容", "No matching results")}
+      </Heading>
       <p>
         {children ||
           t(
@@ -209,9 +213,16 @@ export function Empty({ title, children }) {
             "Try another keyword or clear the filters.",
           )}
       </p>
-      <Link to="/forum" className="text-link">
-        {t("返回论坛", "Back to the forum")} <Arrow />
-      </Link>
+      <div className="empty-links">
+        {home && (
+          <Link to="/home" className="text-link">
+            {t("返回首页", "Back to home")} <Arrow />
+          </Link>
+        )}
+        <Link to="/forum" className="text-link">
+          {t("返回论坛", "Back to the forum")} <Arrow />
+        </Link>
+      </div>
     </div>
   );
 }
