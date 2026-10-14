@@ -96,3 +96,20 @@ Source: [threaded comment 1100580000185601](https://app.clickup.com/t/9018732219
 Photos were resized to 1600px JPEGs. Decided: old-brand marks were retouched out locally (no third-party service): the CYS Global Remit wall sign behind the handshake was replaced with rebuilt wall (grooves and lighting continued), and the shirt and mug logos in the consultation photo were removed. Originals are unchanged in ClickUp.
 
 Verified 2026-10-12: lint, 30/30 unit tests and production build passed. Browser suites passed 18 basic + 46 extended + 28 built-runtime + 15 revision + 35 review checks (142 total) with zero recorded errors. The 420-route responsive matrix passed with zero failures, including rendered legacy-brand text checks. The review suite's reveal checks were updated for the new box-reveal markup.
+
+## Round 2 QA pass (15 Oct 2026)
+
+Source: [threaded comment 1100580000211526](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000097331&threadedComment=1100580000211526). Every item in `round2.pdf`, `Contact Us.docx`, the 12 Oct screenshot, the copy PDF and the design-adjustment PDF was re-checked on the live deployment (its bundle hash matches `main`) at 375, 1440 and 1920px.
+
+| Item | Live result |
+| --- | --- |
+| Page transition, wide-screen width, nav order, no 查看全部 | Pass: 0.95s route settle; 1640px content at 1920px; 首页 · 关于我们 · 中新合作走廊 · 华商论坛 · 企业合作 · 个人用户 · 联系我们 on desktop and mobile. |
+| Forum preview, "40+" typeface, About reveal | Pass: heading/intro removed, promotion is 375 of 1180px (about one third); serif counter; reveal rewinds on scroll up. |
+| Video, optional company fields, photos | Pass: no video; optional fields always shown; Home, About, Business and Individual photos present. |
+| Corridor blue intro, contact address/phone | Pass. |
+| Individual cards | Fixed: icons were left over from the remittance cards (house on 择校, shopping bag on 置业). Now a mortarboard for education, a house for property/household and a chart for insights; the number label no longer repeats the card title. |
+| Globe texture load | Pass: textures load within 1s on desktop and mobile. |
+
+Still open with the client: publishing `enquiry@cys.com.sg`, re-adding the 金融机构 tab (round2 p3 versus copy p2/p6), and the hero chip row and forum card ticked in copy p2 and round2 p1. Those screenshots come from a mockup that is not in this repository, so the elements were not invented.
+
+Verified 15 Oct 2026: lint, 30/30 unit tests and production build passed. Browser suites passed 18 basic + 46 extended + 28 built-runtime + 15 revision + 35 review checks (142 total).
