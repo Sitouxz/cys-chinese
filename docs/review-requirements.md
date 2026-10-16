@@ -1,5 +1,15 @@
 # Review requirement matrix
 
+## Homepage reference restoration (16 Oct 2026)
+
+Source: [latest client comment 1100580000251982](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000251982). Downloaded all seven reattached files, including both PDF uploads. Both PDFs are identical, and the PDF, contact document and four photos match the earlier Round 2 originals byte for byte. Rechecked the PDF pages and photos against the current implementation. In this chat, the user explicitly confirmed recreating the four homepage shortcuts and compact forum card shown on PDF page 1.
+
+- Added bilingual shortcuts below the hero CTAs: popular posts opens the forum's existing trending sort; products/services opens the homepage services section; history opens About's history section; contact opens the contact page. The history shortcut uses neutral wording to preserve the later rebranding instruction.
+- Replaced the separate hero search/title-list row with the reference's compact forum card under the shortcuts. It shows one of the four latest public posts, with its published title, category and localized markets. Manual previous/next buttons and position dots preserve user control; the card does not autoplay. Empty and single-post states remain usable. Full search remains on the forum.
+- Retained the current consulting copy, large interactive Earth, approved photography and the larger forum/promotion section below the hero. The financial-user tab and old-brand email remain conflicting requests, and no WhatsApp or WeChat values were supplied.
+
+Verification: lint, 30/30 unit tests and production build passed. Existing browser suites passed 324 checks, the new `homepage-reference.mjs` passed 93 checks, and the responsive matrix passed 420 route/language/width checks. Chinese/English desktop/mobile screenshots were inspected. The targeted suite covers real shortcut navigation, keyboard focus, forum search, public-revision filtering, empty/single-post states, no autoplay, reduced motion and stable controls with maximum-length titles and five markets. No console/runtime errors were recorded. Chromium/Playwright was used because the Browser plugin is unavailable; physical devices and assistive technology remain untested. No typecheck script exists in this JavaScript project. Evidence is outside the repository under `C:/Users/yehez/Downloads/cys-homepage-issues-2026-10-16/`. Production deployment requires separate authorization.
+
 ## Website Confirmation List (16 Oct 2026)
 
 Latest source: [client comment 1100580000246844](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000246844), `Website_Confirmation_List.docx` dated 15 Oct 2026. These revisions are local until a separately authorized release.
@@ -8,7 +18,7 @@ Latest source: [client comment 1100580000246844](https://app.clickup.com/t/90187
 - Replaced the Corridor page with `洞察 / Insight` at `/insights`. Existing story content remains explicitly fictional; final categories and approved articles are client inputs. Navigation, footer, preview controls and story links use the new route; legacy Corridor and story URLs redirect while preserving language and story anchors.
 - Public member profiles and directory cards show the five specified data fields: name, company name, industry, target markets and short bio. Profile avatars and verification/membership badges were removed from those profile modules. Existing connect and published-post workflows remain available. Settings use `姓名 / Name` and `目标市场 / Target markets`; existing display names are used without adding legal-name collection.
 - No Google sign-in or YouTube integration exists. Production authentication, SMS, marketing unsubscribe, account closure, financial receipts, retention/deletion jobs, image posting, chat and category administration remain unimplemented. The completed vendor questionnaire distinguishes all current demo behavior from production capabilities and client decisions.
-- Unresolved content requests: the exact homepage quick-access changes and the identity/location/device size of the photo with a covered face. Existing links follow the renamed Insight route; no further button design or photograph change has been assumed.
+- The homepage quick-access request is resolved by the later confirmation above. The identity/location/device size of the photo with a covered face remains unspecified; the supplied photos and existing crops were reviewed without identifying an obscured face.
 - The proposed 24-hour hiding and 30-day database/backup deletion periods are not implemented or verified commitments. Comment retention, production report notifications and the meaning of public `姓名` require client confirmation.
 
 Verification: `pnpm lint`, `pnpm test` (30/30) and `pnpm build` passed. The existing browser suites passed 144 workflow checks; the responsive sweep passed 420 route/language/width checks. `node tests/client-confirmation.mjs` passed 180 checks at 320/390/1440px in Chinese and English, including profile save/reload, the five public fields, localized markets, licensing removal and legacy Insight navigation. The JavaScript project has no typecheck script. The completed client questionnaire and QA artifacts remain outside the repository and are excluded from Git.
@@ -93,7 +103,7 @@ Source: [threaded comment 1100580000185601](https://app.clickup.com/t/9018732219
 | p1 | Layout does not stretch on wide screens | Fixed: content width grows to 1400px at 1500px+ and 1640px at 1800px+, with larger nav, hero and heading type. |
 | p1 | Move Forum before Corporate User | Fixed: 首页 · 关于我们 · 中新合作走廊 · 华商论坛 · 企业合作 · 个人用户 · 联系我们. |
 | p1 | Remove 查看全部 from dropdowns | Fixed on desktop and mobile navigation. |
-| p1 | Hero items ticked (CTA, forum, globe) | No change requested. |
+| p1 | Hero items ticked (CTA, shortcuts, compact forum card, globe) | Four shortcuts and compact forum card recreated after explicit user confirmation on 16 Oct; existing CTAs and Earth retained. |
 | p2 | Strike the forum preview heading and intro; promotion takes 1/3 | Fixed: heading and intro removed; promotion fills the left third at a larger size, list takes two thirds. Stacks on mobile. |
 | p2 | Change the typeface of "40+" | Fixed: counters, timeline years and milestone year use a display serif (Didot / Bodoni 72 on macOS, Georgia fallback). |
 | p2, Skiper70 | About text animation, both scroll directions | Fixed: About heading and paragraphs reveal word by word as solid boxes resolving into text, tied to scroll position so it rewinds on scroll up. |
