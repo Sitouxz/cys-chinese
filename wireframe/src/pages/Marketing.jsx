@@ -9,6 +9,7 @@ import {
   history,
   industries,
   intents,
+  markets,
   uses,
   values,
 } from "../content/catalog.js";
@@ -80,10 +81,13 @@ export function PostRows({ posts, compact = false }) {
   );
 }
 export function Home() {
-  const { state, txt, t, lang, location, query, go } = useApp();
+  const { state, txt, t, lang, location, query } = useApp();
   const [feed, setFeed] = useState("recommended"),
-    [search, setSearch] = useState("");
+    [requestIndex, setRequestIndex] = useState(0);
   const published = publicPosts(state);
+  const requests = published.slice(0, 4);
+  const activeRequestIndex = requestIndex % (requests.length || 1);
+  const request = requests[activeRequestIndex];
   const tab = ["matching", "consulting", "individual"].includes(
     location.searchParams.get("service"),
   )
@@ -175,6 +179,110 @@ export function Home() {
                 <Arrow />
               </Link>
             </div>
+            <nav
+              className="hero-shortcuts"
+              aria-label={t("快捷入口", "Quick access")}
+            >
+              <Link to="/forum?sort=trending">
+                {t("热门帖子", "Popular posts")}
+              </Link>
+              <Link to="/home#services">
+                {t("产品与服务", "Products & services")}
+              </Link>
+              <Link to="/about#history">{t("发展历程", "Our history")}</Link>
+              <Link to="/contact">{t("联系我们", "Contact")}</Link>
+            </nav>
+            <section
+              className="hero-forum-card"
+              aria-labelledby="hero-forum-title"
+            >
+              <div className="hero-forum-heading">
+                <h2 id="hero-forum-title">
+                  {t("华商论坛 · 最新需求", "Chinese Forum · Latest requests")}
+                </h2>
+                <Link to="/forum">
+                  {t("浏览全部", "Browse all")}
+                  <Arrow />
+                </Link>
+              </div>
+              <div
+                className="hero-request"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {request ? (
+                  <>
+                    <span className="hero-request-number" aria-hidden="true">
+                      {String(activeRequestIndex + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <h3>
+                        <Link to={"/forum/post/" + request.id}>
+                          {txt(request.title)}
+                        </Link>
+                      </h3>
+                      <p>
+                        {txt(categories.find((c) => c.id === request.category))}
+                        {request.markets.map((market) => (
+                          <span key={market}>
+                            {txt(markets.find((m) => m.id === market)) ||
+                              market}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <p className="hero-request-empty">
+                    {t(
+                      "暂无公开需求，欢迎前往论坛交流。",
+                      "No public requests yet. Join the conversation in the forum.",
+                    )}
+                  </p>
+                )}
+              </div>
+              {requests.length > 1 && (
+                <div className="hero-request-controls">
+                  <div className="hero-request-progress" aria-hidden="true">
+                    {requests.map((post, i) => (
+                      <span
+                        key={post.id}
+                        className={i === activeRequestIndex ? "active" : ""}
+                      />
+                    ))}
+                  </div>
+                  <span className="sr-only">
+                    {t(
+                      "使用前后按钮浏览需求",
+                      "Use the previous and next buttons to browse requests",
+                    )}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label={t("上一条需求", "Previous request")}
+                    onClick={() =>
+                      setRequestIndex(
+                        (activeRequestIndex + requests.length - 1) %
+                          requests.length,
+                      )
+                    }
+                  >
+                    <Arrow back />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={t("下一条需求", "Next request")}
+                    onClick={() =>
+                      setRequestIndex(
+                        (activeRequestIndex + 1) % requests.length,
+                      )
+                    }
+                  >
+                    <Arrow />
+                  </button>
+                </div>
+              )}
+            </section>
           </div>
           <div className="hero-visual">
             <Globe />
@@ -189,42 +297,6 @@ export function Home() {
             <p className="visual-caption">
               CHINA <span /> SINGAPORE
             </p>
-          </div>
-        </div>
-        <div className="shell hero-bottom">
-          <form
-            className="hero-search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              go("/forum/search?q=" + encodeURIComponent(search));
-            }}
-          >
-            <label htmlFor="home-search">
-              {t("发现合作机会", "Discover opportunities")}
-            </label>
-            <div>
-              <input
-                id="home-search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder={t(
-                  "搜索行业、产品或伙伴",
-                  "Search an industry, product or partner",
-                )}
-              />
-              <button aria-label={t("搜索论坛", "Search forum")}>
-                <Arrow />
-              </button>
-            </div>
-          </form>
-          <div className="hero-topics">
-            {published.slice(0, 4).map((post, i) => (
-              <Link key={post.id} to={"/forum/post/" + post.id}>
-                <span>0{i + 1}</span>
-                {txt(post.title)}
-                <Arrow />
-              </Link>
-            ))}
           </div>
         </div>
       </section>
@@ -275,7 +347,7 @@ export function Home() {
         </div>
       </section>
       <Values />
-      <section className="section services">
+      <section id="services" className="section services">
         <div className="shell">
           <div className="section-head">
             <h2>
