@@ -386,12 +386,12 @@ function ProfileSettings() {
       <h2>{t("资料设置", "Profile settings")}</h2>
       <p>
         {t(
-          "仅填写虚构企业资料。修改会显示在您的示例企业卡片。",
-          "Use fictional details only. Changes update your demo company card.",
+          "仅填写虚构资料。姓名用于个人资料展示，无需填写法定姓名。修改会显示在您的示例企业卡片。",
+          "Use fictional details only. Your name is used for profile display; a legal name is not required. Changes update your demo company card.",
         )}
       </p>
       <Field
-        label={t("显示名称", "Display name")}
+        label={t("姓名", "Name")}
         name="displayName"
         value={data.displayName}
         maxLength={80}
@@ -412,7 +412,7 @@ function ProfileSettings() {
         onChange={(v) => update("industry", v)}
       />
       <MarketChecks
-        legend={t("市场", "Markets")}
+        legend={t("目标市场", "Target markets")}
         options={markets}
         name="markets"
         value={data.markets}

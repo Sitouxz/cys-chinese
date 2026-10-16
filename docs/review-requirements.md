@@ -1,5 +1,18 @@
 # Review requirement matrix
 
+## Website Confirmation List (16 Oct 2026)
+
+Latest source: [client comment 1100580000246844](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000246844), `Website_Confirmation_List.docx` dated 15 Oct 2026. These revisions are local until a separately authorized release.
+
+- Removed the history licensing claim in Chinese and English, including the shared Home/About timeline and the older data inventory. This does not verify the new operator's relationship to the 1981 history.
+- Replaced the Corridor page with `洞察 / Insight` at `/insights`. Existing story content remains explicitly fictional; final categories and approved articles are client inputs. Navigation, footer, preview controls and story links use the new route; legacy Corridor and story URLs redirect while preserving language and story anchors.
+- Public member profiles and directory cards show the five specified data fields: name, company name, industry, target markets and short bio. Profile avatars and verification/membership badges were removed from those profile modules. Existing connect and published-post workflows remain available. Settings use `姓名 / Name` and `目标市场 / Target markets`; existing display names are used without adding legal-name collection.
+- No Google sign-in or YouTube integration exists. Production authentication, SMS, marketing unsubscribe, account closure, financial receipts, retention/deletion jobs, image posting, chat and category administration remain unimplemented. The completed vendor questionnaire distinguishes all current demo behavior from production capabilities and client decisions.
+- Unresolved content requests: the exact homepage quick-access changes and the identity/location/device size of the photo with a covered face. Existing links follow the renamed Insight route; no further button design or photograph change has been assumed.
+- The proposed 24-hour hiding and 30-day database/backup deletion periods are not implemented or verified commitments. Comment retention, production report notifications and the meaning of public `姓名` require client confirmation.
+
+Verification: `pnpm lint`, `pnpm test` (30/30) and `pnpm build` passed. The existing browser suites passed 144 workflow checks; the responsive sweep passed 420 route/language/width checks. `node tests/client-confirmation.mjs` passed 180 checks at 320/390/1440px in Chinese and English, including profile save/reload, the five public fields, localized markets, licensing removal and legacy Insight navigation. The JavaScript project has no typecheck script. The completed client questionnaire and QA artifacts remain outside the repository and are excluded from Git.
+
 Source task: https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000097331&threadedComment=1100580000098602
 
 Implementation baseline: `bba9c3d`, the consulting/matchmaking revision on GitHub main. The October reply supersedes older branding requirements. The newer copy PDF supersedes financial-service positioning in the September design and membership documents. This remains a resettable local review mockup.

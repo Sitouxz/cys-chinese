@@ -1,8 +1,8 @@
 export const milestones = [
   {
     year: "1981",
-    zh: "正式成为新加坡持牌金融机构",
-    en: "Licensed in Singapore",
+    zh: "从新加坡出发，为中小企业提供跨境服务",
+    en: "Cross-border services from Singapore",
   },
   {
     year: "2011",
@@ -149,7 +149,7 @@ export const mySeedPosts = [
 
 export const navItems = [
   { route: "/about", zh: "关于我们", en: "About us" },
-  { route: "/corridor", zh: "中新合作走廊", en: "CN–SG corridor" },
+  { route: "/insights", zh: "洞察", en: "Insight" },
   { route: "/corporate", zh: "企业合作", en: "Corporate" },
   { route: "/individual", zh: "个人用户", en: "Individual" },
   { route: "/contact", zh: "联系我们", en: "Contact" },

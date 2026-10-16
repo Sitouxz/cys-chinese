@@ -1078,6 +1078,48 @@ export function Report({ id }) {
     </Gate>
   );
 }
+function ProfileDetails({ profile, linked = false }) {
+  const { txt, t } = useApp();
+  const targetMarkets = profile.markets
+    .map((id) => txt(markets.find((market) => market.id === id)))
+    .join(" / ");
+  return (
+    <dl className="profile-details">
+      <div>
+        <dt className="small muted">{t("公司名称", "Company name")}</dt>
+        <dd>
+          <h2>
+            {linked ? (
+              <Link to={"/forum/member/" + profile.id}>
+                {txt(profile.name)}
+              </Link>
+            ) : (
+              txt(profile.name)
+            )}
+          </h2>
+        </dd>
+      </div>
+      <div>
+        <dt className="small muted">{t("姓名", "Name")}</dt>
+        <dd>{txt(profile.displayName)}</dd>
+      </div>
+      <div>
+        <dt className="small muted">{t("行业", "Industry")}</dt>
+        <dd>
+          {txt(industries.find((industry) => industry.id === profile.industry))}
+        </dd>
+      </div>
+      <div>
+        <dt className="small muted">{t("目标市场", "Target markets")}</dt>
+        <dd>{targetMarkets}</dd>
+      </div>
+      <div>
+        <dt className="small muted">{t("简介", "Short bio")}</dt>
+        <dd className={linked ? "excerpt" : undefined}>{txt(profile.intro)}</dd>
+      </div>
+    </dl>
+  );
+}
 export function Members({ id }) {
   const { state, txt, t } = useApp();
   const [search, setSearch] = useState(""),
@@ -1089,7 +1131,7 @@ export function Members({ id }) {
     (p) =>
       p.preferences?.profileVisible !== false &&
       (!industry || p.industry === industry) &&
-      JSON.stringify([p.name, p.intro])
+      JSON.stringify([p.displayName, p.name, p.intro])
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
@@ -1114,20 +1156,8 @@ export function Members({ id }) {
           {profile ? (
             <>
               <div className="profile-hero">
-                <div className="avatar">{txt(profile.name).slice(0, 2)}</div>
                 <div>
-                  <h2>{txt(profile.name)}</h2>
-                  <TierBadge profile={profile} />
-                  {profile.verified && (
-                    <span className="status approved">
-                      ✓ {t("演示认证", "Demo verification")}
-                    </span>
-                  )}
-                  <p>{txt(profile.intro)}</p>
-                  <p>
-                    {txt(industries.find((i) => i.id === profile.industry))} ·{" "}
-                    {profile.markets.join(" / ")}
-                  </p>
+                  <ProfileDetails profile={profile} />
                   <ConnectButton targetId={profile.id} />
                 </div>
               </div>
@@ -1155,20 +1185,7 @@ export function Members({ id }) {
               <div className="members-grid">
                 {list.map((p) => (
                   <article key={p.id}>
-                    <div className="avatar">{txt(p.name).slice(0, 2)}</div>
-                    <h2>
-                      <Link to={"/forum/member/" + p.id}>{txt(p.name)}</Link>
-                    </h2>
-                    <p>
-                      {txt(industries.find((i) => i.id === p.industry))} ·{" "}
-                      {p.markets.join(" / ")}
-                    </p>
-                    {p.verified && (
-                      <span className="status approved">
-                        ✓ {t("演示认证", "Demo verification")}
-                      </span>
-                    )}
-                    <p className="excerpt">{txt(p.intro)}</p>
+                    <ProfileDetails profile={p} linked />
                     <Link className="text-link" to={"/forum/member/" + p.id}>
                       {t("了解企业", "View company")}
                       <Arrow />
