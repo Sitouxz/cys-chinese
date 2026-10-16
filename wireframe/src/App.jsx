@@ -149,7 +149,12 @@ function Router() {
   else
     page = (
       <section className="section shell">
-        <Empty title={t("找不到这个页面", "Page not found")} />
+        <Empty title={t("找不到这个页面", "Page not found")} level={1} home>
+          {t(
+            "该链接可能已失效，或页面已被移动。",
+            "This link may be out of date, or the page has moved.",
+          )}
+        </Empty>
       </section>
     );
   return <Shell>{page}</Shell>;

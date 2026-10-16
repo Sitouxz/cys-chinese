@@ -31,6 +31,7 @@ export function Moderation() {
             "此页面仅供演示审核员使用",
             "This page is for the demo moderator",
           )}
+          level={1}
         >
           <Link to="/preview">
             {t("打开预览控制台选择角色", "Choose a role in Preview controls")}

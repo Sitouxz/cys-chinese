@@ -412,6 +412,7 @@ export function Gate({ children }) {
             "登录后，继续这次对话。",
             "Sign in to continue the conversation.",
           )}
+          level={1}
         >
           <Link
             className="button"
