@@ -29,14 +29,7 @@ export function Shell({ children }) {
         ["#culture", t("企业文化", "Culture")],
       ],
     ],
-    [
-      "/corridor",
-      t("中新合作走廊", "Corridor"),
-      [
-        ["#partners", t("伙伴与投资者", "Partners & investors")],
-        ["#stories", t("伙伴故事", "Partnership stories")],
-      ],
-    ],
+    ["/insights", t("洞察", "Insight")],
     ["/forum", t("华商论坛", "Chinese Forum")],
     ["/business", t("企业合作", "Business")],
     ["/individual", t("个人用户", "Individual")],
@@ -229,7 +222,7 @@ export function Shell({ children }) {
             <Link to="/forum/members">
               {t("企业名录", "Company directory")}
             </Link>
-            <Link to="/corridor#stories">
+            <Link to="/insights#stories">
               {t("伙伴故事", "Partnership stories")}
             </Link>
             <Link to="/forum/rules">{t("社群规则", "Community rules")}</Link>

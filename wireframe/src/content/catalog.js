@@ -66,8 +66,8 @@ export const history = [
     "1981",
     "启航于新加坡",
     "Our Singapore beginning",
-    "正式成为新加坡持牌机构，踏上为中小企业跨境服务的征程。",
-    "Became a licensed organisation in Singapore, beginning cross-border services for small and medium businesses.",
+    "从新加坡出发，踏上为中小企业提供跨境服务的征程。",
+    "Began in Singapore, providing cross-border services for small and medium businesses.",
   ],
   [
     "2011",

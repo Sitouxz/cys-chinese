@@ -30,7 +30,7 @@ export function Preview() {
   const routes = [
     ["/home", "首页", "Home"],
     ["/about", "关于我们", "About"],
-    ["/corridor", "合作走廊", "Corridor"],
+    ["/insights", "洞察", "Insight"],
     ["/business", "企业合作", "Business"],
     ["/individual", "个人用户", "Individual"],
     ["/contact", "联系", "Contact"],

@@ -6,7 +6,7 @@ import { Empty } from "./components/ui.jsx";
 import {
   About,
   Business,
-  Corridor,
+  Insight,
   Home,
   Individual,
   Story,
@@ -30,8 +30,9 @@ const aliases = {
   "/about/intro": "/about#intro",
   "/about/history": "/about#history",
   "/about/culture": "/about#culture",
-  "/corridor/partners": "/corridor#partners",
-  "/corridor/stories": "/corridor#stories",
+  "/corridor": "/insights",
+  "/corridor/partners": "/insights",
+  "/corridor/stories": "/insights#stories",
   "/business/financial-institutions": "/business?audience=business",
   "/business/cross-border": "/business?audience=business",
   "/contact/details": "/contact?tab=details",
@@ -46,9 +47,16 @@ const aliases = {
 function Router() {
   const { location, t, go, lang } = useApp();
   const path = location.pathname.replace(/\/$/, "") || "/";
+  const alias =
+    aliases[path] ||
+    (/^\/corridor\/stories\/[^/]+$/.test(path)
+      ? path.replace("/corridor/stories/", "/insights/stories/")
+      : null);
   useEffect(() => {
-    if (aliases[path]) {
-      const target = new URL(aliases[path], window.location.origin);
+    if (alias) {
+      const target = new URL(alias, window.location.origin);
+      if (!target.hash && location.hash === "#stories")
+        target.hash = location.hash;
       location.searchParams.forEach((v, k) => {
         if (!target.searchParams.has(k)) target.searchParams.set(k, v);
       });
@@ -63,7 +71,7 @@ function Router() {
       {
         home: t("首页", "Home"),
         about: t("关于我们", "About"),
-        corridor: t("中新合作走廊", "Corridor"),
+        insights: t("洞察", "Insight"),
         business: t("企业合作", "Business"),
         individual: t("个人用户", "Individual"),
         contact: t("联系", "Contact"),
@@ -106,8 +114,8 @@ function Router() {
   const id = path.split("/").at(-1);
   if (path === "/home" || path === "/") page = <Home />;
   else if (path === "/about") page = <About />;
-  else if (path === "/corridor") page = <Corridor />;
-  else if (/^\/corridor\/stories\/[^/]+$/.test(path)) page = <Story id={id} />;
+  else if (path === "/insights") page = <Insight />;
+  else if (/^\/insights\/stories\/[^/]+$/.test(path)) page = <Story id={id} />;
   else if (path === "/business") page = <Business />;
   else if (path === "/membership") page = <Membership />;
   else if (path === "/individual") page = <Individual />;
@@ -145,7 +153,7 @@ function Router() {
     page = <Member section={id} />;
   else if (path === "/moderation") page = <Moderation />;
   else if (path === "/preview") page = <Preview />;
-  else if (aliases[path]) page = null;
+  else if (alias) page = null;
   else
     page = (
       <section className="section shell">

@@ -2,7 +2,7 @@ import { TierBadge, PromotedSlot } from "./Community.jsx";
 import { rankingScore } from "../mock/community.js";
 import { useState } from "react";
 import { useApp, Link } from "../components/runtime.jsx";
-import { Arrow, Empty, Modal, PageTitle, Tabs } from "../components/ui.jsx";
+import { Arrow, Empty, PageTitle, Tabs } from "../components/ui.jsx";
 import { Globe, Counter } from "../components/Globe.jsx";
 import {
   categories,
@@ -170,7 +170,7 @@ export function Home() {
                 {t("进入华商论坛", "Enter the forum")}
                 <Arrow />
               </Link>
-              <Link to="/corridor" className="hero-secondary">
+              <Link to="/insights" className="hero-secondary">
                 {t("了解合作方案", "Explore partnerships")}
                 <Arrow />
               </Link>
@@ -495,62 +495,16 @@ export function About() {
     </>
   );
 }
-export function Corridor() {
+export function Insight() {
   const { state, txt, t } = useApp();
-  const [partner, setPartner] = useState(null);
   return (
     <>
-      <PageTitle dark title={t("中新合作走廊", "The China–Singapore Corridor")}>
+      <PageTitle dark title={t("洞察", "Insight")}>
         {t(
-          "关注中新商业发展，与商业伙伴共建合作走廊。",
-          "Championing China–Singapore business growth, together with our partners.",
+          "栏目内容与分类待客户确认。以下合作故事为虚构示例，仅供审阅。",
+          "Content and categories await client confirmation. The partnership stories below are fictional examples for review.",
         )}
       </PageTitle>
-      <section className="section dark corridor-partners" id="partners">
-        <div className="shell">
-          <div className="editorial-grid">
-            <div>
-              <Counter value={40} suffix="+" />
-              <p>
-                {t(
-                  "年 · 专注企业与高净值人群服务",
-                  "years focused on serving businesses and high-net-worth individuals",
-                )}
-              </p>
-            </div>
-            <div>
-              <h2>
-                {t("与伙伴共同向前。", "Moving forward with our partners.")}
-              </h2>
-              <p>
-                {t(
-                  "四十余年来，我们见证并参与了中国与新加坡之间商业往来的成长。这条“中新合作走廊”，汇聚了我们在本地市场积累的伙伴与投资者网络，也记录着一段段跨境合作从初识到成就的真实故事——希望能让每一位踏上这条走廊的伙伴，都能找到值得信赖的同行者。",
-                  "For more than forty years, we have witnessed and participated in growing business ties between China and Singapore. This China\u2013Singapore corridor brings together our local partner and investor networks and stories of cross-border collaboration, with the hope that every participant finds a trusted companion.",
-                )}
-              </p>
-            </div>
-          </div>
-          <p className="small muted">
-            {t(
-              "以下均为虚构合作伙伴示例，不代表真实关联或背书。",
-              "All partner identities below are fictional examples, not actual affiliations or endorsements.",
-            )}
-          </p>
-          <div className="partner-grid">
-            {(state.partners || state.profiles.slice(0, 8)).map((p, i) => (
-              <button key={p.id} onClick={() => setPartner(p)}>
-                <span className="partner-monogram">
-                  {["B/P", "WH", "I&E", "S/P", "SL", "FA", "CP", "SS"][i]}
-                </span>
-                <strong>{txt(p.name)}</strong>
-                <small>
-                  {txt(industries.find((x) => x.id === p.industry))}
-                </small>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
       <section id="stories" className="section stories-section">
         <div className="shell">
           <div className="section-head">
@@ -570,7 +524,7 @@ export function Corridor() {
           <div className="stories-grid">
             {state.stories.map((story, i) => (
               <article key={story.id}>
-                <Link to={"/corridor/stories/" + story.id}>
+                <Link to={"/insights/stories/" + story.id}>
                   <div className={"story-art art-" + i}>
                     <img
                       src={
@@ -589,7 +543,7 @@ export function Corridor() {
                 <p className="excerpt">{txt(story.summary)}</p>
                 <Link
                   className="text-link"
-                  to={"/corridor/stories/" + story.id}
+                  to={"/insights/stories/" + story.id}
                 >
                   {t("阅读故事", "Read the story")}
                   <Arrow />
@@ -599,21 +553,6 @@ export function Corridor() {
           </div>
         </div>
       </section>
-      {partner && (
-        <Modal title={txt(partner.name)} onClose={() => setPartner(null)}>
-          <p className="small">
-            {t(
-              "虚构伙伴 · 概念合作方向",
-              "Fictional partner · Illustrative collaboration",
-            )}
-          </p>
-          <p>{txt(partner.intro)}</p>
-          <p>{partner.markets.join(" · ")}</p>
-          <Link className="button" to={"/forum/member/" + partner.id}>
-            {t("查看示例企业", "View demo company")}
-          </Link>
-        </Modal>
-      )}
     </>
   );
 }
@@ -652,7 +591,7 @@ export function Story({ id }) {
           >
             {t("交流合作想法", "Discuss a partnership")}
           </Link>
-          <Link className="text-link" to="/corridor#stories">
+          <Link className="text-link" to="/insights#stories">
             {t("返回伙伴故事", "All partnership stories")}
             <Arrow />
           </Link>
@@ -663,7 +602,7 @@ export function Story({ id }) {
           .slice(0, 2)
           .map((s) => (
             <p key={s.id}>
-              <Link to={"/corridor/stories/" + s.id}>{txt(s.title)}</Link>
+              <Link to={"/insights/stories/" + s.id}>{txt(s.title)}</Link>
             </p>
           ))}
       </article>

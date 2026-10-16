@@ -127,12 +127,12 @@ try {
       "Banyan Pantry",
     "Profile cancellation restores stored value",
   );
-  await page.getByLabel("Display name", { exact: true }).fill("Demo Reviewer");
+  await page.getByLabel("Name", { exact: true }).fill("Demo Reviewer");
   await click("Save profile");
   await page.getByText("Profile saved.", { exact: true }).waitFor();
   await page.reload();
   check(
-    (await page.getByLabel("Display name", { exact: true }).inputValue()) ===
+    (await page.getByLabel("Name", { exact: true }).inputValue()) ===
       "Demo Reviewer",
     "Profile changes persist on refresh",
   );
