@@ -357,7 +357,7 @@ export function Home() {
           <article>
             <img
               className="audience-photo"
-              src="/assets/photo-business.jpg"
+              src="/assets/photo-business-clean.webp"
               alt={t(
                 "两位商务人士在办公室握手",
                 "Two business people shaking hands in an office",
@@ -387,13 +387,13 @@ export function Home() {
           <article>
             <img
               className="audience-photo"
-              src="/assets/photo-individual.jpg"
+              src="/assets/photo-consultation-clean.webp"
               alt={t(
                 "顾问与客户在办公室一对一交流",
                 "An adviser in a one-to-one conversation with a client",
               )}
-              width="1600"
-              height="900"
+              width="1627"
+              height="914"
               loading="lazy"
             />
             <span>02</span>
@@ -470,12 +470,14 @@ export function About() {
           <img
             className="about-photo"
             src="/assets/photo-about.jpg"
+            srcSet="/assets/photo-about.jpg 1600w, /assets/photo-about-3000.jpg 3000w"
+            sizes="(min-width: 1800px) 1640px, (min-width: 1500px) 1400px, (min-width: 1244px) 1180px, (max-width: 359px) calc(100vw - 32px), (max-width: 767px) calc(100vw - 40px), calc(100vw - 64px)"
             alt={t(
               "仰望新加坡商业区的高楼",
               "Looking up at office towers in Singapore\u2019s business district",
             )}
-            width="1600"
-            height="900"
+            width="3000"
+            height="1688"
             loading="lazy"
           />
         </div>
@@ -698,7 +700,7 @@ export function Business() {
           "Move your cross-border business forward.",
         )}
         image={{
-          src: "/assets/photo-business.jpg",
+          src: "/assets/photo-business-clean.webp",
           alt: t(
             "两位商务人士在办公室握手",
             "Two business people shaking hands in an office",
@@ -765,7 +767,7 @@ export function Individual() {
           "A wider world. A more connected life.",
         )}
         image={{
-          src: "/assets/photo-individual-life.jpg",
+          src: "/assets/photo-individual-life-lossless.webp",
           alt: t(
             "在新加坡滨海湾景观前手持新居钥匙的女士",
             "A woman holding new house keys with the Singapore skyline behind her",

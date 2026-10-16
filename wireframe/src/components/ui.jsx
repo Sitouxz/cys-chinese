@@ -233,7 +233,7 @@ export function PageTitle({
         </div>
         {image && (
           <img
-            className="page-title-photo"
+            className={`page-title-photo${image.height > image.width ? " portrait" : ""}`}
             src={image.src}
             alt={image.alt}
             width={image.width}
