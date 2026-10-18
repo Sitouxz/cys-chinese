@@ -96,6 +96,33 @@ try {
       "Built app works with remote requests denied: " + path,
     );
   }
+  await goto("/insights?lang=en");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.locator(".story-art").first().hover();
+  check(
+    await page.locator("[data-scroll-media]").evaluateAll(
+      (elements) =>
+        elements.length > 0 &&
+        elements.every((element) => {
+          const style = getComputedStyle(element);
+          return (
+            style.translate === "none" &&
+            style.scale === "none" &&
+            style.transform === "none" &&
+            style.opacity === "1"
+          );
+        }),
+    ),
+    "Built reduced-motion CSS removes photo zoom and all transforms",
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  check(
+    await page
+      .locator("[data-scroll-media]")
+      .first()
+      .evaluate((element) => getComputedStyle(element).scale === "1.08"),
+    "Built photo motion restores after reduced motion is disabled",
+  );
   check(
     (await page.locator("meta[name=robots]").getAttribute("content")).includes(
       "noindex",

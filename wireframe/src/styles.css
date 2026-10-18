@@ -161,12 +161,12 @@ div[id] {
 }
 /* Progress follows native scrolling in both directions; content stays readable. */
 [data-scroll-block] {
-  translate: 0 var(--scroll-offset, 0px);
+  translate: var(--scroll-translate, 0 var(--scroll-offset, 0px));
   opacity: var(--scroll-opacity, 1);
 }
 [data-scroll-media] {
-  translate: 0 var(--scroll-drift, 0px);
-  scale: 1.08;
+  translate: var(--scroll-translate, 0 var(--scroll-drift, 0px));
+  scale: var(--scroll-scale, 1.08);
 }
 [data-scroll-block]:focus-within {
   translate: none;
@@ -182,9 +182,10 @@ div[id] {
 @media (prefers-reduced-motion: reduce) {
   [data-scroll-block],
   [data-scroll-media] {
-    translate: none !important;
+    /* Variables keep the build optimizer from folding individual resets into transform. */
+    --scroll-translate: none !important;
+    --scroll-scale: none !important;
     transform: none !important;
-    scale: none !important;
     opacity: 1 !important;
   }
 }
