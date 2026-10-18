@@ -52,13 +52,37 @@ try {
     rotating !== (await canvas.evaluate((el) => el.toDataURL())),
     "Earth keeps auto-rotating after five seconds",
   );
-  await page.locator(".hero .earth-pause").click();
+  check(
+    (await page.locator(".earth-pause").count()) === 0,
+    "Circled stop overlay is removed",
+  );
+  await canvas.click();
   await page.waitForTimeout(400);
   const stopped = await canvas.evaluate((el) => el.toDataURL());
   await page.waitForTimeout(500);
   check(
     stopped === (await canvas.evaluate((el) => el.toDataURL())),
-    "Pause control stops Earth rotation",
+    "Clicking Earth stops rotation",
+  );
+  check(
+    (await canvas.getAttribute("aria-pressed")) === "true",
+    "Earth exposes its paused state to assistive technology",
+  );
+  await canvas.press("Enter");
+  check(
+    (await canvas.getAttribute("aria-pressed")) === "false",
+    "Enter resumes Earth rotation",
+  );
+  await canvas.press("Space");
+  check(
+    (await canvas.getAttribute("aria-pressed")) === "true",
+    "Space pauses Earth rotation",
+  );
+  await canvas.press("Enter");
+  await canvas.press("Escape");
+  check(
+    (await canvas.getAttribute("aria-pressed")) === "true",
+    "Escape pauses Earth rotation",
   );
   check(
     (await page.locator(".globe-controls").count()) === 0,
@@ -101,6 +125,10 @@ try {
   check(
     reset !== (await canvas.evaluate((el) => el.toDataURL())),
     "Pointer drag rotates the Earth",
+  );
+  check(
+    (await canvas.getAttribute("aria-pressed")) === "true",
+    "Dragging Earth does not toggle rotation",
   );
   await canvas.press("Home");
   await page.waitForTimeout(150);

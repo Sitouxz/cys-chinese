@@ -1,5 +1,16 @@
 # Review requirement matrix
 
+## Scroll interactions and globe control 19 Oct 2026
+
+Source: [client comment 1100580000253168](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000253168), its circled globe-control screenshot, the reattached confirmation questionnaire, and the [Aplomb motion reference](https://dribbble.com/shots/27725641-Aplomb-Editorial-Fashion-Ecommerce-Website-Animation).
+
+- Replaced one-shot section animations with shared scroll-linked content reveals across marketing, community, account, legal and review pages. Progress follows native scrolling in both directions; dynamic tabs, filters and inserted content are registered without a route reload. Existing cropped story images have a small scroll-linked drift. The reference informs motion, while the approved layout, typography and full supplied photo compositions remain intact.
+- Removed the circled stop overlay. Clicking the globe or pressing Enter or Space pauses/resumes rotation; Escape pauses it. The globe exposes its toggle state and bilingual help to assistive technology. Drag, pinch, keyboard rotation and focused wheel zoom remain available; dragging does not toggle rotation.
+- Reduced-motion preferences remove the new transforms and expose full content. Focused cards remain static and fully opaque; forms, navigation and tabs are excluded from scroll transforms. No new dependency was added.
+- Filled the reattached questionnaire locally with bilingual answers to all 16 numbered rows, five cookie questions and four content prompts, preserving client decisions and flagging outstanding production inputs. The user asked to hold the DOCX until visual QA passes. Structural checks passed, but the packaged renderer failed because bundled `soffice.exe` is absent; the document is not released or uploaded.
+
+Validation: lint, 30/30 unit tests, production build and diff whitespace checks passed. The review, homepage-reference and client-confirmation browser suites passed 41 + 93 + 180 checks. Independent Chromium QA passed 288 route/language/viewport/motion cases and 19 focused interactions, including reverse scrolling, dynamic content, keyboard navigation, local form receipts and live reduced-motion preference changes. A final globe check confirmed Escape also stops drag inertia. No application errors were recorded; headless Chromium emitted WebGL ReadPixels performance warnings. Browser evidence is outside the repository under `C:/Users/yehez/Downloads/CYS-review-2026-10-19/`. Physical-device and screen-reader acceptance remain untested. These changes are prepared for review and require separate production-release approval.
+
 ## Homepage reference restoration (16 Oct 2026)
 
 Source: [latest client comment 1100580000251982](https://app.clickup.com/t/9018732219/86eyf6gtu?comment=1100580000251982). Downloaded all seven reattached files, including both PDF uploads. Both PDFs are identical, and the PDF, contact document and four photos match the earlier Round 2 originals byte for byte. Rechecked the PDF pages and photos against the current implementation. In this chat, the user explicitly confirmed recreating the four homepage shortcuts and compact forum card shown on PDF page 1.
