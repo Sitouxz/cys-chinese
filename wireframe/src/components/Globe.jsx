@@ -51,7 +51,9 @@ export function Globe() {
       lastInteraction = -Infinity,
       spin = 0;
     const pointers = new Map();
-    let pinchDistance = null;
+    let pinchDistance = null,
+      clickOrigin = null,
+      suppressClick = false;
     const resize = () => {
       const next = Math.min(
         1536,
@@ -139,6 +141,10 @@ export function Globe() {
     const down = (event) => {
       interact();
       spin = 0;
+      if (!pointers.size) {
+        clickOrigin = { x: event.clientX, y: event.clientY };
+        suppressClick = false;
+      } else suppressClick = true;
       pointers.set(event.pointerId, {
         x: event.clientX,
         y: event.clientY,
@@ -150,6 +156,11 @@ export function Globe() {
     const move = (event) => {
       const prior = pointers.get(event.pointerId);
       if (!prior) return;
+      if (
+        clickOrigin &&
+        Math.hypot(event.clientX - clickOrigin.x, event.clientY - clickOrigin.y) > 6
+      )
+        suppressClick = true;
       interact();
       pointers.set(event.pointerId, {
         x: event.clientX,
@@ -175,8 +186,12 @@ export function Globe() {
     };
     const up = (event) => {
       if (!pointers.delete(event.pointerId)) return;
+      if (event.type === "pointercancel") suppressClick = true;
       interact();
       pinchDistance = distance();
+    };
+    const click = () => {
+      if (!suppressClick) setPaused((value) => !value);
     };
     const wheel = (event) => {
       // Zoom is deliberate: ordinary wheel scrolling continues through the page.
@@ -187,7 +202,16 @@ export function Globe() {
     };
     const key = (event) => {
       const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"];
+      if (["Enter", " "].includes(event.key)) {
+        event.preventDefault();
+        if (!event.repeat) {
+          spin = 0;
+          setPaused((value) => !value);
+        }
+        return;
+      }
       if (event.key === "Escape") {
+        spin = 0;
         setPaused(true);
         return;
       }
@@ -219,6 +243,7 @@ export function Globe() {
       pointerup: up,
       pointercancel: up,
       lostpointercapture: up,
+      click,
       keydown: key,
     };
     for (const [name, handler] of Object.entries(events))
@@ -258,8 +283,13 @@ export function Globe() {
         className="globe"
         ref={ref}
         tabIndex={0}
-        role="img"
-        aria-label={t("地球：中国与新加坡", "Earth: China and Singapore")}
+        role="button"
+        aria-pressed={paused}
+        aria-label={t(
+          "地球：中国与新加坡，点击暂停或继续旋转",
+          "Earth: China and Singapore. Activate to pause or resume rotation",
+        )}
+        title={t("点击地球暂停或继续旋转", "Click Earth to pause or resume rotation")}
         aria-describedby={helpId}
       />
       <div className="earth-label" ref={chinaRef} aria-hidden="true">
@@ -268,23 +298,10 @@ export function Globe() {
       <div className="earth-label" ref={singaporeRef} aria-hidden="true">
         {t("新加坡", "SINGAPORE")}
       </div>
-      <button
-        type="button"
-        className="earth-pause"
-        aria-pressed={paused}
-        aria-label={
-          paused
-            ? t("继续地球旋转", "Resume Earth rotation")
-            : t("暂停地球旋转", "Pause Earth rotation")
-        }
-        onClick={() => setPaused((value) => !value)}
-      >
-        <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
-      </button>
       <span className="sr-only" id={helpId}>
         {t(
-          "地球缓慢自动旋转，可用按钮或 Escape 键暂停。拖动旋转与倾斜，双指缩放。聚焦后可使用方向键旋转，加减键或滚轮缩放，Home 键重置。",
-          "The Earth rotates slowly; pause it with the button or Escape. Drag to rotate and tilt, pinch to zoom. When focused, use the arrow keys to rotate, plus/minus or the mouse wheel to zoom, and Home to reset.",
+          "地球缓慢自动旋转，点击地球或按 Enter 或空格键可暂停或继续，Escape 键可暂停。拖动旋转与倾斜，双指缩放。聚焦后可使用方向键旋转，加减键或滚轮缩放，Home 键重置。",
+          "The Earth rotates slowly. Click Earth or press Enter or Space to pause or resume; Escape pauses. Drag to rotate and tilt, pinch to zoom. When focused, use the arrow keys to rotate, plus/minus or the mouse wheel to zoom, and Home to reset.",
         )}
       </span>
       {failed && (

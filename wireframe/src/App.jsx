@@ -2,6 +2,7 @@ import { Membership } from "./pages/Community.jsx";
 import { useEffect } from "react";
 import { AppProvider, useApp } from "./components/runtime.jsx";
 import { Shell } from "./components/Shell.jsx";
+import { ScrollMotion } from "./components/ScrollMotion.jsx";
 import { Empty } from "./components/ui.jsx";
 import {
   About,
@@ -97,18 +98,6 @@ function Router() {
       requestAnimationFrame(() =>
         document.getElementById(location.hash.slice(1))?.scrollIntoView(),
       );
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
-            observer.unobserve(entry.target);
-          }
-        }),
-      { threshold: 0.08 },
-    );
-    document.querySelectorAll(".section").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
   }, [path, lang, location.hash]);
   let page;
   const id = path.split("/").at(-1);
@@ -160,7 +149,12 @@ function Router() {
         <Empty title={t("找不到这个页面", "Page not found")} />
       </section>
     );
-  return <Shell>{page}</Shell>;
+  return (
+    <Shell>
+      <ScrollMotion />
+      {page}
+    </Shell>
+  );
 }
 export function App() {
   return (

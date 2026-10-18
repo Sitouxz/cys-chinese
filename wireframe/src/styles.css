@@ -159,11 +159,34 @@ div[id] {
 .section {
   padding: 88px 0;
 }
-.section.revealed > .shell {
-  animation: settle 0.55s ease-out both;
+/* Progress follows native scrolling in both directions; content stays readable. */
+[data-scroll-block] {
+  translate: 0 var(--scroll-offset, 0px);
+  opacity: var(--scroll-opacity, 1);
 }
-.section:nth-of-type(3n).revealed > .shell {
-  animation-name: soft-reveal;
+[data-scroll-media] {
+  translate: 0 var(--scroll-drift, 0px);
+  scale: 1.08;
+}
+[data-scroll-block]:focus-within {
+  translate: none;
+  opacity: 1;
+}
+[data-scroll-block]:focus-within [data-scroll-media] {
+  translate: none;
+  scale: none;
+}
+.page-transition:focus-within {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-block],
+  [data-scroll-media] {
+    translate: none !important;
+    transform: none !important;
+    scale: none !important;
+    opacity: 1 !important;
+  }
 }
 .dark {
   background: var(--navy-950);
@@ -1122,6 +1145,9 @@ footer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 45px 30px;
+}
+.stories-grid > article > a:first-child {
+  display: block;
 }
 .story-art {
   aspect-ratio: 1.6;
@@ -3190,35 +3216,6 @@ dialog::backdrop {
 .globe:active {
   cursor: grabbing;
 }
-.earth-pause {
-  position: absolute;
-  left: 14%;
-  bottom: 10%;
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 1px solid #d9b87766;
-  border-radius: 50%;
-  background: #0c1626b3;
-  color: var(--brass-300);
-  font-size: 11px;
-  line-height: 1;
-  letter-spacing: -1px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-.earth-pause:hover,
-.earth-pause:focus-visible {
-  opacity: 1;
-}
-.earth-pause:focus-visible {
-  outline: 2px solid var(--brass-300);
-  outline-offset: 2px;
-}
-
 .hero-visual .globe-label,
 .hero-visual .visual-caption {
   display: none;
@@ -3234,10 +3231,6 @@ dialog::backdrop {
 }
 .section {
   padding-block: 104px;
-}
-.section.revealed > .shell {
-  animation-duration: 1.15s;
-  animation-timing-function: cubic-bezier(0.2, 0.65, 0.3, 1);
 }
 
 .desktop-nav {
@@ -3487,7 +3480,6 @@ dialog::backdrop {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .section.revealed > .shell,
   .text-reveal.revealed .lead,
   .desktop-nav details[open] .dropdown {
     animation: none;
