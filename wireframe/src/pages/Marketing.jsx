@@ -88,6 +88,12 @@ export function Home() {
   const requests = published.slice(0, 4);
   const activeRequestIndex = requestIndex % (requests.length || 1);
   const request = requests[activeRequestIndex];
+  const shortcuts = [
+    ["forum", t("热门帖子", "Popular posts")],
+    ["services", t("产品与服务", "Products & services")],
+    ["history", t("发展历程", "Our history")],
+    ["audiences", t("企业与个人", "Business & individual")],
+  ];
   const tab = ["matching", "consulting", "individual"].includes(
     location.searchParams.get("service"),
   )
@@ -138,7 +144,7 @@ export function Home() {
             "Help businesses grow across borders and address partnership development and compliance needs.",
           );
   return (
-    <>
+    <div className="home-page">
       <section className="hero dark">
         <div className="shell hero-main">
           <div className="hero-copy">
@@ -183,14 +189,21 @@ export function Home() {
               className="hero-shortcuts"
               aria-label={t("快捷入口", "Quick access")}
             >
-              <Link to="/forum?sort=trending">
-                {t("热门帖子", "Popular posts")}
-              </Link>
-              <Link to="/home#services">
-                {t("产品与服务", "Products & services")}
-              </Link>
-              <Link to="/about#history">{t("发展历程", "Our history")}</Link>
-              <Link to="/contact">{t("联系我们", "Contact")}</Link>
+              {shortcuts.map(([id, label]) => (
+                <Link
+                  key={id}
+                  to={"/home#" + id}
+                  onClick={() =>
+                    requestAnimationFrame(() =>
+                      document
+                        .getElementById(id)
+                        ?.focus({ preventScroll: true }),
+                    )
+                  }
+                >
+                  {label}
+                </Link>
+              ))}
             </nav>
             <section
               className="hero-forum-card"
@@ -300,7 +313,12 @@ export function Home() {
           </div>
         </div>
       </section>
-      <section className="section forum-preview">
+      <section
+        id="forum"
+        tabIndex={-1}
+        aria-label={t("热门帖子", "Popular posts")}
+        className="section forum-preview"
+      >
         <div className="shell preview-grid">
           <div className="preview-promo">
             <PromotedSlot />
@@ -347,7 +365,12 @@ export function Home() {
         </div>
       </section>
       <Values />
-      <section id="services" className="section services">
+      <section
+        id="services"
+        tabIndex={-1}
+        aria-label={t("产品与服务", "Products & services")}
+        className="section services"
+      >
         <div className="shell">
           <div className="section-head">
             <h2>
@@ -424,12 +447,17 @@ export function Home() {
         </div>
       </section>
       <HistoryTimeline />
-      <section className="section">
+      <section
+        id="audiences"
+        tabIndex={-1}
+        aria-label={t("企业与个人", "Business & individual")}
+        className="section"
+      >
         <div className="shell audience-grid">
           <article>
             <img
               className="audience-photo"
-              src="/assets/photo-business-clean.webp"
+              src="/assets/home-business-r2.webp"
               alt={t(
                 "两位商务人士在办公室握手",
                 "Two business people shaking hands in an office",
@@ -459,13 +487,13 @@ export function Home() {
           <article>
             <img
               className="audience-photo"
-              src="/assets/photo-consultation-clean.webp"
+              src="/assets/home-individual-r2.webp"
               alt={t(
                 "顾问与客户在办公室一对一交流",
                 "An adviser in a one-to-one conversation with a client",
               )}
-              width="1627"
-              height="914"
+              width="1672"
+              height="941"
               loading="lazy"
             />
             <span>02</span>
@@ -488,7 +516,7 @@ export function Home() {
           </article>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 export function About() {
@@ -860,7 +888,12 @@ export function HistoryTimeline() {
   const { t, txt } = useApp();
   const [year, setYear] = useState(0);
   return (
-    <section id="history" className="section dark timeline-section">
+    <section
+      id="history"
+      tabIndex={-1}
+      aria-label={t("发展历程", "Our history")}
+      className="section dark timeline-section"
+    >
       <div className="timeline-globe">
         <Globe />
       </div>

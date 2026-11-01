@@ -166,7 +166,15 @@ export function Shell({ children }) {
         </Modal>
       )}
       <main id="main" tabIndex={-1}>
-        <div className="page-transition" key={location.pathname}>
+        <div
+          className={
+            "page-transition" +
+            (location.pathname.replace(/\/$/, "") === "/home" && location.hash
+              ? " home-anchor"
+              : "")
+          }
+          key={location.pathname}
+        >
           {children}
         </div>
       </main>
