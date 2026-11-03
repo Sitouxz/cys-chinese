@@ -1676,6 +1676,7 @@ dialog::backdrop {
   border: 1px dashed #b7ad98;
   margin: 25px 0;
 }
+.empty h1,
 .empty h2 {
   font-family: inherit;
   font-size: 24px;
@@ -1684,6 +1685,12 @@ dialog::backdrop {
 .empty p {
   margin: 15px auto;
   color: var(--ink-600);
+}
+.empty-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 32px;
 }
 .mobile-filter-trigger {
   display: none;
