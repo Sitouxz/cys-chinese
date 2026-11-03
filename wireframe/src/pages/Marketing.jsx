@@ -163,9 +163,13 @@ export function Home() {
                 )}
               </span>
               <em className="hero-phrase">
-                {t(
-                  "启迪跨境商业的新可能。",
-                  "Opening new possibilities for cross-border business.",
+                {lang === "zh" ? (
+                  <>
+                    <span className="keep-phrase">启迪跨境商业</span>
+                    <span className="keep-phrase">的新可能。</span>
+                  </>
+                ) : (
+                  "Opening new possibilities for cross-border business."
                 )}
               </em>
             </h1>
