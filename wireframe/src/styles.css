@@ -348,11 +348,12 @@ div[id] {
   white-space: nowrap;
 }
 .desktop-nav > a,
+.desktop-nav .nav-group > a,
 .desktop-nav summary {
   padding: 18px 0;
 }
 .desktop-nav [aria-current="page"],
-.desktop-nav .active > summary {
+.desktop-nav .active summary {
   color: var(--brass-300);
 }
 summary {
@@ -372,7 +373,19 @@ summary::marker {
   font-size: 14px;
 }
 .desktop-nav details {
+  position: static;
+}
+.nav-group {
   position: relative;
+}
+.desktop-nav .nav-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.desktop-nav .nav-group summary {
+  width: 24px;
+  justify-content: center;
 }
 .dropdown {
   position: absolute;
@@ -1496,8 +1509,23 @@ dialog::backdrop {
   margin-bottom: 24px;
 }
 .mobile-nav > a,
+.mobile-nav .nav-group > a,
 .mobile-nav summary {
   padding: 12px 0;
+}
+.mobile-nav .nav-group > a {
+  display: block;
+  padding-right: 44px;
+}
+.mobile-nav .nav-group summary {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .mobile-nav details a {
   display: block;
@@ -3239,6 +3267,7 @@ dialog::backdrop {
   font-size: 13px;
 }
 .desktop-nav > a,
+.desktop-nav .nav-group > a,
 .desktop-nav summary {
   min-height: 44px;
   display: flex;
@@ -3246,6 +3275,7 @@ dialog::backdrop {
   position: relative;
 }
 .desktop-nav > a:after,
+.desktop-nav .nav-group > a:after,
 .desktop-nav summary:after {
   content: "";
   position: absolute;
@@ -3259,6 +3289,7 @@ dialog::backdrop {
   transition: transform 0.3s;
 }
 .desktop-nav > a:hover:after,
+.desktop-nav .nav-group > a:hover:after,
 .desktop-nav details[open] summary:after {
   transform: scaleX(1);
 }
@@ -3486,6 +3517,7 @@ dialog::backdrop {
     animation: none;
   }
   .desktop-nav > a:after,
+  .desktop-nav .nav-group > a:after,
   .desktop-nav summary:after {
     transition: none;
   }

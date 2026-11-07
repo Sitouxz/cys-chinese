@@ -47,45 +47,65 @@ export function Shell({ children }) {
     <>
       {items.map(([path, label, sub]) =>
         sub ? (
-          <details
+          <div
             key={path}
-            className={location.pathname.startsWith(path) ? "active" : ""}
+            className={
+              "nav-group" +
+              (location.pathname.startsWith(path) ? " active" : "")
+            }
             onMouseEnter={(e) => {
               if (!mobile && matchMedia("(hover: hover)").matches)
-                e.currentTarget.open = true;
+                e.currentTarget.querySelector("details").open = true;
             }}
             onMouseLeave={(e) => {
               if (!mobile && !e.currentTarget.contains(document.activeElement))
-                e.currentTarget.open = false;
+                e.currentTarget.querySelector("details").open = false;
+            }}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget))
+                e.currentTarget.querySelector("details").open = false;
             }}
             onKeyDown={(e) => {
               if (e.key === "Escape") {
-                e.currentTarget.removeAttribute("open");
-                e.currentTarget.querySelector("summary").focus();
+                const details = e.currentTarget.querySelector("details");
+                if (!details.open) return;
+                e.preventDefault();
+                e.stopPropagation();
+                details.open = false;
+                details.querySelector("summary").focus();
               }
             }}
           >
-            <summary>
+            <Link
+              to={path}
+              aria-current={
+                location.pathname.startsWith(path) ? "page" : undefined
+              }
+            >
               {label}
-              <svg
-                aria-hidden="true"
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path d="m3 4 3 3 3-3" />
-              </svg>
-            </summary>
-            <div className={mobile ? "" : "dropdown"}>
-              {sub.map(([suffix, text]) => (
-                <Link key={suffix} to={path + suffix}>
-                  {text}
-                </Link>
-              ))}
-            </div>
-          </details>
+            </Link>
+            <details>
+              <summary aria-label={label + t("子菜单", " submenu")}>
+                <svg
+                  aria-hidden="true"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path d="m3 4 3 3 3-3" />
+                </svg>
+              </summary>
+              <div className={mobile ? "" : "dropdown"}>
+                {sub.map(([suffix, text]) => (
+                  <Link key={suffix} to={path + suffix}>
+                    {text}
+                  </Link>
+                ))}
+              </div>
+            </details>
+          </div>
         ) : (
           <Link
             key={path}
