@@ -1,4 +1,9 @@
 {
+  "git": {
+    "deploymentEnabled": {
+      "codex/cys-type-legibility": false
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
