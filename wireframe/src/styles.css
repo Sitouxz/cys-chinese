@@ -17,46 +17,20 @@
   --ink-400: #8992a1;
   --line: #e3ddcd;
   --teal-600: #3e6259;
-  font-size: 16px;
+  --type-increase: 2pt;
+  font-size: 100%;
   line-height: 1.8;
 }
 
 .wordmark {
   font-family: inherit;
 }
-.earth-label {
-  position: absolute;
-  padding: 0 0 0 12px;
-  transform: translate(0, -100%);
-  pointer-events: none;
-  color: #f2d697;
-  font:
-    600 12px/1.4 system-ui,
-    "Microsoft YaHei",
-    sans-serif;
-  text-shadow:
-    0 1px 4px #0c1626,
-    0 0 8px #0c1626;
-}
-.earth-label::before {
-  content: "";
-  position: absolute;
-  left: -3px;
-  bottom: -3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #f2d697;
-  box-shadow: 0 0 8px #d9b877;
-}
-.earth-label[hidden] {
-  display: none;
-}
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
+  font-size: calc(1rem + var(--type-increase));
 }
 button,
 input,
@@ -115,13 +89,13 @@ h2 {
   text-wrap: balance;
 }
 h1 {
-  font-size: 48px;
+  font-size: calc(48px + var(--type-increase));
 }
 h2 {
-  font-size: 36px;
+  font-size: calc(36px + var(--type-increase));
 }
 h3 {
-  font-size: 22px;
+  font-size: calc(22px + var(--type-increase));
   line-height: 1.45;
   font-weight: 600;
 }
@@ -130,14 +104,14 @@ p {
 }
 small,
 .small {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   line-height: 1.7;
 }
 .muted {
   color: var(--ink-600);
 }
 .lead {
-  font-size: 19px;
+  font-size: calc(19px + var(--type-increase));
   line-height: 1.85;
 }
 img {
@@ -215,7 +189,7 @@ div[id] {
   gap: 14px;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 600;
   line-height: 1.6;
   transition:
@@ -249,7 +223,7 @@ div[id] {
   display: inline-flex;
   align-items: center;
   gap: 16px;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 600;
   border-bottom: 1px solid var(--brass-500);
   padding: 6px 0;
@@ -281,7 +255,7 @@ div[id] {
 }
 .index {
   color: #765720;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   display: block;
   margin-bottom: 20px;
 }
@@ -344,7 +318,7 @@ div[id] {
   justify-content: center;
   gap: 25px;
   flex: 1;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   white-space: nowrap;
 }
 .desktop-nav > a,
@@ -370,7 +344,7 @@ summary::marker {
   align-items: center;
 }
 .desktop-nav summary span {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .desktop-nav details {
   position: static;
@@ -410,7 +384,7 @@ summary::marker {
   display: flex;
   align-items: center;
   gap: 18px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   white-space: nowrap;
 }
 .locale {
@@ -459,7 +433,7 @@ summary::marker {
 }
 .origin {
   color: var(--brass-300) !important;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   letter-spacing: 0.1em;
   display: flex;
   align-items: center;
@@ -473,7 +447,7 @@ summary::marker {
   background: var(--brass-500);
 }
 .hero h1 {
-  font-size: clamp(40px, 4.05vw, 58px);
+  font-size: calc(clamp(40px, 4.05vw, 58px) + var(--type-increase));
   line-height: 1.38;
   max-width: 650px;
   margin-bottom: 26px;
@@ -484,7 +458,7 @@ summary::marker {
 }
 .hero-description {
   max-width: 520px;
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
   line-height: 1.9;
 }
 .hero .button {
@@ -496,7 +470,7 @@ summary::marker {
   gap: 12px;
   align-items: center;
   color: #e4e8ec;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .hero-visual {
   position: relative;
@@ -513,14 +487,14 @@ summary::marker {
 }
 .globe-label {
   position: absolute;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   letter-spacing: 0.13em;
   color: var(--brass-300);
 }
 .globe-label small {
   display: block;
   color: #a8b4c6;
-  font-size: 10px;
+  font-size: calc(10px + var(--type-increase));
   letter-spacing: 0.06em;
 }
 .china {
@@ -535,7 +509,7 @@ summary::marker {
   position: absolute;
   bottom: 8%;
   left: 27%;
-  font-size: 10px;
+  font-size: calc(10px + var(--type-increase));
   letter-spacing: 0.17em;
   display: flex;
   gap: 15px;
@@ -561,7 +535,7 @@ summary::marker {
   border: 1px solid #d9b87780;
   border-radius: 24px;
   color: #f3e1bd;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   transition:
     background-color 0.15s,
     border-color 0.15s;
@@ -590,7 +564,7 @@ summary::marker {
   margin: 0;
   color: var(--brass-300);
   font: inherit;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   line-height: 1.6;
 }
 .hero-forum-heading > a {
@@ -599,7 +573,7 @@ summary::marker {
   gap: 6px;
   min-height: 44px;
   color: #c4cbd5;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
 }
 .hero-forum-heading > a svg {
   width: 14px;
@@ -616,13 +590,13 @@ summary::marker {
 }
 .hero-request-number {
   color: var(--brass-300);
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   font-variant-numeric: tabular-nums;
 }
 .hero-request h3 {
   margin: 0;
   font: inherit;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 500;
   line-height: 1.6;
   overflow-wrap: anywhere;
@@ -639,7 +613,7 @@ summary::marker {
 .hero-request p {
   margin: 4px 0 0;
   color: #c4cbd5;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   line-height: 1.7;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -699,11 +673,11 @@ summary::marker {
   align-items: center;
   flex-wrap: wrap;
   padding: 19px 0;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .currency-ribbon span {
   color: #b7c0ce;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
 }
 .currency-ribbon strong {
   font-weight: 500;
@@ -720,7 +694,7 @@ summary::marker {
 }
 .preview-grid h2 {
   white-space: pre-line;
-  font-size: 39px;
+  font-size: calc(39px + var(--type-increase));
 }
 .preview-grid p {
   color: var(--ink-600);
@@ -740,7 +714,7 @@ summary::marker {
   border: 0;
   border-bottom: 2px solid transparent;
   min-height: 48px;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 500;
   line-height: 1.5;
 }
@@ -757,7 +731,7 @@ summary::marker {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: #67532c;
   margin-bottom: 12px;
 }
@@ -766,7 +740,7 @@ summary::marker {
   color: var(--ink-600);
 }
 .post-row h3 {
-  font-size: 21px;
+  font-size: calc(21px + var(--type-increase));
   margin: 0 0 13px;
   line-height: 1.6;
 }
@@ -783,7 +757,7 @@ summary::marker {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 15px;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: var(--ink-600);
   line-height: 1.7;
 }
@@ -795,11 +769,11 @@ summary::marker {
   padding: 18px 0;
 }
 .compact-rows h3 {
-  font-size: 18px;
+  font-size: calc(18px + var(--type-increase));
   margin-bottom: 11px;
 }
 .compact-rows .post-category {
-  font-size: 11px;
+  font-size: calc(11px + var(--type-increase));
 }
 .values {
   background: var(--ivory-100);
@@ -815,15 +789,15 @@ summary::marker {
   padding-left: 28px;
 }
 .values-grid h2 {
-  font-size: 34px;
+  font-size: calc(34px + var(--type-increase));
   margin-bottom: 16px;
 }
 .values-grid p {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   margin-bottom: 12px;
 }
 .values-grid .muted {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .services-grid {
   display: grid;
@@ -831,7 +805,7 @@ summary::marker {
   gap: 88px;
 }
 .services-grid .lead {
-  font-size: 22px;
+  font-size: calc(22px + var(--type-increase));
   margin-bottom: 28px;
 }
 .service-path {
@@ -840,10 +814,10 @@ summary::marker {
   gap: 22px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
 }
 .service-path span {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: #765720;
 }
 .service-path svg {
@@ -862,7 +836,7 @@ summary::marker {
   display: flex;
   gap: 12px;
   align-items: center;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   background: #fff9;
 }
 .industry-grid svg {
@@ -870,7 +844,7 @@ summary::marker {
   margin-left: auto;
 }
 .industry-symbol {
-  font-size: 22px;
+  font-size: calc(22px + var(--type-increase));
   color: #8d6b30;
 }
 .history-layout {
@@ -881,7 +855,7 @@ summary::marker {
 }
 .history-layout h2 {
   white-space: pre-line;
-  font-size: 40px;
+  font-size: calc(40px + var(--type-increase));
 }
 .history-layout .text-link {
   color: var(--brass-300);
@@ -891,7 +865,7 @@ summary::marker {
   padding-left: 70px;
 }
 .counter {
-  font-size: 80px;
+  font-size: calc(80px + var(--type-increase));
   font-weight: 400;
   line-height: 1.2;
   color: #806027;
@@ -903,11 +877,11 @@ summary::marker {
   color: var(--brass-300);
 }
 .history-stat .counter {
-  font-size: 110px;
+  font-size: calc(110px + var(--type-increase));
 }
 .history-stat > span {
   color: #c5cdd7;
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
 }
 .mini-years {
   display: flex;
@@ -915,7 +889,7 @@ summary::marker {
   gap: 12px;
   margin-top: 42px;
   color: var(--brass-300);
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .mini-years span {
   flex: 1;
@@ -923,7 +897,7 @@ summary::marker {
   background: #d9b87755;
 }
 .mini-years small {
-  font-size: 11px;
+  font-size: calc(11px + var(--type-increase));
 }
 .audience-grid {
   display: grid;
@@ -935,17 +909,17 @@ summary::marker {
   padding-left: 70px;
 }
 .audience-grid article > span {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   color: #806027;
   display: block;
   margin-bottom: 24px;
 }
 .audience-grid h2 {
-  font-size: 32px;
+  font-size: calc(32px + var(--type-increase));
 }
 .audience-grid p {
   color: var(--ink-600);
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .contact-band {
   background: var(--ivory-100);
@@ -953,11 +927,11 @@ summary::marker {
   padding: 52px 0;
 }
 .contact-band h2 {
-  font-size: 29px;
+  font-size: calc(29px + var(--type-increase));
   margin-bottom: 12px;
 }
 .contact-band p {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   color: var(--ink-600);
   margin: 0;
 }
@@ -968,7 +942,7 @@ footer {
   padding: 64px 0 45px;
   background: var(--navy-950);
   color: #dce1e9;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .footer-grid {
   display: grid;
@@ -976,7 +950,7 @@ footer {
   gap: 48px;
 }
 .footer-grid h3 {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   font-weight: 500;
   margin-bottom: 22px;
   color: var(--brass-300);
@@ -1000,7 +974,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   color: #a8b4c6;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
 }
 .demo-badge {
   position: fixed;
@@ -1012,7 +986,7 @@ footer {
   border: 1px solid #d9b87750;
   border-radius: 5px;
   padding: 5px 10px;
-  font-size: 10px;
+  font-size: calc(10px + var(--type-increase));
   box-shadow: 0 3px 12px #0002;
 }
 .page-title {
@@ -1031,7 +1005,7 @@ footer {
 .page-title p {
   color: var(--ink-600);
   margin: 0;
-  font-size: 17px;
+  font-size: calc(17px + var(--type-increase));
 }
 .page-title.dark p {
   color: #c4cbd5;
@@ -1048,7 +1022,7 @@ footer {
   margin-top: 30px;
 }
 .editorial-grid summary {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .timeline-section {
   position: relative;
@@ -1067,7 +1041,7 @@ footer {
   margin-bottom: 55px;
 }
 .timeline-content .counter {
-  font-size: 58px;
+  font-size: calc(58px + var(--type-increase));
 }
 .timeline {
   display: grid;
@@ -1088,12 +1062,12 @@ footer {
   border-bottom-color: var(--brass-300);
 }
 .timeline button span {
-  font-size: 34px;
+  font-size: calc(34px + var(--type-increase));
   display: block;
   font-weight: 400;
 }
 .timeline button small {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
 }
 .milestone-detail {
   display: grid;
@@ -1104,16 +1078,16 @@ footer {
   padding: 45px 0 0;
 }
 .milestone-detail > span {
-  font-size: 56px;
+  font-size: calc(56px + var(--type-increase));
   color: var(--brass-300);
   line-height: 1.2;
 }
 .milestone-detail h3 {
   font-family: Georgia, "SimSun", serif;
-  font-size: 27px;
+  font-size: calc(27px + var(--type-increase));
 }
 .milestone-detail p {
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
 }
 .partner-grid {
   display: grid;
@@ -1140,16 +1114,16 @@ footer {
 }
 .partner-monogram {
   font-family: Georgia, serif;
-  font-size: 38px;
+  font-size: calc(38px + var(--type-increase));
   letter-spacing: -0.05em;
   color: #806027;
 }
 .partner-grid strong {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 500;
 }
 .partner-grid small {
-  font-size: 11px;
+  font-size: calc(11px + var(--type-increase));
   color: var(--ink-600);
 }
 .stories-section {
@@ -1183,7 +1157,7 @@ footer {
   bottom: 12px;
   left: 18px;
   color: white;
-  font-size: 32px;
+  font-size: calc(32px + var(--type-increase));
   font-family: Georgia, serif;
 }
 .story-art.art-1 span,
@@ -1193,21 +1167,21 @@ footer {
 }
 .stories-grid h3 {
   font-family: "Noto Serif SC", SimSun, Georgia, serif;
-  font-size: 23px;
+  font-size: calc(23px + var(--type-increase));
 }
 .excerpt {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   color: var(--ink-600);
 }
 .article-body {
   max-width: 760px;
 }
 .article-body h2 {
-  font-size: 29px;
+  font-size: calc(29px + var(--type-increase));
   margin-top: 36px;
 }
 .article-body p {
@@ -1226,7 +1200,7 @@ footer {
   padding-top: 20px;
 }
 .business-layout h2 {
-  font-size: 37px;
+  font-size: calc(37px + var(--type-increase));
 }
 .benefits {
   padding-left: 34px;
@@ -1239,15 +1213,15 @@ footer {
   border-bottom: 1px solid var(--line);
 }
 .benefits article > span {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: #806027;
 }
 .benefits h3 {
-  font-size: 21px;
+  font-size: calc(21px + var(--type-increase));
   margin: 8px 0;
 }
 .benefits p {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   margin-bottom: 0;
   color: var(--ink-600);
 }
@@ -1272,12 +1246,12 @@ footer {
   background: #f3efe4;
 }
 .use-card h2 {
-  font-size: 25px;
+  font-size: calc(25px + var(--type-increase));
   margin: 0;
   flex: 1;
 }
 .use-card small {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
 }
 .use-art {
   height: 150px;
@@ -1310,7 +1284,7 @@ footer {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   margin-bottom: 20px;
   font-weight: 500;
 }
@@ -1328,7 +1302,7 @@ select {
   border-radius: 5px;
   padding: 10px 12px;
   color: var(--ink-900);
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
   line-height: 1.6;
 }
 textarea {
@@ -1352,7 +1326,7 @@ input[type="radio"] {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   line-height: 1.8;
   margin: 16px 0;
   flex-wrap: wrap;
@@ -1373,7 +1347,7 @@ input[type="radio"] {
   gap: 8px;
   align-items: center;
   min-height: 44px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 fieldset {
   border: 1px solid var(--line);
@@ -1383,7 +1357,7 @@ fieldset {
 }
 legend {
   padding: 0 6px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .contact-layout {
   display: grid;
@@ -1392,22 +1366,22 @@ legend {
   padding-top: 20px;
 }
 .contact-layout h2 {
-  font-size: 30px;
+  font-size: calc(30px + var(--type-increase));
 }
 .contact-layout aside p {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .contact-layout aside dl {
   margin: 30px 0;
 }
 .contact-layout dt {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: var(--ink-600);
   margin-top: 20px;
 }
 .contact-layout dd {
   margin: 5px 0;
-  font-size: 16px;
+  font-size: calc(16px + var(--type-increase));
   overflow-wrap: anywhere;
 }
 .contact-layout form {
@@ -1426,7 +1400,7 @@ legend {
   color: #24446f;
   border-left: 3px solid #24446f;
   margin: 20px 0;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   overflow-wrap: anywhere;
 }
 .notice p:last-child {
@@ -1457,14 +1431,14 @@ legend {
   background: #fff3d6;
   color: #745014;
   text-align: center;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .faq {
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
 }
 .faq summary {
-  font-size: 17px;
+  font-size: calc(17px + var(--type-increase));
   font-weight: 500;
 }
 .faq p {
@@ -1494,11 +1468,11 @@ dialog::backdrop {
   margin-bottom: 22px;
 }
 .modal-heading h2 {
-  font-size: 27px;
+  font-size: calc(27px + var(--type-increase));
   margin: 0;
 }
 .modal-heading button {
-  font-size: 24px;
+  font-size: calc(24px + var(--type-increase));
   padding: 5px 14px;
   min-width: 44px;
 }
@@ -1544,7 +1518,7 @@ dialog::backdrop {
   padding: 60px 48px;
 }
 .auth-layout aside h1 {
-  font-size: 40px;
+  font-size: calc(40px + var(--type-increase));
   white-space: pre-line;
 }
 .auth-layout aside .small {
@@ -1555,10 +1529,10 @@ dialog::backdrop {
   background: #fffdfa;
 }
 .auth-form h2 {
-  font-size: 31px;
+  font-size: calc(31px + var(--type-increase));
 }
 .auth-form > p {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   color: var(--ink-600);
 }
 .auth-form .button[type="submit"] {
@@ -1568,7 +1542,7 @@ dialog::backdrop {
   padding: 14px;
   background: var(--ivory-100);
   margin-top: 22px;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   overflow-wrap: anywhere;
 }
 .forum-section {
@@ -1580,7 +1554,7 @@ dialog::backdrop {
   border-bottom: 1px solid var(--line);
   margin-bottom: 30px;
   flex-wrap: wrap;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .forum-nav a {
   padding: 12px 0;
@@ -1611,11 +1585,11 @@ dialog::backdrop {
 }
 .forum-sidebar h2 {
   font-family: inherit;
-  font-size: 18px;
+  font-size: calc(18px + var(--type-increase));
   margin-bottom: 22px;
 }
 .forum-sidebar h3 {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   margin: 32px 0 15px;
 }
 .forum-sidebar > a,
@@ -1624,7 +1598,7 @@ dialog::backdrop {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   flex: 1;
   align-items: center;
 }
@@ -1638,7 +1612,7 @@ dialog::backdrop {
   background: none;
   min-width: 35px;
   min-height: 44px;
-  font-size: 20px;
+  font-size: calc(20px + var(--type-increase));
   color: #66512c;
 }
 .selected {
@@ -1646,7 +1620,7 @@ dialog::backdrop {
   color: var(--navy-950) !important;
 }
 .forum-sidebar span {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: var(--ink-600);
 }
 .desktop-filters {
@@ -1661,17 +1635,17 @@ dialog::backdrop {
   gap: 20px;
   border-bottom: 1px solid var(--line);
   padding: 6px 0 18px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .results-bar .field {
   flex-direction: row;
   align-items: center;
   gap: 12px;
   margin: 0;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .results-bar select {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   min-height: 40px;
   min-width: 120px;
 }
@@ -1679,7 +1653,7 @@ dialog::backdrop {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   padding: 15px 0;
 }
 .applied-filters span {
@@ -1696,7 +1670,7 @@ dialog::backdrop {
   justify-content: center;
   gap: 25px;
   margin-top: 36px;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .empty {
   padding: 50px 25px;
@@ -1706,7 +1680,7 @@ dialog::backdrop {
 }
 .empty h2 {
   font-family: inherit;
-  font-size: 24px;
+  font-size: calc(24px + var(--type-increase));
   font-weight: 500;
 }
 .empty p {
@@ -1722,7 +1696,7 @@ dialog::backdrop {
   gap: 5px;
   border-radius: 4px;
   padding: 3px 8px;
-  font-size: 11px;
+  font-size: calc(11px + var(--type-increase));
   background: #eaf0f7;
   color: #24446f;
   line-height: 1.8;
@@ -1752,12 +1726,12 @@ dialog::backdrop {
 }
 .detail-layout h1 {
   font-family: inherit;
-  font-size: 32px;
+  font-size: calc(32px + var(--type-increase));
   line-height: 1.5;
 }
 .detail-layout h2 {
   font-family: inherit;
-  font-size: 24px;
+  font-size: calc(24px + var(--type-increase));
 }
 .company-panel {
   background: var(--ivory-100);
@@ -1766,7 +1740,7 @@ dialog::backdrop {
   align-self: start;
 }
 .company-panel p {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
   color: var(--ink-600);
   margin-top: 20px;
 }
@@ -1775,7 +1749,7 @@ dialog::backdrop {
   width: 100%;
 }
 .company-panel .text-link {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .avatar {
   height: 58px;
@@ -1784,7 +1758,7 @@ dialog::backdrop {
   color: var(--brass-300);
   display: grid;
   place-items: center;
-  font-size: 20px;
+  font-size: calc(20px + var(--type-increase));
   border-radius: 5px;
   margin-bottom: 20px;
   font-family: Georgia, serif;
@@ -1798,17 +1772,17 @@ dialog::backdrop {
   margin: 25px 0;
 }
 .context-grid dt {
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   color: var(--ink-600);
 }
 .context-grid dd {
   margin: 5px 0;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .post-body {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-size: 17px;
+  font-size: calc(17px + var(--type-increase));
   line-height: 1.95;
   margin-bottom: 25px;
 }
@@ -1822,7 +1796,7 @@ dialog::backdrop {
   border-bottom: 1px solid var(--line);
 }
 .comment p {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   margin: 12px 0;
 }
 .comment.reply {
@@ -1840,7 +1814,7 @@ dialog::backdrop {
 }
 .composer-layout h2 {
   font-family: inherit;
-  font-size: 23px;
+  font-size: calc(23px + var(--type-increase));
   margin-top: 30px;
 }
 .composer-layout h2:first-child {
@@ -1850,10 +1824,10 @@ dialog::backdrop {
   background: var(--ivory-100);
   padding: 28px;
   align-self: start;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .composer-help h3 {
-  font-size: 21px;
+  font-size: calc(21px + var(--type-increase));
 }
 .composer-help ol {
   padding-left: 20px;
@@ -1870,7 +1844,7 @@ dialog::backdrop {
 }
 .category-grid h2 {
   font-family: inherit;
-  font-size: 27px;
+  font-size: calc(27px + var(--type-increase));
 }
 .members-grid {
   display: grid;
@@ -1884,10 +1858,10 @@ dialog::backdrop {
 }
 .members-grid h2 {
   font-family: inherit;
-  font-size: 23px;
+  font-size: calc(23px + var(--type-increase));
 }
 .members-grid p {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .profile-hero {
   display: flex;
@@ -1913,7 +1887,7 @@ dialog::backdrop {
 .profile-details h2 {
   margin: 0;
   font-family: inherit;
-  font-size: 23px;
+  font-size: calc(23px + var(--type-increase));
   line-height: 1.5;
 }
 .member-layout {
@@ -1929,11 +1903,11 @@ dialog::backdrop {
 }
 .member-nav a {
   padding: 12px 18px;
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .member-layout h2 {
   font-family: inherit;
-  font-size: 27px;
+  font-size: calc(27px + var(--type-increase));
 }
 .stat-grid {
   display: grid;
@@ -1948,11 +1922,11 @@ dialog::backdrop {
   padding: 22px;
 }
 .stat-grid strong {
-  font-size: 42px;
+  font-size: calc(42px + var(--type-increase));
   font-weight: 400;
 }
 .stat-grid span {
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .activity-row {
   border-bottom: 1px solid var(--line);
@@ -1960,10 +1934,10 @@ dialog::backdrop {
 }
 .activity-row h3 {
   margin: 15px 0;
-  font-size: 20px;
+  font-size: calc(20px + var(--type-increase));
 }
 .activity-row .button {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
   padding: 8px 14px;
 }
 .activity-row > .button {
@@ -2012,7 +1986,7 @@ dialog::backdrop {
   align-items: start;
 }
 .review-row strong {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
   font-weight: 500;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -2020,7 +1994,7 @@ dialog::backdrop {
   overflow: hidden;
 }
 .review-row small {
-  font-size: 11px;
+  font-size: calc(11px + var(--type-increase));
   color: var(--ink-600);
 }
 .review-detail {
@@ -2032,7 +2006,7 @@ dialog::backdrop {
 }
 .review-detail h2 {
   font-family: inherit;
-  font-size: 26px;
+  font-size: calc(26px + var(--type-increase));
 }
 .review-back {
   display: none;
@@ -2044,7 +2018,7 @@ dialog::backdrop {
   margin: 50px 0;
 }
 .preview-controls h2 {
-  font-size: 27px;
+  font-size: calc(27px + var(--type-increase));
 }
 .walkthrough {
   line-height: 2.4;
@@ -2092,7 +2066,7 @@ dialog::backdrop {
 @media (max-width: 1150px) {
   .desktop-nav {
     gap: 16px;
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .header-inner {
     gap: 18px;
@@ -2101,7 +2075,7 @@ dialog::backdrop {
     min-height: 540px;
   }
   .hero h1 {
-    font-size: 47px;
+    font-size: calc(47px + var(--type-increase));
   }
   .hero-visual {
     margin-right: -20px;
@@ -2146,7 +2120,7 @@ dialog::backdrop {
     grid-template-columns: 58% 42%;
   }
   .hero h1 {
-    font-size: 43px;
+    font-size: calc(43px + var(--type-increase));
   }
   .hero-visual {
     margin-left: -50px;
@@ -2154,11 +2128,11 @@ dialog::backdrop {
     transform: scale(1.13);
   }
   .hero-description {
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
     max-width: 430px;
   }
   .hero-secondary {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .hero .actions {
     gap: 20px;
@@ -2173,10 +2147,13 @@ dialog::backdrop {
     gap: 45px;
   }
   .preview-grid h2 {
-    font-size: 33px;
+    font-size: calc(33px + var(--type-increase));
   }
   .values-grid {
     gap: 25px;
+  }
+  .values-grid article {
+    padding-left: 22px;
   }
   .services-grid {
     gap: 35px;
@@ -2186,13 +2163,13 @@ dialog::backdrop {
   }
   .industry-grid a {
     padding: 12px 10px;
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
   }
   .history-stat {
     padding-left: 40px;
   }
   .history-layout h2 {
-    font-size: 34px;
+    font-size: calc(34px + var(--type-increase));
   }
   .audience-grid {
     gap: 40px;
@@ -2219,7 +2196,7 @@ dialog::backdrop {
     padding: 20px;
   }
   .use-card h2 {
-    font-size: 22px;
+    font-size: calc(22px + var(--type-increase));
   }
   .contact-layout {
     gap: 35px;
@@ -2235,7 +2212,7 @@ dialog::backdrop {
     padding: 35px;
   }
   .auth-layout aside h1 {
-    font-size: 34px;
+    font-size: calc(34px + var(--type-increase));
   }
   .forum-layout {
     grid-template-columns: 185px 1fr;
@@ -2263,7 +2240,7 @@ dialog::backdrop {
     gap: 35px;
   }
   .page-title h1 {
-    font-size: 40px;
+    font-size: calc(40px + var(--type-increase));
   }
 }
 @media (max-width: 767px) {
@@ -2274,13 +2251,13 @@ dialog::backdrop {
     padding: 52px 0;
   }
   h1 {
-    font-size: 34px;
+    font-size: calc(34px + var(--type-increase));
   }
   h2 {
-    font-size: 29px;
+    font-size: calc(29px + var(--type-increase));
   }
   h3 {
-    font-size: 21px;
+    font-size: calc(21px + var(--type-increase));
   }
   .hero-main {
     display: flex;
@@ -2294,17 +2271,17 @@ dialog::backdrop {
     padding: 0;
   }
   .hero h1 {
-    font-size: 36px;
+    font-size: calc(36px + var(--type-increase));
     line-height: 1.43;
     margin-bottom: 22px;
     max-width: 560px;
   }
   .hero-description {
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
     max-width: 560px;
   }
   .origin {
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
     margin-bottom: 22px;
   }
   .hero .actions {
@@ -2312,11 +2289,11 @@ dialog::backdrop {
     margin: 26px 0 10px;
   }
   .hero .button {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
     padding: 11px 19px;
   }
   .hero-secondary {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .hero-visual {
     width: 290px;
@@ -2331,10 +2308,10 @@ dialog::backdrop {
     margin-top: -28px;
   }
   .globe-label {
-    font-size: 10px;
+    font-size: calc(10px + var(--type-increase));
   }
   .globe-label small {
-    font-size: 8px;
+    font-size: calc(8px + var(--type-increase));
   }
   .china {
     top: 12%;
@@ -2347,7 +2324,7 @@ dialog::backdrop {
   .visual-caption {
     bottom: 0;
     left: 17%;
-    font-size: 8px;
+    font-size: calc(8px + var(--type-increase));
   }
   .hero-shortcuts {
     display: grid;
@@ -2364,12 +2341,12 @@ dialog::backdrop {
   .currency-ribbon > .shell {
     gap: 13px 20px;
     padding: 17px 0;
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
     justify-content: flex-start;
   }
   .currency-ribbon span {
     flex-basis: 100%;
-    font-size: 10px;
+    font-size: calc(10px + var(--type-increase));
   }
   .preview-grid,
   .services-grid,
@@ -2384,7 +2361,7 @@ dialog::backdrop {
     gap: 35px;
   }
   .preview-grid h2 {
-    font-size: 30px;
+    font-size: calc(30px + var(--type-increase));
     white-space: normal;
   }
   .preview-grid p {
@@ -2400,21 +2377,18 @@ dialog::backdrop {
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .values-grid article {
-    padding-left: 22px;
-  }
   .values-grid .index {
     margin-bottom: 10px;
   }
   .values-grid h2 {
-    font-size: 29px;
+    font-size: calc(29px + var(--type-increase));
   }
   .values-grid p {
     max-width: 100%;
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
   }
   .values-grid .muted {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .services .section-head {
     align-items: flex-start;
@@ -2425,30 +2399,30 @@ dialog::backdrop {
     margin-bottom: 0;
   }
   .section-head h2 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
   }
   .tabs {
     gap: 24px;
     margin-bottom: 25px;
   }
   .tabs button {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .services-grid .lead {
-    font-size: 19px;
+    font-size: calc(19px + var(--type-increase));
   }
   .services-grid {
     gap: 38px;
   }
   .industry-grid a {
     padding: 18px 14px;
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .history-layout {
     gap: 32px;
   }
   .history-layout h2 {
-    font-size: 31px;
+    font-size: calc(31px + var(--type-increase));
     white-space: normal;
   }
   .history-stat {
@@ -2457,7 +2431,7 @@ dialog::backdrop {
     padding: 30px 0 0;
   }
   .history-stat .counter {
-    font-size: 80px;
+    font-size: calc(80px + var(--type-increase));
   }
   .mini-years {
     max-width: 360px;
@@ -2474,7 +2448,7 @@ dialog::backdrop {
     border-top: 1px solid var(--line);
   }
   .audience-grid h2 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
   }
   .audience-grid article > span {
     margin-bottom: 16px;
@@ -2488,10 +2462,10 @@ dialog::backdrop {
     gap: 25px;
   }
   .contact-band h2 {
-    font-size: 26px;
+    font-size: calc(26px + var(--type-increase));
   }
   .contact-band .button {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -2508,7 +2482,7 @@ dialog::backdrop {
     gap: 12px 24px;
     margin-top: 30px;
     padding-top: 20px;
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
   }
   footer {
     padding: 40px 0 50px;
@@ -2517,16 +2491,16 @@ dialog::backdrop {
     padding: 42px 0 34px;
   }
   .page-title h1 {
-    font-size: 33px;
+    font-size: calc(33px + var(--type-increase));
   }
   .page-title p {
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
   }
   .editorial-grid h2 {
-    font-size: 29px;
+    font-size: calc(29px + var(--type-increase));
   }
   .lead {
-    font-size: 17px;
+    font-size: calc(17px + var(--type-increase));
   }
   .timeline-content .section-head {
     align-items: flex-start;
@@ -2535,19 +2509,19 @@ dialog::backdrop {
     margin-bottom: 24px;
   }
   .timeline-content .counter {
-    font-size: 48px;
+    font-size: calc(48px + var(--type-increase));
   }
   .timeline {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
   }
   .timeline button {
     padding: 14px 5px 18px 0;
   }
   .timeline button span {
-    font-size: 23px;
+    font-size: calc(23px + var(--type-increase));
   }
   .timeline button small {
-    font-size: 10px;
+    font-size: calc(10px + var(--type-increase));
     display: block;
     line-height: 1.6;
     margin-top: 8px;
@@ -2559,13 +2533,13 @@ dialog::backdrop {
     min-height: 245px;
   }
   .milestone-detail > span {
-    font-size: 43px;
+    font-size: calc(43px + var(--type-increase));
   }
   .milestone-detail h3 {
-    font-size: 25px;
+    font-size: calc(25px + var(--type-increase));
   }
   .milestone-detail p {
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
   }
   .timeline-globe {
     left: 18%;
@@ -2581,33 +2555,33 @@ dialog::backdrop {
     padding: 20px 12px;
   }
   .partner-monogram {
-    font-size: 32px;
+    font-size: calc(32px + var(--type-increase));
   }
   .partner-grid strong {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .stories-section .section-head {
     align-items: start;
     flex-direction: column;
   }
   .stories-section .section-head > span {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .stories-grid {
     grid-template-columns: 1fr;
     gap: 36px;
   }
   .stories-grid h3 {
-    font-size: 25px;
+    font-size: calc(25px + var(--type-increase));
   }
   .story-art {
     aspect-ratio: 1.75;
   }
   .article-body h2 {
-    font-size: 26px;
+    font-size: calc(26px + var(--type-increase));
   }
   .business-layout h2 {
-    font-size: 30px;
+    font-size: calc(30px + var(--type-increase));
   }
   .benefits {
     padding-left: 0;
@@ -2633,10 +2607,10 @@ dialog::backdrop {
     height: 100px;
   }
   .use-card h2 {
-    font-size: 23px;
+    font-size: calc(23px + var(--type-increase));
   }
   .use-card small {
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
   }
   .use-card > svg {
     width: 17px;
@@ -2658,19 +2632,19 @@ dialog::backdrop {
     margin: 22px 0;
   }
   .contact-layout h2 {
-    font-size: 27px;
+    font-size: calc(27px + var(--type-increase));
   }
   .contact-layout form {
     padding: 24px 20px;
   }
   .contact-layout aside .small {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .field {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .check {
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
   }
   .auth-layout {
     gap: 0;
@@ -2679,7 +2653,7 @@ dialog::backdrop {
     padding: 30px;
   }
   .auth-layout aside h1 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
     white-space: normal;
   }
   .auth-layout aside .small {
@@ -2690,14 +2664,14 @@ dialog::backdrop {
     padding: 30px 24px;
   }
   .auth-form h2 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
   }
   .auth-section {
     padding: 30px 0;
   }
   .forum-nav {
     gap: 8px 20px;
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
     margin-bottom: 24px;
   }
   .forum-toolbar {
@@ -2708,7 +2682,7 @@ dialog::backdrop {
   }
   .forum-toolbar > .button {
     align-self: start;
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .search-form .button {
     padding: 10px 16px;
@@ -2735,7 +2709,7 @@ dialog::backdrop {
   .category-line > a {
     white-space: nowrap;
     padding: 9px 12px;
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
     gap: 8px;
   }
   .category-line button {
@@ -2752,23 +2726,23 @@ dialog::backdrop {
     margin-bottom: 18px;
   }
   .results-bar {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .post-row h3 {
-    font-size: 21px;
+    font-size: calc(21px + var(--type-increase));
   }
   .post-meta {
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
     gap: 5px 12px;
   }
   .post-row {
     padding: 24px 0;
   }
   .post-category {
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
   }
   .post-row .excerpt {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
   }
   .results-bar select {
     min-width: 110px;
@@ -2779,13 +2753,13 @@ dialog::backdrop {
     gap: 35px;
   }
   .detail-layout h1 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
   }
   .company-panel {
     width: 100%;
   }
   .company-panel p {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .company-panel .avatar {
     display: none;
@@ -2801,7 +2775,7 @@ dialog::backdrop {
     grid-template-columns: 1fr 1fr;
   }
   .post-body {
-    font-size: 16px;
+    font-size: calc(16px + var(--type-increase));
   }
   .detail-layout .actions {
     margin: 0;
@@ -2811,13 +2785,13 @@ dialog::backdrop {
     padding: 24px;
   }
   .composer-help h3 {
-    font-size: 19px;
+    font-size: calc(19px + var(--type-increase));
   }
   .composer-help ol {
     margin: 12px 0;
   }
   .composer-help p {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
     margin-bottom: 10px;
   }
   .category-grid {
@@ -2839,13 +2813,13 @@ dialog::backdrop {
   }
   .member-nav a {
     padding: 10px 12px;
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .member-layout {
     gap: 28px;
   }
   .member-layout h2 {
-    font-size: 25px;
+    font-size: calc(25px + var(--type-increase));
   }
   .stat-grid {
     gap: 10px;
@@ -2854,10 +2828,10 @@ dialog::backdrop {
     padding: 15px;
   }
   .stat-grid strong {
-    font-size: 34px;
+    font-size: calc(34px + var(--type-increase));
   }
   .stat-grid span {
-    font-size: 11px;
+    font-size: calc(11px + var(--type-increase));
   }
   .member-layout .section-head {
     align-items: start;
@@ -2884,7 +2858,7 @@ dialog::backdrop {
     margin-bottom: 25px;
   }
   .review-detail h2 {
-    font-size: 23px;
+    font-size: calc(23px + var(--type-increase));
   }
   .preview-controls {
     grid-template-columns: 1fr;
@@ -2894,10 +2868,10 @@ dialog::backdrop {
   .page-index {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .walkthrough {
-    font-size: 14px;
+    font-size: calc(14px + var(--type-increase));
     line-height: 2;
     max-width: 100%;
   }
@@ -2909,21 +2883,21 @@ dialog::backdrop {
     width: calc(100% - 32px);
   }
   .modal-heading h2 {
-    font-size: 23px;
+    font-size: calc(23px + var(--type-increase));
   }
   .toast {
     right: 20px;
     bottom: 50px;
   }
   .review-filters {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .page-title h1,
   .hero h1 {
     overflow-wrap: anywhere;
   }
   .demo-badge {
-    font-size: 9px;
+    font-size: calc(9px + var(--type-increase));
   }
 }
 @media (max-width: 359px) {
@@ -2931,7 +2905,7 @@ dialog::backdrop {
     width: calc(100% - 32px);
   }
   .hero h1 {
-    font-size: 32px;
+    font-size: calc(32px + var(--type-increase));
   }
   .hero .actions {
     align-items: start;
@@ -2954,7 +2928,7 @@ dialog::backdrop {
     width: 260px;
   }
   .timeline button span {
-    font-size: 20px;
+    font-size: calc(20px + var(--type-increase));
   }
   .use-card {
     grid-template-columns: 78px 1fr;
@@ -2968,7 +2942,7 @@ dialog::backdrop {
     width: 78px;
   }
   .use-card h2 {
-    font-size: 21px;
+    font-size: calc(21px + var(--type-increase));
   }
   .stat-grid {
     grid-template-columns: 1fr;
@@ -2980,7 +2954,7 @@ dialog::backdrop {
     gap: 18px;
   }
   .tabs button {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3029,7 +3003,7 @@ dialog::backdrop {
 .review-row small,
 .forum-nav,
 .footer-bottom {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .hero-copy {
   animation: settle 0.65s ease-out;
@@ -3064,13 +3038,13 @@ dialog::backdrop {
 }
 @media (min-width: 768px) {
   .hero h1 {
-    font-size: 52px;
+    font-size: calc(52px + var(--type-increase));
     line-height: 1.35;
   }
 }
 @media (max-width: 1024px) and (min-width: 768px) {
   .hero h1 {
-    font-size: 43px;
+    font-size: calc(43px + var(--type-increase));
   }
   .hero-visual {
     height: 390px;
@@ -3088,18 +3062,18 @@ dialog::backdrop {
     width: 290px;
   }
   .hero-topics a {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .post-meta,
   .post-category,
   .compact-rows .post-category {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .timeline button small {
-    font-size: 12px;
+    font-size: calc(12px + var(--type-increase));
   }
   .forum-nav {
-    font-size: 13px;
+    font-size: calc(13px + var(--type-increase));
   }
   .desktop-nav summary svg {
     width: 13px;
@@ -3157,13 +3131,13 @@ dialog::backdrop {
 }
 .page-title.community-title h1 {
   font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
-  font-size: 32px;
+  font-size: calc(32px + var(--type-increase));
   line-height: 1.4;
   letter-spacing: -0.025em;
 }
 @media (max-width: 767px) {
   .page-title.community-title h1 {
-    font-size: 28px;
+    font-size: calc(28px + var(--type-increase));
   }
 }
 /* September client revision: quiet motion, generous spacing, explicit controls. */
@@ -3186,7 +3160,7 @@ dialog::backdrop {
     padding: 24px;
   }
   .auth-layout > aside h1 {
-    font-size: 26px;
+    font-size: calc(26px + var(--type-increase));
     margin: 0;
   }
   .auth-layout > aside p:not(.origin) {
@@ -3264,7 +3238,7 @@ dialog::backdrop {
 
 .desktop-nav {
   gap: 18px;
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .desktop-nav > a,
 .desktop-nav .nav-group > a,
@@ -3328,7 +3302,7 @@ dialog::backdrop {
   padding: 3px 9px;
   background: #e9edf1;
   color: #29384c;
-  font-size: 12px;
+  font-size: calc(12px + var(--type-increase));
   font-weight: 600;
   white-space: nowrap;
   line-height: 1.7;
@@ -3376,13 +3350,13 @@ dialog::backdrop {
   border-left: 3px solid var(--brass-300);
 }
 .promoted-slot h3 {
-  font-size: 22px;
+  font-size: calc(22px + var(--type-increase));
   line-height: 1.5;
   margin-top: 18px;
 }
 .promoted-slot p {
   color: #d6dce5;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 .promoted-slot .text-link,
 .promoted-slot .eyebrow {
@@ -3400,11 +3374,11 @@ dialog::backdrop {
   overflow-wrap: anywhere;
 }
 .pricing-grid h3 {
-  font-size: 20px;
+  font-size: calc(20px + var(--type-increase));
   margin-block: 12px;
 }
 .pricing-grid p {
-  font-size: 13px;
+  font-size: calc(13px + var(--type-increase));
 }
 .request-row {
   padding: 24px 0;
@@ -3415,7 +3389,7 @@ dialog::backdrop {
   margin-top: 18px;
 }
 .request-row h3 {
-  font-size: 20px;
+  font-size: calc(20px + var(--type-increase));
 }
 .refresh-list .request-row {
   display: flex;
@@ -3449,7 +3423,7 @@ dialog::backdrop {
 .film-placeholder {
   padding: 20px;
   border: 1px solid #a8bdd0;
-  font-size: 14px;
+  font-size: calc(14px + var(--type-increase));
 }
 @media (max-width: 1180px) {
   .desktop-nav {
@@ -3539,7 +3513,7 @@ dialog::backdrop {
   white-space: nowrap;
 }
 .hero h1.hero-title-zh {
-  font-size: clamp(30px, 3.4vw, 49px);
+  font-size: calc(clamp(30px, 3.4vw, 49px) + var(--type-increase));
   line-height: 1.5;
 }
 .hero-copy {
@@ -3548,13 +3522,13 @@ dialog::backdrop {
 .wordmark {
   min-width: 64px;
   font:
-    600 16px/1.5 system-ui,
+    600 calc(16px + var(--type-increase)) / 1.5 system-ui,
     "Microsoft YaHei",
     sans-serif;
   padding-block: 10px;
 }
 .footer-grid .wordmark {
-  font-size: 18px;
+  font-size: calc(18px + var(--type-increase));
 }
 .reveal-segment {
   transition: opacity 0.18s linear;
@@ -3571,10 +3545,7 @@ dialog::backdrop {
 }
 @media (max-width: 767px) {
   .hero h1.hero-title-zh {
-    font-size: clamp(28px, 7vw, 38px);
-  }
-  .earth-label {
-    font-size: 11px;
+    font-size: calc(clamp(28px, 7vw, 38px) + var(--type-increase));
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3644,11 +3615,11 @@ dialog::backdrop {
   padding: 44px 40px;
 }
 .preview-promo .promoted-slot h3 {
-  font-size: 28px;
+  font-size: calc(28px + var(--type-increase));
   line-height: 1.45;
 }
 .preview-promo .promoted-slot p {
-  font-size: 15px;
+  font-size: calc(15px + var(--type-increase));
 }
 .preview-promo > .text-link {
   align-self: flex-start;
@@ -3768,10 +3739,10 @@ fieldset.registration-extra legend {
   }
   .desktop-nav {
     gap: 26px;
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
   }
   .header-actions {
-    font-size: 15px;
+    font-size: calc(15px + var(--type-increase));
   }
   .section {
     padding-block: 120px;
@@ -3783,7 +3754,7 @@ fieldset.registration-extra legend {
     max-width: 760px;
   }
   .hero h1.hero-title-zh {
-    font-size: clamp(49px, 3vw, 58px);
+    font-size: calc(clamp(49px, 3vw, 58px) + var(--type-increase));
   }
   .hero-description {
     max-width: 640px;
@@ -3791,18 +3762,18 @@ fieldset.registration-extra legend {
   .hero-description,
   .lead,
   .page-title p {
-    font-size: 18px;
+    font-size: calc(18px + var(--type-increase));
   }
   .audience-grid h2,
   .preview-grid h2 {
-    font-size: 36px;
+    font-size: calc(36px + var(--type-increase));
   }
   .audience-grid p,
   .post-rows h3 {
-    font-size: 17px;
+    font-size: calc(17px + var(--type-increase));
   }
   .page-title h1 {
-    font-size: 56px;
+    font-size: calc(56px + var(--type-increase));
   }
 }
 @media (min-width: 1800px) {
@@ -3811,16 +3782,16 @@ fieldset.registration-extra legend {
   }
   .desktop-nav {
     gap: 32px;
-    font-size: 16px;
+    font-size: calc(16px + var(--type-increase));
   }
   .hero-main {
     min-height: 720px;
   }
   h2 {
-    font-size: 42px;
+    font-size: calc(42px + var(--type-increase));
   }
   .page-title h1 {
-    font-size: 62px;
+    font-size: calc(62px + var(--type-increase));
   }
 }
 
@@ -3843,14 +3814,14 @@ fieldset.registration-extra legend {
   animation: none;
 }
 .home-page {
-  font-size: 1.0625rem;
+  font-size: calc(1.0625rem + var(--type-increase));
 }
 .home-page .hero h1.hero-title-zh {
   font-family: "Songti SC", SimSun, "Noto Serif SC", serif;
-  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  font-size: calc(clamp(2rem, 3.6vw, 3.25rem) + var(--type-increase));
 }
 .home-page .hero-description {
-  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-size: calc(clamp(1rem, 1.25vw, 1.25rem) + var(--type-increase));
 }
 .home-page .hero .button,
 .home-page .hero-secondary,
@@ -3858,7 +3829,7 @@ fieldset.registration-extra legend {
 .home-page .text-link,
 .home-page .service-path,
 .home-page .audience-grid p {
-  font-size: 1.0625rem;
+  font-size: calc(1.0625rem + var(--type-increase));
 }
 .home-page .origin,
 .home-page .hero-forum-heading h2,
@@ -3867,34 +3838,36 @@ fieldset.registration-extra legend {
 .home-page .post-meta,
 .home-page .post-category,
 .home-page .timeline button small {
-  font-size: 0.875rem;
+  font-size: calc(0.875rem + var(--type-increase));
 }
 .home-page .hero-shortcuts a {
-  font-size: 0.9375rem;
+  font-size: calc(0.9375rem + var(--type-increase));
 }
 .home-page .hero-request {
-  height: 7rem;
+  /* Reserve room for two title lines and two metadata lines while cycling. */
+  min-height: calc(7rem + 6.6 * var(--type-increase));
+  height: auto;
 }
 .home-page .post-row h3 {
-  font-size: 1.25rem;
+  font-size: calc(1.25rem + var(--type-increase));
 }
 .home-page .values-grid p {
-  font-size: 1rem;
+  font-size: calc(1rem + var(--type-increase));
 }
 .home-page .values-grid .muted {
-  font-size: 0.9375rem;
+  font-size: calc(0.9375rem + var(--type-increase));
 }
 .home-page .values-grid h2 {
-  font-size: 2.25rem;
+  font-size: calc(2.25rem + var(--type-increase));
 }
 .home-page .section-head h2 {
-  font-size: clamp(2.375rem, 2.65vw, 2.75rem);
+  font-size: calc(clamp(2.375rem, 2.65vw, 2.75rem) + var(--type-increase));
 }
 .home-page .industry-grid a {
-  font-size: 1.0625rem;
+  font-size: calc(1.0625rem + var(--type-increase));
 }
 .home-page .audience-grid h2 {
-  font-size: 2.125rem;
+  font-size: calc(2.125rem + var(--type-increase));
 }
 .home-page .audience-photo {
   height: clamp(15rem, 26vw, 26.25rem);
@@ -3905,20 +3878,20 @@ fieldset.registration-extra legend {
 }
 @media (max-width: 1024px) {
   .home-page .industry-grid a {
-    font-size: 0.9375rem;
+    font-size: calc(0.9375rem + var(--type-increase));
   }
 }
 @media (max-width: 767px) {
   .home-page .hero h1.hero-title-zh {
-    font-size: clamp(1.875rem, 7.5vw, 2.5rem);
+    font-size: calc(clamp(1.875rem, 7.5vw, 2.5rem) + var(--type-increase));
   }
   .home-page .post-row h3 {
-    font-size: 1.375rem;
+    font-size: calc(1.375rem + var(--type-increase));
   }
   .home-page .values-grid h2,
   .home-page .audience-grid h2,
   .home-page .section-head h2 {
-    font-size: 1.875rem;
+    font-size: calc(1.875rem + var(--type-increase));
   }
   .home-page .audience-photo {
     aspect-ratio: 3 / 2;
@@ -3927,9 +3900,9 @@ fieldset.registration-extra legend {
 }
 @media (min-width: 1500px) {
   .home-page .hero h1.hero-title-zh {
-    font-size: clamp(3.25rem, 3.2vw, 3.875rem);
+    font-size: calc(clamp(3.25rem, 3.2vw, 3.875rem) + var(--type-increase));
   }
   .home-page .audience-grid h2 {
-    font-size: 2.375rem;
+    font-size: calc(2.375rem + var(--type-increase));
   }
 }

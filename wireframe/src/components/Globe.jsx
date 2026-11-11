@@ -10,6 +10,7 @@ import {
   projectEarth,
 } from "./earth.js";
 import { createEarthRenderer } from "./earthGl.js";
+import "./Globe.css";
 
 const loadImage = (src) =>
   new Promise((resolve, reject) => {
@@ -34,6 +35,7 @@ export function Globe() {
   pausedRef.current = paused;
   useEffect(() => {
     const canvas = ref.current;
+    const visual = canvas.closest(".hero-visual");
     let renderer = null;
     const view = {
       longitude: HOME_LONGITUDE,
@@ -54,7 +56,58 @@ export function Globe() {
     let pinchDistance = null,
       clickOrigin = null,
       suppressClick = false;
+    let labelBounds;
+    const countries = [
+      { element: chinaRef.current, lat: 31.2, lon: 121.5 },
+      { element: singaporeRef.current, lat: 1.3, lon: 103.8 },
+    ];
+    const labels = () => {
+      const { width, height, left, right, top, bottom } = labelBounds;
+      for (const { element, lat, lon } of countries) {
+        const point = projectEarth(
+          lat,
+          lon,
+          view.longitude,
+          view.zoom,
+          view.tilt,
+        );
+        const x = point.x * width;
+        const y = point.y * height;
+        const visible =
+          point.front && x > left && x < right && y > top && y < bottom;
+        element.hidden = !visible;
+        if (!visible) continue;
+
+        // Keep the name inside the visible globe area while the marker tracks the projection.
+        element.style.cssText = `
+          left: ${x}px;
+          top: ${y}px;
+          --label-left: ${left - x + 6}px;
+          --label-right: ${right - x - 6}px;
+          --label-top: ${top - y + 6}px;
+          --label-bottom: ${bottom - y - 6}px;
+        `;
+      }
+    };
     const resize = () => {
+      const { width, height, left, top } = canvas.getBoundingClientRect();
+      const clip = visual?.getBoundingClientRect();
+      const style = visual && getComputedStyle(visual);
+      const clipX = style && style.overflowX !== "visible";
+      const clipY = style && style.overflowY !== "visible";
+      labelBounds = {
+        width,
+        height,
+        left: Math.max(0, -left, clipX ? clip.left - left : 0),
+        right: Math.min(
+          width,
+          document.documentElement.clientWidth - left,
+          clipX ? clip.right - left : width,
+        ),
+        top: clipY ? Math.max(0, clip.top - top) : 0,
+        bottom: clipY ? Math.min(height, clip.bottom - top) : height,
+      };
+      labels();
       const next = Math.min(
         1536,
         Math.max(
@@ -66,17 +119,6 @@ export function Globe() {
       canvas.width = next;
       canvas.height = next;
       dirty = true;
-    };
-    const labels = () => {
-      for (const [element, lat, lon] of [
-        [chinaRef.current, 31.2, 121.5],
-        [singaporeRef.current, 1.3, 103.8],
-      ]) {
-        const p = projectEarth(lat, lon, view.longitude, view.zoom, view.tilt);
-        element.hidden = !p.front;
-        element.style.left = `${p.x * 100}%`;
-        element.style.top = `${p.y * 100}%`;
-      }
     };
     const interact = () => {
       lastInteraction = performance.now();
@@ -158,7 +200,10 @@ export function Globe() {
       if (!prior) return;
       if (
         clickOrigin &&
-        Math.hypot(event.clientX - clickOrigin.x, event.clientY - clickOrigin.y) > 6
+        Math.hypot(
+          event.clientX - clickOrigin.x,
+          event.clientY - clickOrigin.y,
+        ) > 6
       )
         suppressClick = true;
       interact();
@@ -257,14 +302,16 @@ export function Globe() {
     observer.observe(canvas);
     const sizing = new ResizeObserver(resize);
     sizing.observe(canvas);
+    if (visual) sizing.observe(visual);
+    window.addEventListener("resize", resize);
     resize();
-    labels();
     frame = requestAnimationFrame(draw);
     return () => {
       disposed = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
       sizing.disconnect();
+      window.removeEventListener("resize", resize);
       canvas.removeEventListener("wheel", wheel);
       for (const [name, handler] of Object.entries(events))
         canvas.removeEventListener(name, handler);
@@ -289,14 +336,22 @@ export function Globe() {
           "地球：中国与新加坡，点击暂停或继续旋转",
           "Earth: China and Singapore. Activate to pause or resume rotation",
         )}
-        title={t("点击地球暂停或继续旋转", "Click Earth to pause or resume rotation")}
+        title={t(
+          "点击地球暂停或继续旋转",
+          "Click Earth to pause or resume rotation",
+        )}
         aria-describedby={helpId}
       />
-      <div className="earth-label" ref={chinaRef} aria-hidden="true">
-        {t("中国", "CHINA")}
+      <div className="earth-label" ref={chinaRef} aria-hidden="true" hidden>
+        <span>{t("中国", "China")}</span>
       </div>
-      <div className="earth-label" ref={singaporeRef} aria-hidden="true">
-        {t("新加坡", "SINGAPORE")}
+      <div
+        className="earth-label earth-label--below"
+        ref={singaporeRef}
+        aria-hidden="true"
+        hidden
+      >
+        <span>{t("新加坡", "Singapore")}</span>
       </div>
       <span className="sr-only" id={helpId}>
         {t(
