@@ -1,0 +1,50 @@
+.earth-label {
+  --label-offset-y: calc(-100% - 8px);
+  position: absolute;
+  pointer-events: none;
+}
+
+.earth-label--below {
+  --label-offset-y: 8px;
+}
+
+.earth-label::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--navy-950);
+  border-radius: 50%;
+  background: #f2d697;
+}
+
+.earth-label span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 8px;
+  transform: translate(
+    clamp(var(--label-left), -50%, calc(var(--label-right) - 100%)),
+    clamp(
+      var(--label-top),
+      var(--label-offset-y),
+      calc(var(--label-bottom) - 100%)
+    )
+  );
+  border: 1px solid var(--brass-300);
+  border-radius: 4px;
+  background: var(--navy-950);
+  color: #f2d697;
+  font:
+    650 1rem/1.35 system-ui,
+    "Microsoft YaHei",
+    sans-serif;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .earth-label span {
+    font-size: 0.9375rem;
+  }
+}
